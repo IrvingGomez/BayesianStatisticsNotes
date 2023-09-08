@@ -67,7 +67,7 @@ const thebe_selector_output = ".output, .cell_output"
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
     <link rel="next" title="References" href="../../References.html" />
-    <link rel="prev" title="Bayesian Statistics: Course notes" href="../../intro.html" />
+    <link rel="prev" title="Bayesian statistics: Course notes" href="../../intro.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -154,7 +154,7 @@ const thebe_selector_output = ".output, .cell_output"
         <ul class="nav bd-sidenav bd-sidenav__home-link">
             <li class="toctree-l1">
                 <a class="reference internal" href="../../intro.html">
-                    Bayesian Statistics: Course notes
+                    Bayesian statistics: Course notes
                 </a>
             </li>
         </ul>
@@ -363,9 +363,8 @@ document.write(`
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#today-s-posterior-is-tomorrow-s-prior-the-future-is-not-as-it-was">1.3.1. Today’s posterior is tomorrow’s prior, the future is not as it was</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#female-proportion-of-birth">1.4. Female proportion of birth</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#probability-of-a-girl-birth-given-placenta-previa">1.5. Probability of a girl birth given placenta previa</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#population-of-cells-in-production-of-a-protein">1.6. Population of cells in production of a protein</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#subjectivity-is-always-present">1.4. Subjectivity is always present</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#chapter-summary">1.5. Chapter summary</a></li>
 </ul>
             </nav>
         </div>
@@ -378,6 +377,7 @@ document.write(`
                 <article class="bd-article" role="main">
                   
   <p><span class="math notranslate nohighlight">\(\def\P{\mathbb{P}}\)</span></p>
+<p><span class="math notranslate nohighlight">\(\newcommand{\llavs}[1]{\left\lbrace #1 \right\rbrace}\)</span></p>
 <section class="tex2jax_ignore mathjax_ignore" id="bayesian-philosophy">
 <h1><span class="section-number">1. </span>Bayesian philosophy<a class="headerlink" href="#bayesian-philosophy" title="Permalink to this heading">#</a></h1>
 <section id="having-a-disease-given-a-positive-test">
@@ -562,216 +562,31 @@ document.write(`
 <p class="admonition-title">Bayesian learning or sequential analysis</p>
 <p>It’s not difficult to show that if we would have waited until we had all the information together, the posterior would have been the same. Instead, updating our posterior each step at a time is known as Bayesian learning or sequential analysis.</p>
 </div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-
-<span class="kn">from</span> <span class="nn">scipy.stats</span> <span class="kn">import</span> <span class="n">beta</span><span class="p">,</span> <span class="n">binom</span>
-<span class="kn">from</span> <span class="nn">scipy.special</span> <span class="kn">import</span> <span class="n">logit</span><span class="p">,</span> <span class="n">expit</span>
-
-<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
-<span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
-</pre></div>
-</div>
-</div>
-</div>
 </section>
 </section>
-<hr class="docutils" />
-<section id="female-proportion-of-birth">
-<h2><span class="section-number">1.4. </span>Female proportion of birth<a class="headerlink" href="#female-proportion-of-birth" title="Permalink to this heading">#</a></h2>
-<p>Laplace estimated the proportion of girl births. A total of 241,945 girls and 251,527 boys were born in Paris from 1745 to 1770. In analyzing the binomial model, Laplace used the uniform prior distribution. Let be <span class="math notranslate nohighlight">\(\theta\)</span> the <strong>probability of a female birth</strong> and <span class="math notranslate nohighlight">\(Y|\theta\)</span> the observed female births. The model is then
-$<span class="math notranslate nohighlight">\(\theta\sim \textsf{Uniform}(0,1)\)</span><span class="math notranslate nohighlight">\(
-and
-\)</span><span class="math notranslate nohighlight">\(Y|\theta\sim\textsf{Binomial}(n,\theta),\)</span><span class="math notranslate nohighlight">\(
-where \)</span>n<span class="math notranslate nohighlight">\( is the total number of births. Thus
-\)</span><span class="math notranslate nohighlight">\(\theta|Y\sim\textsf{Beta}(Y+1, n-Y+1)\)</span>$</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fem_births</span> <span class="o">=</span> <span class="mi">241945</span>
-<span class="n">mal_births</span> <span class="o">=</span> <span class="mi">251527</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">beta</span><span class="o">.</span><span class="n">sf</span><span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">fem_births</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">mal_births</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1.1460584901546728e-42
-</pre></div>
-</div>
-</div>
-</div>
+<section id="subjectivity-is-always-present">
+<h2><span class="section-number">1.4. </span>Subjectivity is always present<a class="headerlink" href="#subjectivity-is-always-present" title="Permalink to this heading">#</a></h2>
+<p>De una u otra manera, la subjetividad siempre ha estado presente en la actividad científica, comenzando por los supuestos sobre los cuales se decide abordar un determinado problema, típicamente se les denomina \textit{supuestos razonables}, pero son ``razonables’’ de acuerdo a la experiencia e información (subjetiva) particular de quien o quienes estudian un fenómeno en un momento dado.</p>
+<p>Accordingly to <span id="id2">[<a class="reference internal" href="../../References.html#id3" title="Lewis Wolpert. The unnatural nature of science. Harvard University Press, 1994.">Wol94</a>]</span></p>
+<blockquote class="epigraph">
+<div><p>… scientific objectivity has only limited value, for the way in which scientific ideas are generated can be highly subjective …. It is, however, an illusion to think that scientists are unemotional in their attachment to their scientific views … scientific theories involve a continual interplay with other scientists and previously acquired knowledge (…) and an explanation which other scientists would accept.</p>
+</div></blockquote>
+<p>Accordingly to <span id="id3">[<a class="reference internal" href="../../References.html#id4" title="S James Press. Subjective and objective Bayesian statistics: Principles, models, and applications. John Wiley &amp; Sons, 2003.">Pre03</a>]</span></p>
+<blockquote class="epigraph">
+<div><p>… the subjectivity is an inherent and required part of statistical inference and the scientific method… However, excessive, informal, untested subjectivity in science is also responsible for some basic errors, misrepresentations, overrepresentations, or scientific beliefs that were later shown to be false, that have occurred in science.</p>
+</div></blockquote>
+<p>In Bayesian statistics, <em>subjective information</em> means all prior information about a phenomenon of interest, before collecting or making new measurements, it includes: historical data, theories, opinions and conjectures of experts, conclusions based on previous studies, etc.</p>
 </section>
-<hr class="docutils" />
-<section id="probability-of-a-girl-birth-given-placenta-previa">
-<h2><span class="section-number">1.5. </span>Probability of a girl birth given placenta previa<a class="headerlink" href="#probability-of-a-girl-birth-given-placenta-previa" title="Permalink to this heading">#</a></h2>
-<p>Placenta previa is an unusual condition of pregnancy in which the placenta is implanted low in the uterus. An early study concerning the sex of placenta previa births in Germany found of a total of 980 births, 437 were female.</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">births</span> <span class="o">=</span> <span class="mi">987</span>
-<span class="n">fem_births</span> <span class="o">=</span> <span class="mi">437</span>
-</pre></div>
+<section id="chapter-summary">
+<h2><span class="section-number">1.5. </span>Chapter summary<a class="headerlink" href="#chapter-summary" title="Permalink to this heading">#</a></h2>
+<p>La probabilidad de un evento <span class="math notranslate nohighlight">\(A\)</span> es una medida del grado de creencia que tiene un individuo en la ocurrencia de <span class="math notranslate nohighlight">\(A\)</span> con base en la información <span class="math notranslate nohighlight">\(H\)</span> que posee. Por lo tanto, toda probabilidad es condicional (a las circunstancias, el \textit{agente}, etc.)</p>
+<div class="tip admonition">
+<p class="admonition-title">Probability as a measure of uncertainty</p>
+<p>The probability of an event <span class="math notranslate nohighlight">\(A\)</span> measures the uncertainty that some agent has about the ocurrence of <span class="math notranslate nohighlight">\(A\)</span> based on some informathion <span class="math notranslate nohighlight">\(\mathcal{H}\)</span>. Thus, all probabilities are conditional.</p>
 </div>
-</div>
-</div>
-<p>Posterior mean</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">beta</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">fem_births</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">births</span><span class="o">-</span><span class="n">fem_births</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.443
-</pre></div>
-</div>
-</div>
-</div>
-<p>Posterior interval</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">LowInterval</span> <span class="o">=</span> <span class="n">beta</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">fem_births</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">births</span><span class="o">-</span><span class="n">fem_births</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span> <span class="o">-</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">beta</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">fem_births</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">births</span><span class="o">-</span><span class="n">fem_births</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
-<span class="n">UppInterval</span> <span class="o">=</span> <span class="n">beta</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">fem_births</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">births</span><span class="o">-</span><span class="n">fem_births</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">beta</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">fem_births</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">births</span><span class="o">-</span><span class="n">fem_births</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
-
-<span class="nb">round</span><span class="p">(</span><span class="n">LowInterval</span><span class="p">,</span><span class="mi">3</span><span class="p">),</span> <span class="nb">round</span><span class="p">(</span><span class="n">UppInterval</span><span class="p">,</span><span class="mi">3</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(0.411, 0.474)
-</pre></div>
-</div>
-</div>
-</div>
-<p>We can also simulate a sample from the posterior to make inferences</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">PosteriorSample</span> <span class="o">=</span> <span class="n">beta</span><span class="o">.</span><span class="n">rvs</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">a</span><span class="o">=</span><span class="n">fem_births</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">b</span><span class="o">=</span><span class="n">births</span><span class="o">-</span><span class="n">fem_births</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sns</span><span class="o">.</span><span class="n">histplot</span><span class="p">(</span><span class="n">PosteriorSample</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;rebeccapurple&#39;</span><span class="p">,</span> <span class="n">stat</span><span class="o">=</span><span class="s1">&#39;density&#39;</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;Axes: ylabel=&#39;Density&#39;&gt;
-</pre></div>
-</div>
-<img alt="../../_images/a1532b79704ddd7811ea561b231b847687ec14b526f99986341fc3f2ea3fe5f0.png" src="../../_images/a1532b79704ddd7811ea561b231b847687ec14b526f99986341fc3f2ea3fe5f0.png" />
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">np</span><span class="o">.</span><span class="n">quantile</span><span class="p">(</span><span class="n">PosteriorSample</span><span class="p">,</span> <span class="p">[</span><span class="mf">0.025</span><span class="p">,</span> <span class="mf">0.975</span><span class="p">])</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([0.412, 0.473])
-</pre></div>
-</div>
-</div>
-</div>
-<p>The normal approximation is generally improved by applying it the logit transform, <span class="math notranslate nohighlight">\(\log (\frac{\theta}{1-\theta})\)</span>, which transforms the parameter space from the unit interval to the real line.</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">LogitPosteriorSample</span> <span class="o">=</span> <span class="n">logit</span><span class="p">(</span><span class="n">PosteriorSample</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sns</span><span class="o">.</span><span class="n">histplot</span><span class="p">(</span><span class="n">LogitPosteriorSample</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;rebeccapurple&#39;</span><span class="p">,</span> <span class="n">stat</span><span class="o">=</span><span class="s1">&#39;density&#39;</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;Axes: ylabel=&#39;Density&#39;&gt;
-</pre></div>
-</div>
-<img alt="../../_images/b386604f90ba44cdd7658076978279483102e4a4027d9a63268421b5bf4d408d.png" src="../../_images/b386604f90ba44cdd7658076978279483102e4a4027d9a63268421b5bf4d408d.png" />
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">LowLogitInterval</span> <span class="o">=</span> <span class="n">LogitPosteriorSample</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span> <span class="o">-</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">LogitPosteriorSample</span><span class="o">.</span><span class="n">std</span><span class="p">()</span>
-<span class="n">UppLogitInterval</span> <span class="o">=</span> <span class="n">LogitPosteriorSample</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">LogitPosteriorSample</span><span class="o">.</span><span class="n">std</span><span class="p">()</span>
-
-<span class="n">expit</span><span class="p">(</span><span class="n">LowLogitInterval</span><span class="p">)</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span> <span class="n">expit</span><span class="p">(</span><span class="n">UppLogitInterval</span><span class="p">)</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(0.412, 0.473)
-</pre></div>
-</div>
-</div>
-</div>
-</section>
-<hr class="docutils" />
-<section id="population-of-cells-in-production-of-a-protein">
-<h2><span class="section-number">1.6. </span>Population of cells in production of a protein<a class="headerlink" href="#population-of-cells-in-production-of-a-protein" title="Permalink to this heading">#</a></h2>
-<p>A particular population of cells might be in one of the next three states of production of a protein. The states are A, B, and C, of low, medium and high production, respectively. We take a random sample of 20 cells, and we verify if each one of the cells is in production of the protein, the result of the test is yes or no (1 or 0) for each analyzed cell. From this test we detect that 12 cells are in production (1) and the rest are not (0). On the other hand, if the population is in state A, we expect that 20% of the cells produces the protein, 50% for the state B, and 70% for the state C.</p>
-<p>What is the probability that the population is in each one of these states?</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">theta_A</span> <span class="o">=</span> <span class="mf">0.2</span>
-<span class="n">theta_B</span> <span class="o">=</span> <span class="mf">0.5</span>
-<span class="n">theta_C</span> <span class="o">=</span> <span class="mf">0.7</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">theta_A</span><span class="o">**</span><span class="mi">12</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="n">theta_A</span><span class="p">)</span><span class="o">**</span><span class="mi">8</span> <span class="o">/</span> <span class="p">(</span><span class="n">theta_A</span><span class="o">**</span><span class="mi">12</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="n">theta_A</span><span class="p">)</span><span class="o">**</span><span class="mi">8</span> <span class="o">+</span> <span class="n">theta_B</span><span class="o">**</span><span class="mi">12</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="n">theta_B</span><span class="p">)</span><span class="o">**</span><span class="mi">8</span> <span class="o">+</span> <span class="n">theta_C</span><span class="o">**</span><span class="mi">12</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="n">theta_C</span><span class="p">)</span><span class="o">**</span><span class="mi">8</span><span class="p">))</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">theta_B</span><span class="o">**</span><span class="mi">12</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="n">theta_B</span><span class="p">)</span><span class="o">**</span><span class="mi">8</span> <span class="o">/</span> <span class="p">(</span><span class="n">theta_A</span><span class="o">**</span><span class="mi">12</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="n">theta_A</span><span class="p">)</span><span class="o">**</span><span class="mi">8</span> <span class="o">+</span> <span class="n">theta_B</span><span class="o">**</span><span class="mi">12</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="n">theta_B</span><span class="p">)</span><span class="o">**</span><span class="mi">8</span> <span class="o">+</span> <span class="n">theta_C</span><span class="o">**</span><span class="mi">12</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="n">theta_C</span><span class="p">)</span><span class="o">**</span><span class="mi">8</span><span class="p">))</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">theta_C</span><span class="o">**</span><span class="mi">12</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="n">theta_C</span><span class="p">)</span><span class="o">**</span><span class="mi">8</span> <span class="o">/</span> <span class="p">(</span><span class="n">theta_A</span><span class="o">**</span><span class="mi">12</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="n">theta_A</span><span class="p">)</span><span class="o">**</span><span class="mi">8</span> <span class="o">+</span> <span class="n">theta_B</span><span class="o">**</span><span class="mi">12</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="n">theta_B</span><span class="p">)</span><span class="o">**</span><span class="mi">8</span> <span class="o">+</span> <span class="n">theta_C</span><span class="o">**</span><span class="mi">12</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="n">theta_C</span><span class="p">)</span><span class="o">**</span><span class="mi">8</span><span class="p">))</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.0003689659385173454
-0.5120431003054828
-0.4875879337559998
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">p_A</span> <span class="o">=</span> <span class="n">binom</span><span class="o">.</span><span class="n">pmf</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="n">theta_A</span><span class="p">)</span>
-<span class="n">p_B</span> <span class="o">=</span> <span class="n">binom</span><span class="o">.</span><span class="n">pmf</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="n">theta_B</span><span class="p">)</span>
-<span class="n">p_C</span> <span class="o">=</span> <span class="n">binom</span><span class="o">.</span><span class="n">pmf</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="n">theta_C</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">p_A</span><span class="o">/</span><span class="p">(</span><span class="n">p_A</span><span class="o">+</span><span class="n">p_B</span><span class="o">+</span><span class="n">p_C</span><span class="p">))</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">p_B</span><span class="o">/</span><span class="p">(</span><span class="n">p_A</span><span class="o">+</span><span class="n">p_B</span><span class="o">+</span><span class="n">p_C</span><span class="p">))</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">p_C</span><span class="o">/</span><span class="p">(</span><span class="n">p_A</span><span class="o">+</span><span class="n">p_B</span><span class="o">+</span><span class="n">p_C</span><span class="p">))</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.00036896593851734545
-0.5120431003054832
-0.4875879337559995
-</pre></div>
-</div>
-</div>
+<div class="tip admonition">
+<p class="admonition-title">The parameters have their own distribution</p>
+<p>Let be <span class="math notranslate nohighlight">\(\mathcal{P}=\llavs{p(Y|\theta),\theta\in\Theta}\)</span> a parametric family of distributions. Since all uncertainty must be measure through a probability, and we have uncertainty on the value of the parameters, then the parameters has to be modeled trough a probability measure, that is, a distribution of probability.</p>
 </div>
 </section>
 </section>
@@ -813,7 +628,7 @@ where \)</span>n<span class="math notranslate nohighlight">\( is the total numbe
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">Bayesian Statistics: Course notes</p>
+        <p class="prev-next-title">Bayesian statistics: Course notes</p>
       </div>
     </a>
     <a class="right-next"
@@ -849,9 +664,8 @@ where \)</span>n<span class="math notranslate nohighlight">\( is the total numbe
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#today-s-posterior-is-tomorrow-s-prior-the-future-is-not-as-it-was">1.3.1. Today’s posterior is tomorrow’s prior, the future is not as it was</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#female-proportion-of-birth">1.4. Female proportion of birth</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#probability-of-a-girl-birth-given-placenta-previa">1.5. Probability of a girl birth given placenta previa</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#population-of-cells-in-production-of-a-protein">1.6. Population of cells in production of a protein</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#subjectivity-is-always-present">1.4. Subjectivity is always present</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#chapter-summary">1.5. Chapter summary</a></li>
 </ul>
   </nav></div>
 
