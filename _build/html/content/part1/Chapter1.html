@@ -359,7 +359,10 @@ document.write(`
                 <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#having-a-disease-given-a-positive-test">1.1. Having a disease given a positive test</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-probability-is-conditional-and-subjective">1.2. The probability is conditional and subjective</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#marbles-in-a-bag">1.3. Marbles in a bag</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#marbles-in-a-bag">1.3. Marbles in a bag</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#today-s-posterior-is-tomorrow-s-prior-the-future-is-not-as-it-was">1.3.1. Today’s posterior is tomorrow’s prior, the future is not as it was</a></li>
+</ul>
+</li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#female-proportion-of-birth">1.4. Female proportion of birth</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#probability-of-a-girl-birth-given-placenta-previa">1.5. Probability of a girl birth given placenta previa</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#population-of-cells-in-production-of-a-protein">1.6. Population of cells in production of a protein</a></li>
@@ -460,35 +463,105 @@ document.write(`
 <p>We can calculate the probability of the event <span class="math notranslate nohighlight">\((B,W,B)\)</span> for each one of the conjectures.</p>
 <table class="table">
 <thead>
-<tr class="row-odd"><th class="head"><p>Comjecture</p></th>
-<th class="head"><p>Prior Probability</p></th>
-<th class="head"><p>Posterior Probability</p></th>
+<tr class="row-odd"><th class="head text-center"><p>Conjecture</p></th>
+<th class="head text-center"><p>Prior Probability</p></th>
+<th class="head text-center"><p>Posterior Probability</p></th>
 </tr>
 </thead>
 <tbody>
-<tr class="row-even"><td><p><span class="math notranslate nohighlight">\(\{W,W,W,W\}\)</span></p></td>
-<td><p>1/5</p></td>
-<td><p><span class="math notranslate nohighlight">\(\propto 1/5\times 0\)</span></p></td>
+<tr class="row-even"><td class="text-center"><p><span class="math notranslate nohighlight">\(\{W,W,W,W\}\)</span></p></td>
+<td class="text-center"><p>1/5</p></td>
+<td class="text-center"><p><span class="math notranslate nohighlight">\(\propto 1/5\times 0\)</span></p></td>
 </tr>
-<tr class="row-odd"><td><p><span class="math notranslate nohighlight">\(\{B,W,W,W\}\)</span></p></td>
-<td><p>1/5</p></td>
-<td><p><span class="math notranslate nohighlight">\(\propto 1/5\times 3\)</span></p></td>
+<tr class="row-odd"><td class="text-center"><p><span class="math notranslate nohighlight">\(\{B,W,W,W\}\)</span></p></td>
+<td class="text-center"><p>1/5</p></td>
+<td class="text-center"><p><span class="math notranslate nohighlight">\(\propto 1/5\times 3\)</span></p></td>
 </tr>
-<tr class="row-even"><td><p><span class="math notranslate nohighlight">\(\{B,B,W,W\}\)</span></p></td>
-<td><p>1/5</p></td>
-<td><p><span class="math notranslate nohighlight">\(\propto 1/5\times 8\)</span></p></td>
+<tr class="row-even"><td class="text-center"><p><span class="math notranslate nohighlight">\(\{B,B,W,W\}\)</span></p></td>
+<td class="text-center"><p>1/5</p></td>
+<td class="text-center"><p><span class="math notranslate nohighlight">\(\propto 1/5\times 8\)</span></p></td>
 </tr>
-<tr class="row-odd"><td><p><span class="math notranslate nohighlight">\(\{B,B,B,W\}\)</span></p></td>
-<td><p>1/5</p></td>
-<td><p><span class="math notranslate nohighlight">\(\propto 1/5\times 9\)</span></p></td>
+<tr class="row-odd"><td class="text-center"><p><span class="math notranslate nohighlight">\(\{B,B,B,W\}\)</span></p></td>
+<td class="text-center"><p>1/5</p></td>
+<td class="text-center"><p><span class="math notranslate nohighlight">\(\propto 1/5\times 9\)</span></p></td>
 </tr>
-<tr class="row-even"><td><p><span class="math notranslate nohighlight">\(\{B,B,B,B\}\)</span></p></td>
-<td><p>1/5</p></td>
-<td><p><span class="math notranslate nohighlight">\(\propto 1/5\times 0\)</span></p></td>
+<tr class="row-even"><td class="text-center"><p><span class="math notranslate nohighlight">\(\{B,B,B,B\}\)</span></p></td>
+<td class="text-center"><p>1/5</p></td>
+<td class="text-center"><p><span class="math notranslate nohighlight">\(\propto 1/5\times 0\)</span></p></td>
 </tr>
 </tbody>
 </table>
 <p>Thus, the conjecture <span class="math notranslate nohighlight">\(\{B,B,B,N\}\)</span> is the most plausible.</p>
+<section id="today-s-posterior-is-tomorrow-s-prior-the-future-is-not-as-it-was">
+<h3><span class="section-number">1.3.1. </span>Today’s posterior is tomorrow’s prior, the future is not as it was<a class="headerlink" href="#today-s-posterior-is-tomorrow-s-prior-the-future-is-not-as-it-was" title="Permalink to this heading">#</a></h3>
+<p>Assume that we take another marble, and it is black. With this new information, we can update the probability of each conjecture.</p>
+<table class="table">
+<thead>
+<tr class="row-odd"><th class="head text-center"><p>Conjecture</p></th>
+<th class="head text-center"><p>Prior Probability</p></th>
+<th class="head text-center"><p>Posterior Probability</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-center"><p><span class="math notranslate nohighlight">\(\{W,W,W,W\}\)</span></p></td>
+<td class="text-center"><p><span class="math notranslate nohighlight">\(\propto 0\)</span></p></td>
+<td class="text-center"><p><span class="math notranslate nohighlight">\(\propto 0 \times 0 = 0\)</span></p></td>
+</tr>
+<tr class="row-odd"><td class="text-center"><p><span class="math notranslate nohighlight">\(\{B,W,W,W\}\)</span></p></td>
+<td class="text-center"><p><span class="math notranslate nohighlight">\(\propto 3\)</span></p></td>
+<td class="text-center"><p><span class="math notranslate nohighlight">\(\propto 3 \times 1 = 3\)</span></p></td>
+</tr>
+<tr class="row-even"><td class="text-center"><p><span class="math notranslate nohighlight">\(\{B,B,W,W\}\)</span></p></td>
+<td class="text-center"><p><span class="math notranslate nohighlight">\(\propto 8\)</span></p></td>
+<td class="text-center"><p><span class="math notranslate nohighlight">\(\propto 8 \times 2 = 16\)</span></p></td>
+</tr>
+<tr class="row-odd"><td class="text-center"><p><span class="math notranslate nohighlight">\(\{B,B,B,W\}\)</span></p></td>
+<td class="text-center"><p><span class="math notranslate nohighlight">\(\propto 9\)</span></p></td>
+<td class="text-center"><p><span class="math notranslate nohighlight">\(\propto 9 \times 3 = 27\)</span></p></td>
+</tr>
+<tr class="row-even"><td class="text-center"><p><span class="math notranslate nohighlight">\(\{B,B,B,B\}\)</span></p></td>
+<td class="text-center"><p><span class="math notranslate nohighlight">\(\propto 0\)</span></p></td>
+<td class="text-center"><p><span class="math notranslate nohighlight">\(\propto 0 \times 4 = 0\)</span></p></td>
+</tr>
+</tbody>
+</table>
+<p>Note that <strong>what was our posterior has became our prior now</strong>.</p>
+<p>Up to now, all the information that we received has been of the same nature. However, previous information and new information might be different. Assume, for example, that someone at the marble’s fabric tells you that black marbles are rare. For every bag of type <span class="math notranslate nohighlight">\(\{B,B,B,W\}\)</span> there are two of type <span class="math notranslate nohighlight">\(\{B,B,W,W\}\)</span> and three of type <span class="math notranslate nohighlight">\(\{B,W,W,W\}\)</span>. Moreover, all the bags have at least one black marble and one white marble. With this information, we can update once again the probability of each conjecture</p>
+<table class="table">
+<thead>
+<tr class="row-odd"><th class="head text-center"><p>Conjecture</p></th>
+<th class="head text-center"><p>Prior Probability</p></th>
+<th class="head text-center"><p>Posterior Probability</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-center"><p><span class="math notranslate nohighlight">\(\{W,W,W,W\}\)</span></p></td>
+<td class="text-center"><p><span class="math notranslate nohighlight">\(\propto 0\)</span></p></td>
+<td class="text-center"><p><span class="math notranslate nohighlight">\(\propto 0 \times 0 = 0\)</span></p></td>
+</tr>
+<tr class="row-odd"><td class="text-center"><p><span class="math notranslate nohighlight">\(\{B,W,W,W\}\)</span></p></td>
+<td class="text-center"><p><span class="math notranslate nohighlight">\(\propto 3\)</span></p></td>
+<td class="text-center"><p><span class="math notranslate nohighlight">\(\propto 3 \times 3 = 9\)</span></p></td>
+</tr>
+<tr class="row-even"><td class="text-center"><p><span class="math notranslate nohighlight">\(\{B,B,W,W\}\)</span></p></td>
+<td class="text-center"><p><span class="math notranslate nohighlight">\(\propto 16\)</span></p></td>
+<td class="text-center"><p><span class="math notranslate nohighlight">\(\propto 16 \times 2 = 32\)</span></p></td>
+</tr>
+<tr class="row-odd"><td class="text-center"><p><span class="math notranslate nohighlight">\(\{B,B,B,W\}\)</span></p></td>
+<td class="text-center"><p><span class="math notranslate nohighlight">\(\propto 27\)</span></p></td>
+<td class="text-center"><p><span class="math notranslate nohighlight">\(\propto 27 \times 1 = 27\)</span></p></td>
+</tr>
+<tr class="row-even"><td class="text-center"><p><span class="math notranslate nohighlight">\(\{B,B,B,B\}\)</span></p></td>
+<td class="text-center"><p><span class="math notranslate nohighlight">\(\propto 0\)</span></p></td>
+<td class="text-center"><p><span class="math notranslate nohighlight">\(\propto 0 \times 0 = 0\)</span></p></td>
+</tr>
+</tbody>
+</table>
+<p>With this information, the most plausible conjecture is now <span class="math notranslate nohighlight">\(\{B,B,W,W\}\)</span>.</p>
+<div class="tip admonition">
+<p class="admonition-title">Bayesian learning or sequential analysis</p>
+<p>It’s not difficult to show that if we would have waited until we had all the information together, the posterior would have been the same. Instead, updating our posterior each step at a time is known as Bayesian learning or sequential analysis.</p>
+</div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
@@ -502,6 +575,7 @@ document.write(`
 </div>
 </div>
 </div>
+</section>
 </section>
 <hr class="docutils" />
 <section id="female-proportion-of-birth">
@@ -592,7 +666,7 @@ where \)</span>n<span class="math notranslate nohighlight">\( is the total numbe
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;Axes: ylabel=&#39;Density&#39;&gt;
 </pre></div>
 </div>
-<img alt="../../_images/d1e363a073106acacc957b7a90f7c5e56cc8bca770140717087eaa8a05f3dd65.png" src="../../_images/d1e363a073106acacc957b7a90f7c5e56cc8bca770140717087eaa8a05f3dd65.png" />
+<img alt="../../_images/a1532b79704ddd7811ea561b231b847687ec14b526f99986341fc3f2ea3fe5f0.png" src="../../_images/a1532b79704ddd7811ea561b231b847687ec14b526f99986341fc3f2ea3fe5f0.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -602,7 +676,7 @@ where \)</span>n<span class="math notranslate nohighlight">\( is the total numbe
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([0.413, 0.473])
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([0.412, 0.473])
 </pre></div>
 </div>
 </div>
@@ -625,7 +699,7 @@ where \)</span>n<span class="math notranslate nohighlight">\( is the total numbe
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;Axes: ylabel=&#39;Density&#39;&gt;
 </pre></div>
 </div>
-<img alt="../../_images/0ce9b5d13f09a304aab4b0cf4a5e21495cb7176a18aed949236c99e3586906d1.png" src="../../_images/0ce9b5d13f09a304aab4b0cf4a5e21495cb7176a18aed949236c99e3586906d1.png" />
+<img alt="../../_images/b386604f90ba44cdd7658076978279483102e4a4027d9a63268421b5bf4d408d.png" src="../../_images/b386604f90ba44cdd7658076978279483102e4a4027d9a63268421b5bf4d408d.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -771,7 +845,10 @@ where \)</span>n<span class="math notranslate nohighlight">\( is the total numbe
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#having-a-disease-given-a-positive-test">1.1. Having a disease given a positive test</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-probability-is-conditional-and-subjective">1.2. The probability is conditional and subjective</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#marbles-in-a-bag">1.3. Marbles in a bag</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#marbles-in-a-bag">1.3. Marbles in a bag</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#today-s-posterior-is-tomorrow-s-prior-the-future-is-not-as-it-was">1.3.1. Today’s posterior is tomorrow’s prior, the future is not as it was</a></li>
+</ul>
+</li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#female-proportion-of-birth">1.4. Female proportion of birth</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#probability-of-a-girl-birth-given-placenta-previa">1.5. Probability of a girl birth given placenta previa</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#population-of-cells-in-production-of-a-protein">1.6. Population of cells in production of a protein</a></li>
