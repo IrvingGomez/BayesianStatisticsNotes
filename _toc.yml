@@ -1,0 +1,23 @@
+# Table of contents
+# Learn more at https://jupyterbook.org/customize/toc.html
+
+format: jb-book
+root: intro
+parts:
+#  - caption: Guide files to create a jupyter book
+#    chapters:
+#    - file: content/part0/Chapter0
+#      sections:
+#      - file: content/part0/chapter0/markdown
+#      - file: content/part0/chapter0/notebooks
+#      - file: content/part0/chapter0/markdown-notebooks
+  - caption: I Bayesian foundations
+    numbered: True
+    chapters:
+    - file: content/part1/Chapter1
+#      sections:
+#      - file: content/part1/chapter1/01_BayesianPhilosophy
+#      - file: content/part1/chapter1/SecondSection
+  - caption:
+    chapters:
+    - file: References
