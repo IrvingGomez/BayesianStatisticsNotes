@@ -3,7 +3,7 @@
 
 title: Bayesian Statistics
 author: Irving Gómez-Méndez
-logo: RF_logo2.png
+logo: RF_logo.png
 
 # Force re-execution of notebooks on each build.
 # See https://jupyterbook.org/content/execute.html

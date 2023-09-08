@@ -143,8 +143,8 @@ const thebe_selector_output = ".output, .cell_output"
       
     
     
-    <img src="../../_static/RF_logo2.png" class="logo__image only-light" alt="Logo image"/>
-    <script>document.write(`<img src="../../_static/RF_logo2.png" class="logo__image only-dark" alt="Logo image"/>`);</script>
+    <img src="../../_static/RF_logo.png" class="logo__image only-light" alt="Logo image"/>
+    <script>document.write(`<img src="../../_static/RF_logo.png" class="logo__image only-dark" alt="Logo image"/>`);</script>
   
   
 </a></div>
@@ -455,9 +455,40 @@ document.write(`
 <p class="admonition-title">Note</p>
 <p>This example was taken from <span id="id1">[<a class="reference internal" href="../../References.html#id2" title="Richard McElreath. Statistical rethinking: A Bayesian course with examples in R and Stan. Chapman and Hall/CRC, 2018.">McE18</a>]</span></p>
 </div>
-<p>Assume that a bag has 4 marbles, which could be white or black, but we don’t know how many are of each color. Thus, there are five posibilities: <span class="math notranslate nohighlight">\(\{B,B,B,B\}\)</span>, <span class="math notranslate nohighlight">\(\{N,B,B,B\}\)</span>, <span class="math notranslate nohighlight">\(\{N,N,B,B\}\)</span>, <span class="math notranslate nohighlight">\(\{N,N,N,B\}\)</span>, <span class="math notranslate nohighlight">\(\{N,N,N,N\}\)</span>. Let’s called these posibilities <em>conjectures</em>. We want to know which posibility is more likely given some evidence about the content in the bag.</p>
-<p>Because at the beginning we have no information about the plausibility of each conjecture, we assign a probability of 1/5 to each one. Then, we extract 3 marbles at random, one at a time, with replacement and observed <span class="math notranslate nohighlight">\((N,B,N)\)</span>.</p>
-<p><strong>TENGO QUE SEGUIR ESCRIBIENDO AQUI</strong></p>
+<p>Assume that a bag has 4 marbles, which could be white or black, but we don’t know how many are of each color. Thus, there are five posibilities: <span class="math notranslate nohighlight">\(\{W,W,W,W\}\)</span>, <span class="math notranslate nohighlight">\(\{B,W,W,W\}\)</span>, <span class="math notranslate nohighlight">\(\{B,B,W,W\}\)</span>, <span class="math notranslate nohighlight">\(\{B,B,B,W\}\)</span>, <span class="math notranslate nohighlight">\(\{W,W,W,W\}\)</span>. Let’s called these posibilities <em>conjectures</em>. We want to know which posibility is more likely given some evidence about the content in the bag.</p>
+<p>Because at the beginning we have no information about the plausibility of each conjecture, we assign a probability of 1/5 to each one. Then, we extract 3 marbles at random, one at a time, with replacement and observed <span class="math notranslate nohighlight">\((B,W,B)\)</span>.</p>
+<p>We can calculate the probability of the event <span class="math notranslate nohighlight">\((B,W,B)\)</span> for each one of the conjectures.</p>
+<table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Comjecture</p></th>
+<th class="head"><p>Prior Probability</p></th>
+<th class="head"><p>Posterior Probability</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><span class="math notranslate nohighlight">\(\{W,W,W,W\}\)</span></p></td>
+<td><p>1/5</p></td>
+<td><p><span class="math notranslate nohighlight">\(\propto 1/5\times 0\)</span></p></td>
+</tr>
+<tr class="row-odd"><td><p><span class="math notranslate nohighlight">\(\{B,W,W,W\}\)</span></p></td>
+<td><p>1/5</p></td>
+<td><p><span class="math notranslate nohighlight">\(\propto 1/5\times 3\)</span></p></td>
+</tr>
+<tr class="row-even"><td><p><span class="math notranslate nohighlight">\(\{B,B,W,W\}\)</span></p></td>
+<td><p>1/5</p></td>
+<td><p><span class="math notranslate nohighlight">\(\propto 1/5\times 8\)</span></p></td>
+</tr>
+<tr class="row-odd"><td><p><span class="math notranslate nohighlight">\(\{B,B,B,W\}\)</span></p></td>
+<td><p>1/5</p></td>
+<td><p><span class="math notranslate nohighlight">\(\propto 1/5\times 9\)</span></p></td>
+</tr>
+<tr class="row-even"><td><p><span class="math notranslate nohighlight">\(\{B,B,B,B\}\)</span></p></td>
+<td><p>1/5</p></td>
+<td><p><span class="math notranslate nohighlight">\(\propto 1/5\times 0\)</span></p></td>
+</tr>
+</tbody>
+</table>
+<p>Thus, the conjecture <span class="math notranslate nohighlight">\(\{B,B,B,N\}\)</span> is the most plausible.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
@@ -561,7 +592,7 @@ where \)</span>n<span class="math notranslate nohighlight">\( is the total numbe
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;Axes: ylabel=&#39;Density&#39;&gt;
 </pre></div>
 </div>
-<img alt="../../_images/75d69d552dd46da35977f0bde244c1b65fc631a5cb079aa059fa6283ea88bcab.png" src="../../_images/75d69d552dd46da35977f0bde244c1b65fc631a5cb079aa059fa6283ea88bcab.png" />
+<img alt="../../_images/d1e363a073106acacc957b7a90f7c5e56cc8bca770140717087eaa8a05f3dd65.png" src="../../_images/d1e363a073106acacc957b7a90f7c5e56cc8bca770140717087eaa8a05f3dd65.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -571,7 +602,7 @@ where \)</span>n<span class="math notranslate nohighlight">\( is the total numbe
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([0.412, 0.475])
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([0.413, 0.473])
 </pre></div>
 </div>
 </div>
@@ -594,7 +625,7 @@ where \)</span>n<span class="math notranslate nohighlight">\( is the total numbe
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;Axes: ylabel=&#39;Density&#39;&gt;
 </pre></div>
 </div>
-<img alt="../../_images/51af6d59d7a9d7d8c96efc22f002d17b321784a8d15b3e18ab0cc560a0f9921b.png" src="../../_images/51af6d59d7a9d7d8c96efc22f002d17b321784a8d15b3e18ab0cc560a0f9921b.png" />
+<img alt="../../_images/0ce9b5d13f09a304aab4b0cf4a5e21495cb7176a18aed949236c99e3586906d1.png" src="../../_images/0ce9b5d13f09a304aab4b0cf4a5e21495cb7176a18aed949236c99e3586906d1.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -607,7 +638,7 @@ where \)</span>n<span class="math notranslate nohighlight">\( is the total numbe
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(0.412, 0.475)
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(0.412, 0.473)
 </pre></div>
 </div>
 </div>
