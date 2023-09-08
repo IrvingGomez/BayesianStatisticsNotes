@@ -1,4 +1,4 @@
-# Bayesian Statistics: Course notes
+# Bayesian statistics: Course notes
 
 These are the notes for the course of Bayesian statistics.
 
