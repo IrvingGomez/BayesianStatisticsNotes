@@ -66,7 +66,7 @@ const thebe_selector_output = ".output, .cell_output"
     <script>DOCUMENTATION_OPTIONS.pagename = 'content/part1/Chapter1';</script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="next" title="References" href="../../References.html" />
+    <link rel="next" title="2. Uniparametric models" href="Chapter2.html" />
     <link rel="prev" title="Bayesian statistics: Course notes" href="../../intro.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
@@ -161,6 +161,7 @@ const thebe_selector_output = ".output, .cell_output"
         <p aria-level="2" class="caption" role="heading"><span class="caption-text">I Bayesian foundations</span></p>
 <ul class="current nav bd-sidenav">
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">1. Bayesian philosophy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Chapter2.html">2. Uniparametric models</a></li>
 </ul>
 <ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="../../References.html">References</a></li>
@@ -205,53 +206,6 @@ const thebe_selector_output = ".output, .cell_output"
         <div class="header-article-item">
 
 <div class="article-header-buttons">
-
-
-
-
-
-<div class="dropdown dropdown-source-buttons">
-  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
-    <i class="fab fa-github"></i>
-  </button>
-  <ul class="dropdown-menu">
-      
-      
-      
-      <li><a href="https://github.com/IrvingGomez/BayesianStatistics" target="_blank"
-   class="btn btn-sm btn-source-repository-button dropdown-item"
-   title="Source repository"
-   data-bs-placement="left" data-bs-toggle="tooltip"
->
-  
-
-<span class="btn__icon-container">
-  <i class="fab fa-github"></i>
-  </span>
-<span class="btn__text-container">Repository</span>
-</a>
-</li>
-      
-      
-      
-      
-      <li><a href="https://github.com/IrvingGomez/BayesianStatistics/issues/new?title=Issue%20on%20page%20%2Fcontent/part1/Chapter1.html&body=Your%20issue%20content%20here." target="_blank"
-   class="btn btn-sm btn-source-issues-button dropdown-item"
-   title="Open an issue"
-   data-bs-placement="left" data-bs-toggle="tooltip"
->
-  
-
-<span class="btn__icon-container">
-  <i class="fas fa-lightbulb"></i>
-  </span>
-<span class="btn__text-container">Open issue</span>
-</a>
-</li>
-      
-  </ul>
-</div>
-
 
 
 
@@ -376,9 +330,7 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article" role="main">
                   
-  <p><span class="math notranslate nohighlight">\(\def\P{\mathbb{P}}\)</span></p>
-<p><span class="math notranslate nohighlight">\(\newcommand{\llavs}[1]{\left\lbrace #1 \right\rbrace}\)</span></p>
-<section class="tex2jax_ignore mathjax_ignore" id="bayesian-philosophy">
+  <section class="tex2jax_ignore mathjax_ignore" id="bayesian-philosophy">
 <h1><span class="section-number">1. </span>Bayesian philosophy<a class="headerlink" href="#bayesian-philosophy" title="Permalink to this heading">#</a></h1>
 <section id="having-a-disease-given-a-positive-test">
 <h2><span class="section-number">1.1. </span>Having a disease given a positive test<a class="headerlink" href="#having-a-disease-given-a-positive-test" title="Permalink to this heading">#</a></h2>
@@ -386,15 +338,15 @@ document.write(`
 <p>There is a laboratory test that detects a disease A. Denote by <span class="math notranslate nohighlight">\(T=1\)</span> the event of a positive test and <span class="math notranslate nohighlight">\(T=0\)</span> the event of a negative test. Meanwhile, <span class="math notranslate nohighlight">\(E=1\)</span> denotes that the patient has the disease and <span class="math notranslate nohighlight">\(E=0\)</span> denotes that the patient does not have the disease.</p>
 <p>The test has the following characteristics:</p>
 <div class="math notranslate nohighlight">
-\[\P(T=1|E=1)=0.92,\quad \P(T=0|E=0)=0.99,\]</div>
+\[\mathbb{P}(T=1|E=1)=0.92,\quad \mathbb{P}(T=0|E=0)=0.99,\]</div>
 <p>while the prevalence of the disease (the proportion of people with the disease) is 0.12, that is</p>
 <div class="math notranslate nohighlight">
 \[\mathbb{P}(E=1)=0.12.\]</div>
 <p>I take the test (assuming that I belong to the referred population) and it is positive, what is the probability that I have the disease A?</p>
-<p>Note that <span class="math notranslate nohighlight">\(\P(T=1|E=1)\)</span> or <span class="math notranslate nohighlight">\(\P(T=1|E=0)\)</span> are <strong>not</strong> the quantities we need. Instead, we want to know what happens given that <span class="math notranslate nohighlight">\(T=1\)</span></p>
+<p>Note that <span class="math notranslate nohighlight">\(\mathbb{P}(T=1|E=1)\)</span> or <span class="math notranslate nohighlight">\(\mathbb{P}(T=1|E=0)\)</span> are <strong>not</strong> the quantities we need. Instead, we want to know what happens given that <span class="math notranslate nohighlight">\(T=1\)</span></p>
 <p>Bayes’ rules give us the answer:</p>
 <div class="math notranslate nohighlight">
-\[\P(E=1|T=1) = \frac{\P(T=1|E=1)\P(E=1)}{\P(T=1|E=1)\P(E=1)+\P(T=1|E=0)\P(E=0)}.\]</div>
+\[\mathbb{P}(E=1|T=1) = \frac{\mathbb{P}(T=1|E=1)\mathbb{P}(E=1)}{\mathbb{P}(T=1|E=1)\mathbb{P}(E=1)+\mathbb{P}(T=1|E=0)\mathbb{P}(E=0)}.\]</div>
 <p>The next cell makes the calculation for us:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -411,7 +363,7 @@ document.write(`
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.9262
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.9262
 </pre></div>
 </div>
 </div>
@@ -433,19 +385,19 @@ document.write(`
 </ol>
 <p>One might think that the answer to the first quention is 0.5 but, what coin are we talking about? does the coin has a “head”? it could be a foreign coin without “head”. The coin that we are using, was given to us as change at the store? or is a coin that an illusionist just took out of their pocket?</p>
 <p>For the fourth question, I could search if it is raining in Mexico (the city? the state? the whole country or just some part?) and then the probability would be 0 or 1; but right now, how much do we know about the event “it’s raining in Mexico”?</p>
-<p>Let be <span class="math notranslate nohighlight">\(A\)</span> the event “it’s raining in Mexico”. A person that lives some km away from Qaanaaq, without internet, wouldn’t have any reason to asign a larger propability to <span class="math notranslate nohighlight">\(A\)</span> than <span class="math notranslate nohighlight">\(A^c\)</span>. If we denote by <span class="math notranslate nohighlight">\(\mathcal{H}_1\)</span> the information of this person, then</p>
+<p>Let be <span class="math notranslate nohighlight">\(A\)</span> the event “it’s raining in Mexico”. A person that lives some km away from Qaanaaq, without internet, wouldn’t have any reason to assign a larger propability to <span class="math notranslate nohighlight">\(A\)</span> than <span class="math notranslate nohighlight">\(A^c\)</span>. If we denote by <span class="math notranslate nohighlight">\(\mathcal{H}_1\)</span> the information of this person, then</p>
 <div class="math notranslate nohighlight">
-\[\P(A|\mathcal{H}_1)=\P(A^c|\mathcal{H}_1).\]</div>
+\[\mathbb{P}(A|\mathcal{H}_1)=\mathbb{P}(A^c|\mathcal{H}_1).\]</div>
 <p>Meanwhile, a person that lives in El Bajío has a different information <span class="math notranslate nohighlight">\(\mathcal{H}_2\)</span>, and could assign the following measure of probability</p>
 <div class="math notranslate nohighlight">
-\[\begin{split}\P(A|\mathcal{H}_2)=\begin{cases}
+\[\begin{split}\mathbb{P}(A|\mathcal{H}_2)=\begin{cases}
 3/4 &amp; \text{if it's raining in El Bajío}, \\ 
 1/4 &amp; \text{otherwise}.
 \end{cases}
 \end{split}\]</div>
 <p>On the other hand, someone that lives in Mexico has an information <span class="math notranslate nohighlight">\(\mathcal{H}_3\)</span>, such that</p>
 <div class="math notranslate nohighlight">
-\[\begin{split}\P(A|\mathcal{H}_3)=\begin{cases}
+\[\begin{split}\mathbb{P}(A|\mathcal{H}_3)=\begin{cases}
 1 &amp; \text{if it's raining in Mexico}, \\ 
 0 &amp; \text{otherwise}.
 \end{cases}
@@ -579,14 +531,13 @@ document.write(`
 </section>
 <section id="chapter-summary">
 <h2><span class="section-number">1.5. </span>Chapter summary<a class="headerlink" href="#chapter-summary" title="Permalink to this heading">#</a></h2>
-<p>La probabilidad de un evento <span class="math notranslate nohighlight">\(A\)</span> es una medida del grado de creencia que tiene un individuo en la ocurrencia de <span class="math notranslate nohighlight">\(A\)</span> con base en la información <span class="math notranslate nohighlight">\(H\)</span> que posee. Por lo tanto, toda probabilidad es condicional (a las circunstancias, el \textit{agente}, etc.)</p>
 <div class="tip admonition">
 <p class="admonition-title">Probability as a measure of uncertainty</p>
 <p>The probability of an event <span class="math notranslate nohighlight">\(A\)</span> measures the uncertainty that some agent has about the ocurrence of <span class="math notranslate nohighlight">\(A\)</span> based on some informathion <span class="math notranslate nohighlight">\(\mathcal{H}\)</span>. Thus, all probabilities are conditional.</p>
 </div>
 <div class="tip admonition">
 <p class="admonition-title">The parameters have their own distribution</p>
-<p>Let be <span class="math notranslate nohighlight">\(\mathcal{P}=\llavs{p(Y|\theta),\theta\in\Theta}\)</span> a parametric family of distributions. Since all uncertainty must be measure through a probability, and we have uncertainty on the value of the parameters, then the parameters has to be modeled trough a probability measure, that is, a distribution of probability.</p>
+<p>Let be <span class="math notranslate nohighlight">\(\mathcal{P}=\llavs{p(Y|\theta),\theta\in\Theta}\)</span> a parametric family of distributions. Since all uncertainty must be measured through a probability, and we have uncertainty on the parameters, they have to be modeled through a measure of probability, that is, they have their own distribution of probability.</p>
 </div>
 </section>
 </section>
@@ -632,11 +583,11 @@ document.write(`
       </div>
     </a>
     <a class="right-next"
-       href="../../References.html"
+       href="Chapter2.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">References</p>
+        <p class="prev-next-title"><span class="section-number">2. </span>Uniparametric models</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>

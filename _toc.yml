@@ -15,6 +15,7 @@ parts:
     numbered: True
     chapters:
     - file: content/part1/Chapter1
+    - file: content/part1/Chapter2
 #      sections:
 #      - file: content/part1/chapter1/01_BayesianPhilosophy
 #      - file: content/part1/chapter1/SecondSection
