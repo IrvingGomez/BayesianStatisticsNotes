@@ -497,19 +497,14 @@ Y|\theta &amp; \sim \textsf{Binomial}(n,\theta) \\
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">PosteriorSample</span> <span class="o">=</span> <span class="n">beta</span><span class="o">.</span><span class="n">rvs</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">a</span><span class="o">=</span><span class="n">fem_births</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">b</span><span class="o">=</span><span class="n">births</span><span class="o">-</span><span class="n">fem_births</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sns</span><span class="o">.</span><span class="n">histplot</span><span class="p">(</span><span class="n">PosteriorSample</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;rebeccapurple&#39;</span><span class="p">,</span> <span class="n">stat</span><span class="o">=</span><span class="s1">&#39;density&#39;</span><span class="p">)</span>
+
+<span class="n">sns</span><span class="o">.</span><span class="n">histplot</span><span class="p">(</span><span class="n">PosteriorSample</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;rebeccapurple&#39;</span><span class="p">,</span> <span class="n">stat</span><span class="o">=</span><span class="s1">&#39;density&#39;</span><span class="p">)</span>
 <span class="n">_</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;$\theta$&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/13c2c8853fb3c14cbe0c63a502b6cd9a3f503f491d986ce3435e65b6e854d29b.png" src="../../_images/13c2c8853fb3c14cbe0c63a502b6cd9a3f503f491d986ce3435e65b6e854d29b.png" />
+<img alt="../../_images/b0f18fca7fa0021183b14074a52b4c8c2a152855c1cc8c33c28d9060811fae24.png" src="../../_images/b0f18fca7fa0021183b14074a52b4c8c2a152855c1cc8c33c28d9060811fae24.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -519,7 +514,7 @@ Y|\theta &amp; \sim \textsf{Binomial}(n,\theta) \\
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([0.411, 0.472])
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([0.413, 0.474])
 </pre></div>
 </div>
 </div>
@@ -528,19 +523,14 @@ Y|\theta &amp; \sim \textsf{Binomial}(n,\theta) \\
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">LogitPosteriorSample</span> <span class="o">=</span> <span class="n">logit</span><span class="p">(</span><span class="n">PosteriorSample</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sns</span><span class="o">.</span><span class="n">histplot</span><span class="p">(</span><span class="n">LogitPosteriorSample</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;rebeccapurple&#39;</span><span class="p">,</span> <span class="n">stat</span><span class="o">=</span><span class="s1">&#39;density&#39;</span><span class="p">)</span>
+
+<span class="n">sns</span><span class="o">.</span><span class="n">histplot</span><span class="p">(</span><span class="n">LogitPosteriorSample</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;rebeccapurple&#39;</span><span class="p">,</span> <span class="n">stat</span><span class="o">=</span><span class="s1">&#39;density&#39;</span><span class="p">)</span>
 <span class="n">_</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;logit$(\theta)$&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/3b4c06edc68ac02376ab15429e6a591490fdf1d2d48db25295e88272d2dc402f.png" src="../../_images/3b4c06edc68ac02376ab15429e6a591490fdf1d2d48db25295e88272d2dc402f.png" />
+<img alt="../../_images/c487efa232e5019cfc86c391e9b15465644e6f86ec5fdfe8b6898e58e7ffcb42.png" src="../../_images/c487efa232e5019cfc86c391e9b15465644e6f86ec5fdfe8b6898e58e7ffcb42.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -553,7 +543,7 @@ Y|\theta &amp; \sim \textsf{Binomial}(n,\theta) \\
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(0.412, 0.474)
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(0.411, 0.475)
 </pre></div>
 </div>
 </div>
