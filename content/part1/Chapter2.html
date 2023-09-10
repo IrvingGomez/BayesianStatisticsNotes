@@ -323,7 +323,23 @@ document.write(`
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#cells-production-of-protein">2.4.3. Cells production of protein</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#predictive-distributions">2.5. Predictive distributions</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#predictive-distributions">2.5. Predictive distributions</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#rule-of-succession">2.5.1. Rule of succession</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#determining-the-hyperparameters-in-the-beta-binomial-model">2.6. Determining the hyperparameters in the Beta-Binomial model</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#normal-convergence-of-the-beta-binomial-model">2.7. Normal convergence of the Beta-Binomial model</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#inference-of-a-fair-or-a-biased-coin">2.8. Inference of a fair or a biased coin</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#prior-distribution">2.8.1. Prior distribution</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#likelihood">2.8.2. Likelihood</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#prior-predictive-distribution">2.8.3. Prior predictive distribution</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#likelihood-of-the-sample">2.8.4. Likelihood of the sample</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#evidence">2.8.5. Evidence</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">2.8.6. Posterior distribution</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#posterior-predictive-distribution">2.8.7. Posterior predictive distribution</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#there-is-no-free-lunch">2.9. There is no free lunch</a></li>
 </ul>
             </nav>
         </div>
@@ -504,7 +520,7 @@ Y|\theta &amp; \sim \textsf{Binomial}(n,\theta) \\
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/b0f18fca7fa0021183b14074a52b4c8c2a152855c1cc8c33c28d9060811fae24.png" src="../../_images/b0f18fca7fa0021183b14074a52b4c8c2a152855c1cc8c33c28d9060811fae24.png" />
+<img alt="../../_images/8fa3d6ad46f197f72ba98e80f44f1140e3d7e88744dfce3afc99be0f1ca7e9f9.png" src="../../_images/8fa3d6ad46f197f72ba98e80f44f1140e3d7e88744dfce3afc99be0f1ca7e9f9.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -514,7 +530,7 @@ Y|\theta &amp; \sim \textsf{Binomial}(n,\theta) \\
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([0.413, 0.474])
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([0.412, 0.473])
 </pre></div>
 </div>
 </div>
@@ -530,7 +546,7 @@ Y|\theta &amp; \sim \textsf{Binomial}(n,\theta) \\
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/c487efa232e5019cfc86c391e9b15465644e6f86ec5fdfe8b6898e58e7ffcb42.png" src="../../_images/c487efa232e5019cfc86c391e9b15465644e6f86ec5fdfe8b6898e58e7ffcb42.png" />
+<img alt="../../_images/472975dd5184a27aa9b4d83be051d04e50a12fd0a6f2e4c336cd0d5a825e69ef.png" src="../../_images/472975dd5184a27aa9b4d83be051d04e50a12fd0a6f2e4c336cd0d5a825e69ef.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -543,7 +559,7 @@ Y|\theta &amp; \sim \textsf{Binomial}(n,\theta) \\
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(0.411, 0.475)
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(0.412, 0.475)
 </pre></div>
 </div>
 </div>
@@ -613,6 +629,214 @@ Prob. C: 0.4876
 <section id="predictive-distributions">
 <h2><span class="section-number">2.5. </span>Predictive distributions<a class="headerlink" href="#predictive-distributions" title="Permalink to this heading">#</a></h2>
 <p>In many cases we more interested in the behavior of future observations of the phenomenon than on some vector of parameters <span class="math notranslate nohighlight">\(\theta\)</span>. Usually, in frequentist statistics we solve this problem using a punctual estimator of <span class="math notranslate nohighlight">\(\theta\)</span> based on the observed sample, <span class="math notranslate nohighlight">\(\hat{\theta}\)</span>, who is later plug in <span class="math notranslate nohighlight">\(p(Y|\theta)\)</span>, that is, we use <span class="math notranslate nohighlight">\(p(Y|\hat\theta)\)</span> to predict the behavior of future observations.</p>
+<p>In Bayesian statistics the problem is solved marginalizing the joint distribution of <span class="math notranslate nohighlight">\(\theta\)</span> and <span class="math notranslate nohighlight">\(Y\)</span></p>
+<ul class="simple">
+<li><p>Prior predictive distribution:</p></li>
+</ul>
+<div class="math notranslate nohighlight">
+\[p(Y)=\int_\Theta p(Y|\theta)p(\theta)d\theta\]</div>
+<p>Once we obtain a sample <span class="math notranslate nohighlight">\(\mathbf{Y}\)</span> it induced a joint distribution for <span class="math notranslate nohighlight">\(Y\)</span> and <span class="math notranslate nohighlight">\(\theta\)</span> conditional on the sample,</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{aligned}
+p(Y,\theta|\mathbf{Y}) &amp; = \frac{p(Y,\theta,\mathbf{Y})}{p(\mathbf{Y})} \\
+&amp; = p(Y|\theta,\mathbf{Y})\frac{p(\theta,\mathbf{Y})}{p(\mathbf{Y})} \\
+&amp; = p(Y|\theta)p(\theta|\mathbf{Y})
+\end{aligned}
+\end{split}\]</div>
+<ul class="simple">
+<li><p>Posterior predictive distribution:</p></li>
+</ul>
+<div class="math notranslate nohighlight">
+\[
+p(Y|\mathbf{Y})=\int_\Theta p(Y|\theta)p(\theta|\mathbf{Y})d\theta
+\]</div>
+<section id="rule-of-succession">
+<h3><span class="section-number">2.5.1. </span>Rule of succession<a class="headerlink" href="#rule-of-succession" title="Permalink to this heading">#</a></h3>
+<p>Consider the Beta-Binomial model, and the prior <span class="math notranslate nohighlight">\(\theta\sim\textsf{Beta}(1,1)\)</span>, thus the posterior distribution of <span class="math notranslate nohighlight">\(\theta\)</span> is given by</p>
+<div class="math notranslate nohighlight">
+\[\theta|Y\sim \textsf{Beta}(Y+1, n-Y+1).\]</div>
+<p>Moreover, remember that if <span class="math notranslate nohighlight">\(\theta\)</span> is a random variable with a distribution <span class="math notranslate nohighlight">\(\textsf{Beta}(\alpha,\beta)\)</span>, then</p>
+<div class="math notranslate nohighlight">
+\[\mathbb{E}(\theta)=\frac{\alpha}{\alpha+\beta},\]</div>
+<p>so</p>
+<div class="math notranslate nohighlight">
+\[\mathbb{E}(\theta|Y)=\frac{Y+1}{n+2}.\]</div>
+<p>Assume that we want to know the probability that a new Bernoulli observation <span class="math notranslate nohighlight">\(\tilde{Y}\)</span> takes the value of 1, that is <span class="math notranslate nohighlight">\(\mathbb{P}(\tilde{Y}=1|Y)\)</span>.</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{aligned}
+\mathbb{P}(\tilde{Y}=1|Y) &amp; = \int_0^1 \mathbb{P}(\tilde{Y}=1|\theta)p(\theta|Y)d\theta \\
+&amp; = \int_0^1\theta p(\theta|Y)d\theta \\
+&amp; = \mathbb{E}(\theta|Y) \\
+&amp; = \frac{Y+1}{n+2}.
+\end{aligned}
+\end{split}\]</div>
+<p>If, for example, we have made <span class="math notranslate nohighlight">\(n\)</span> times a Bernoulli experiment without any success (<span class="math notranslate nohighlight">\(Y=0\)</span>), the probability of having success the next time is <span class="math notranslate nohighlight">\(1/(n+2)\)</span>, while the probability of success estimated with classic probability is <span class="math notranslate nohighlight">\(0/n=0\)</span>.</p>
+</section>
+</section>
+<section id="determining-the-hyperparameters-in-the-beta-binomial-model">
+<h2><span class="section-number">2.6. </span>Determining the hyperparameters in the Beta-Binomial model<a class="headerlink" href="#determining-the-hyperparameters-in-the-beta-binomial-model" title="Permalink to this heading">#</a></h2>
+<p>One of the challenges to solve when we use Bayesian statistics is determine the parameters of the prior distribution, which are called hyperparameters. One way to solve this problem is by interpreting the hyperparameters, and then determine the most appropriate values for them.</p>
+<p>For example, consider the model Beta-Binomial, in which the ñikelihood is given by</p>
+<div class="math notranslate nohighlight">
+\[p(Y|\theta)\propto \theta^a(1-\theta)^b,\]</div>
+<p>where <span class="math notranslate nohighlight">\(a\)</span> is the numer of successes and <span class="math notranslate nohighlight">\(b\)</span> is number of fails.</p>
+<p>On the other hand, the prior distribution is given by</p>
+<div class="math notranslate nohighlight">
+\[p(\theta)\propto \theta^{\alpha-1}(1-\theta)^{\beta-1}.\]</div>
+<p>Comparing these two expressions, we conclude that <span class="math notranslate nohighlight">\(\alpha-1\)</span> is interpreted as the number of successes <em>a piori</em> and <span class="math notranslate nohighlight">\(\beta-1\)</span> as the number of fails <em>a priori</em>.</p>
+<p>Therefore, if we haven’t made any experiment previously, we can set <span class="math notranslate nohighlight">\(\alpha=1\)</span> and <span class="math notranslate nohighlight">\(\beta=1\)</span>. This would mean that <span class="math notranslate nohighlight">\(\theta\sim\textsf{Uniforme}(0,1)\)</span>, which coincides with Laplace’s principle of indifference.</p>
+</section>
+<section id="normal-convergence-of-the-beta-binomial-model">
+<h2><span class="section-number">2.7. </span>Normal convergence of the Beta-Binomial model<a class="headerlink" href="#normal-convergence-of-the-beta-binomial-model" title="Permalink to this heading">#</a></h2>
+<p>We know that the Beta-Binomial model satisfies that</p>
+<div class="math notranslate nohighlight">
+\[\theta|Y\sim\textsf{Beta}(\alpha+Y, \beta+n-Y).\]</div>
+<p>Moreover, remember that if <span class="math notranslate nohighlight">\(\theta\)</span> is a random variable with distribution <span class="math notranslate nohighlight">\(\textsf{Beta}(\alpha,\beta)\)</span>, then</p>
+<div class="math notranslate nohighlight">
+\[\mathbb{E}(\theta)=\frac{\alpha}{\alpha+\beta}\]</div>
+<p>and</p>
+<div class="math notranslate nohighlight">
+\[\mathbb{V}(\theta)=\frac{\alpha\beta}{(\alpha+\beta)^2(\alpha+\beta+1)}.\]</div>
+<p>Thus, we have that</p>
+<div class="math notranslate nohighlight">
+\[\mathbb{E}(\theta|Y)=\frac{\alpha+Y}{\alpha+\beta+n}\]</div>
+<p>and</p>
+<div class="math notranslate nohighlight">
+\[\mathbb{V}(\theta|Y)=\frac{(\alpha+Y)(\beta+n-Y)}{(\alpha+\beta+n)^2(\alpha+\beta+n+1)}.\]</div>
+<p>Note that when <span class="math notranslate nohighlight">\(n\to\infty\)</span>, then <span class="math notranslate nohighlight">\(Y\to\infty\)</span> and <span class="math notranslate nohighlight">\(n-Y\to\infty\)</span>, always that <span class="math notranslate nohighlight">\(\theta\in(0,1)\)</span>. Therefore when <span class="math notranslate nohighlight">\(n\to\infty\)</span> the value of the hyperparameters are negligible, and</p>
+<div class="math notranslate nohighlight">
+\[\mathbb{E}(\theta|Y)\approx \frac{Y}{n}\equiv \bar{Y}\]</div>
+<p>and</p>
+<div class="math notranslate nohighlight">
+\[\mathbb{V}(\theta|Y)\approx \frac{1}{n}\frac{Y}{n}\left(1-\frac{Y}{n}\right)\equiv \frac{1}{n}\bar{Y}(1-\bar{Y}).\]</div>
+<p>On the other hand, by central limit theorem and Slutsky’s theorem, we know that</p>
+<div class="math notranslate nohighlight">
+\[\left(\sqrt{n}\frac{\bar{Y}-\theta}{\sqrt{\bar{Y}(1-\bar{Y})}}\Big|\theta\right)\xrightarrow[n\to\infty]{L}\textsf{Normal}(0,1).\]</div>
+<p>Analogously, it is satisfied that</p>
+<div class="math notranslate nohighlight">
+\[\left(\frac{\theta-\mathbb{E}(\theta|Y)}{\sqrt{\mathbb{V}(\theta|Y)}}\Big|Y\right)\xrightarrow[n\to\infty]{L}\textsf{Normal}(0,1).\]</div>
+<p>That is, the posterior distribution converges to a normal random variable.</p>
+</section>
+<section id="inference-of-a-fair-or-a-biased-coin">
+<h2><span class="section-number">2.8. </span>Inference of a fair or a biased coin<a class="headerlink" href="#inference-of-a-fair-or-a-biased-coin" title="Permalink to this heading">#</a></h2>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This example was taken from the notes of Arturo Erdely</p>
+</div>
+<p>Consider a box with two coins: one fair and one biased. Assume that the biased cooin is built in such way that there is a probability of 3/4 of showing “head”. One person takes one the coins (not necessarily at random) and starts flipping it.</p>
+<p>In this case, we can define the measurable space as <span class="math notranslate nohighlight">\(\Omega=\{\text{``The coin shows head''}, \text{``The coin shows tail''}\}\)</span> and take as the sigma-algebra the power set of <span class="math notranslate nohighlight">\(\Omega\)</span>, <span class="math notranslate nohighlight">\(\mathcal{P}(\Omega)\)</span>. In this space, we define the random variable</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+Y(\omega)=
+\begin{cases}
+1 &amp; \text{if }\omega=\text{``The coin shows head''},\\ 
+0 &amp; \text{if }\omega=\text{``The coin shows tail''}.
+\end{cases}
+\end{split}\]</div>
+<p>Implicitly, we are not considering all other possible results, like teh case where the coin lands vertically, that we cannot determine the result, etc.</p>
+<p>Thus, our parametric space is <span class="math notranslate nohighlight">\(\Theta=\left\lbrace\frac{3}{4}, \frac{1}{2}\right\rbrace\)</span>, our sample space is <span class="math notranslate nohighlight">\(\mathcal{Y}=\{0,1\}\)</span>.</p>
+<p>We proceed now to calculate all the distributions presented in the Bayesian framework, beginning with the distributions that can be stablished prior to having access to a sample.</p>
+<section id="prior-distribution">
+<h3><span class="section-number">2.8.1. </span>Prior distribution<a class="headerlink" href="#prior-distribution" title="Permalink to this heading">#</a></h3>
+<p><span class="math notranslate nohighlight">\(\mathbb{P}\left(\theta=\frac{3}{4}\right)=\alpha\)</span>, <span class="math notranslate nohighlight">\(\mathbb{P}\left(\theta=\frac{1}{2}\right)=1-\alpha\)</span>, with <span class="math notranslate nohighlight">\(\alpha\in(0,1)\)</span>. This prior distribution can be written in one line as</p>
+<div class="math notranslate nohighlight">
+\[p(\theta)=\alpha 1_{\{3/4\}}(\theta)+(1-\alpha)1_{\{1/2\}}(\theta).\]</div>
+<p>Note that it depends on the hyperparameter <span class="math notranslate nohighlight">\(\alpha\)</span> which is interpreted as the probability of choosing the biased coin. Note also, that we do not allow it to take the extreme valus of 0 or 1, in such cases we would know without uncertainty what coin was the chosen one, also if <span class="math notranslate nohighlight">\(\alpha=0\)</span> or <span class="math notranslate nohighlight">\(\alpha=1\)</span> we would face problems when we want to calculate some distributions.</p>
+</section>
+<section id="likelihood">
+<h3><span class="section-number">2.8.2. </span>Likelihood<a class="headerlink" href="#likelihood" title="Permalink to this heading">#</a></h3>
+<p>We have the random variable <span class="math notranslate nohighlight">\(Y|\theta\sim\textsf{Bernoulli}(\theta)\)</span>, thus the likelihood of our model is</p>
+<div class="math notranslate nohighlight">
+\[p(Y|\theta)=\theta^Y(1-\theta)^{1-Y}1_{\{0,1\}}(Y).\]</div>
+</section>
+<section id="prior-predictive-distribution">
+<h3><span class="section-number">2.8.3. </span>Prior predictive distribution<a class="headerlink" href="#prior-predictive-distribution" title="Permalink to this heading">#</a></h3>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{align*}
+p(Y) &amp;=\sum_{\theta\in\Theta}p(Y|\theta)p(\theta) \\
+&amp;=\alpha\left(\frac{3}{4}\right)^Y\left(\frac{1}{4}\right)^{1-Y}1_{\{0,1\}}(Y)+(1-\alpha)\left(\frac{1}{2}\right)1_{\{0,1\}}(Y) \\
+&amp;= \alpha\left\lbrack\left(\frac{3}{4}-\frac{1}{2}\right)1_{\{1\}}(Y)+\left(\frac{1}{4}-\frac{1}{2}\right)1_{\{0\}}(Y)\right\rbrack+\frac{1}{2}1_{\{0,1\}}(Y) \\
+&amp;= \frac{\alpha}{4}\left\lbrack 1_{\{1\}}(Y)-1_{\{0\}}(Y)\right\rbrack+\frac{1}{2}1_{\{0,1\}}(Y).
+\end{align*}
+\end{split}\]</div>
+<p>That is,</p>
+<div class="math notranslate nohighlight">
+\[p_Y(1)=\frac{1}{2}+\frac{\alpha}{4},\quad p_Y(0)=\frac{1}{2}-\frac{\alpha}{4}.\]</div>
+</section>
+<section id="likelihood-of-the-sample">
+<h3><span class="section-number">2.8.4. </span>Likelihood of the sample<a class="headerlink" href="#likelihood-of-the-sample" title="Permalink to this heading">#</a></h3>
+<p>Let be <span class="math notranslate nohighlight">\(Y_1,\ldots,Y_n|\theta\overset{iid}{\sim}\textsf{Bernoulli}(\theta)\)</span>, then</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{align*}
+p(\mathbf{Y}|\theta) &amp;= \theta^{\sum_{i=1}^n y_i}(1-\theta)^{n-\sum_{i=1}^n y_i}\prod_{i=1}^n 1_{\{0,1\}}(y_i) \\
+&amp; = \theta^{\sum_{i=1}^n y_i}(1-\theta)^{n-\sum_{i=1}^n y_i}g(\mathbf{y}).
+\end{align*}
+\end{split}\]</div>
+</section>
+<section id="evidence">
+<h3><span class="section-number">2.8.5. </span>Evidence<a class="headerlink" href="#evidence" title="Permalink to this heading">#</a></h3>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{align*}
+p(\mathbf{Y}) &amp;= \sum_{\theta\in\Theta}p(\mathbf{Y}|\theta)p(\theta)\\
+&amp;= \alpha\left(\frac{3}{4}\right)^{\sum_{i=1}^n y_i}\left(\frac{1}{4}\right)^{n-\sum_{i=1}^n y_i}g(\mathbf{y})+(1-\alpha)\left(\frac{1}{2}\right)^n g(\mathbf{y})\\\\
+&amp;= \left\lbrack\alpha \frac{3^{\sum_{i=1}^n y_i}}{4^n}+(1-\alpha)\frac{1}{2^n}\right\rbrack g(\mathbf{y}).
+\end{align*}
+\end{split}\]</div>
+</section>
+<section id="id1">
+<h3><span class="section-number">2.8.6. </span>Posterior distribution<a class="headerlink" href="#id1" title="Permalink to this heading">#</a></h3>
+<p>Now that we know the likelihood evaluated in the sample, the prior and the evidence, we can calculate the posterior distribution of <span class="math notranslate nohighlight">\(\theta\)</span>.</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{align*}
+p(\theta|\mathbf{Y}) &amp;= \frac{p(\mathbf{Y}|\theta)p(\theta)}{p(\mathbf{Y})} \\\\
+&amp;= \frac{\theta^{\sum_{i=1}^n y_i}(1-\theta)^{n-\sum_{i=1}^n y_i}\left\lbrack\alpha 1_{\{3/4\}}(\theta)+(1-\alpha)|_{\{1/2\}}(\theta)\right\rbrack}{\alpha \frac{3^{\sum_{i=1}^n y_i}}{4^n}+(1-\alpha)\frac{1}{2^n}}\\\\
+&amp;= \frac{[2(1-\theta)]^n\left(\frac{\theta}{1-\theta}\right)^{\sum_{i=1}^n y_i}\left\lbrack\alpha 1_{\{3/4\}}(\theta)+(1-\alpha) |_{\{1/2\}}(\theta)\right\rbrack}{1-\alpha+\alpha\left(\frac{3^{\sum_{i=1}^n y_i}}{2^n}\right)}.
+\end{align*}
+\end{split}\]</div>
+<p>Let be <span class="math notranslate nohighlight">\(v=\frac{\alpha}{1-\alpha}\left(\frac{3^{\sum_{i=1}^n y_i}}{2^n}\right)\)</span>, then</p>
+<div class="math notranslate nohighlight">
+\[p(\theta|\mathbf{Y})=\frac{[2(1-\theta)]^n\left(\frac{\theta}{1-\theta}\right)^{\sum_{i=1}^n y_i}\left\lbrack\alpha 1_{\{3/4\}}(\theta)+(1-\alpha)1_{\{1/2\}}(\theta)\right\rbrack}{(1-\alpha)(1+v)},\]</div>
+<p>that is</p>
+<div class="math notranslate nohighlight">
+\[p_{\theta|\mathbf{Y}}(1/2|\mathbf{y})=\frac{1}{1+v}\]</div>
+<p>and</p>
+<div class="math notranslate nohighlight">
+\[p_{\theta|\mathbf{Y}}(3/4|\mathbf{y})=1-\frac{1}{1+v}=\frac{v}{1+v}=\frac{1}{1+v^{-1}}.\]</div>
+</section>
+<section id="posterior-predictive-distribution">
+<h3><span class="section-number">2.8.7. </span>Posterior predictive distribution<a class="headerlink" href="#posterior-predictive-distribution" title="Permalink to this heading">#</a></h3>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{align*}
+p(Y|\mathbf{Y})&amp;=\sum_{\theta\in\Theta}p(Y|\theta)p(\theta|\mathbf{Y})\\\\
+&amp;=\left\lbrack\frac{1}{2}\left(\frac{1}{v+1}\right)+\frac{3^y}{4}\left(\frac{1}{v^{-1}+1}\right)\right\rbrack 1_{\{0,1\}}(y)\\\\
+&amp;=\left\lbrack\frac{2}{4(v+1)}+\frac{3^yv}{4(v+1)}\right\rbrack 1_{\{0,1\}}(y)\\\\
+&amp;=\frac{3^yv+2}{4(v+1)} 1_{\{0,1\}}(y),
+\end{align*}
+\end{split}\]</div>
+<p>that is</p>
+<div class="math notranslate nohighlight">
+\[p_{Y|\mathbf{Y}}(1|\mathbf{y})=\frac{3v+2}{4(v+1)},\quad p_{Y|\mathbf{Y}}(0|\mathbf{y})=\frac{v+2}{4(v+1)}\]</div>
+<div class="tip admonition">
+<p class="admonition-title">Likelihood and likelihood of the sample</p>
+<p>In this book I make distinction between the likelihood and the likelihood of the sample. However, this is not the rule but the exception, most of the Bayesian literature called both functions simply as likelihood. I have seen that students that face for the first time Bayesian statistics can be confused about which likelihood they should use when this distinction is not done. I don’t complain them, the first time I was confused as well.</p>
+</div>
+</section>
+</section>
+<section id="there-is-no-free-lunch">
+<h2><span class="section-number">2.9. </span>There is no free lunch<a class="headerlink" href="#there-is-no-free-lunch" title="Permalink to this heading">#</a></h2>
+<p>When we make inference using frequentist statistic the procedures are usually justified by an asymptotic analysis of the method. As a consequence, it’s performance for small samples is questionable. Meanwhile, the Bayesian statistic is valid for any sample size. This doesn’t mean that having more data is useless, but the opposite. The price to pay for this power is the dependence on the prior information. A non-reliable prior distribution compromises the results.</p>
+<div class="tip admonition">
+<p class="admonition-title">Historical discussion about the prior</p>
+<p>Historically, some detractors of the Bayesian statistics have argumented about the arbitrariness of the prior distribution. It is true that prior distributions can be flexible enough to code different types of information. Then, if the prior can be anything, isn’t it possible to obtain any answer that you want? The answer is yes.</p>
+<p>However, the likelihood is also a subjective model that is impose by the agent, and eventually with a large sample the effect of the prior distribution would be eventually buried. Thus, if your objective is to modify the results is easier modifying the likelihood.</p>
+</div>
 </section>
 </section>
 
@@ -695,7 +919,23 @@ Prob. C: 0.4876
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#cells-production-of-protein">2.4.3. Cells production of protein</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#predictive-distributions">2.5. Predictive distributions</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#predictive-distributions">2.5. Predictive distributions</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#rule-of-succession">2.5.1. Rule of succession</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#determining-the-hyperparameters-in-the-beta-binomial-model">2.6. Determining the hyperparameters in the Beta-Binomial model</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#normal-convergence-of-the-beta-binomial-model">2.7. Normal convergence of the Beta-Binomial model</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#inference-of-a-fair-or-a-biased-coin">2.8. Inference of a fair or a biased coin</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#prior-distribution">2.8.1. Prior distribution</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#likelihood">2.8.2. Likelihood</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#prior-predictive-distribution">2.8.3. Prior predictive distribution</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#likelihood-of-the-sample">2.8.4. Likelihood of the sample</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#evidence">2.8.5. Evidence</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">2.8.6. Posterior distribution</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#posterior-predictive-distribution">2.8.7. Posterior predictive distribution</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#there-is-no-free-lunch">2.9. There is no free lunch</a></li>
 </ul>
   </nav></div>
 
