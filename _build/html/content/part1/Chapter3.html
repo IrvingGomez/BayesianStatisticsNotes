@@ -315,6 +315,15 @@ document.write(`
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#conjugate-models-for-the-exponential-family">3.1. Conjugate models for the exponential family</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#binomial-distribution">3.2. Binomial distribution</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#poisson-distribution">3.3. Poisson distribution</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#normal-distribution-with-unknown-mean">3.4. Normal distribution with unknown mean</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#posterior-distribution">3.4.1. Posterior distribution</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#posterior-predictive-distribution">3.4.2. Posterior predictive distribution</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#normal-distribution-with-unknown-variance">3.5. Normal distribution with unknown variance</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#predictive-distribution-for-the-gamma-poisson-model">3.6. Predictive distribution for the Gamma-Poisson model</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#poisson-model-with-exposition">3.7. Poisson model with exposition</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercises">3.8. Exercises</a></li>
 </ul>
             </nav>
         </div>
@@ -408,6 +417,147 @@ p(\theta) &amp; \propto e^{-\eta\theta}\exp\{\xi\log\theta\} \\
 <p>which we recognize as the kernel of a distribution <span class="math notranslate nohighlight">\(\textsf{Gama}(\alpha,\beta)\)</span>.</p>
 <p>Note that <span class="math notranslate nohighlight">\(\alpha-1\)</span> is equivalent as the sum of prior counts and <span class="math notranslate nohighlight">\(\beta\)</span> the number of prior experiments. Therefore, if we haven’t done experiments previously, we can set <span class="math notranslate nohighlight">\(\alpha=1\)</span> and <span class="math notranslate nohighlight">\(\beta=0\)</span>, in such case <span class="math notranslate nohighlight">\(p(\theta)\propto 1_{(0,\infty)}(\theta)\)</span>.</p>
 </section>
+<section id="normal-distribution-with-unknown-mean">
+<h2><span class="section-number">3.4. </span>Normal distribution with unknown mean<a class="headerlink" href="#normal-distribution-with-unknown-mean" title="Permalink to this heading">#</a></h2>
+<p>Let be <span class="math notranslate nohighlight">\(Y_1,\ldots,Y_n|\theta,\sigma^2\overset{iid}{\sim}\textsf{Normal}(\theta, \sigma^2)\)</span> and assume <span class="math notranslate nohighlight">\(\sigma^2&gt;0\)</span> known. Then</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{align*}
+p(\mathbf{Y}|\theta) &amp; = \left[\frac{1}{(2\pi\sigma^2)^{n/2}}\prod_{i=1}^n 1_{\mathbb{R}}(y_i)\right]\exp\left\{-\frac{1}{2\sigma^2}\sum_{i=1}^n(y_i-\theta)^2\right\} \\
+&amp; = \underbrace{\frac{1}{(2\pi\sigma^2)^{n/2}}\prod_{i=1}^n 1_{\mathbb{R}}(y_i)\exp\left\{-\frac{1}{2\sigma^2}\sum_{i=1}^n y_i^2\right\}}_{f(\mathbf{y})}\underbrace{\exp\left\{-\frac{n}{2\sigma^2}\theta^2\right\}}_{g(\theta)^n}\exp\underbrace{\left\{\sum_{i=1}^n y_i \frac{\theta}{\sigma^2}\right\}}_{t(\mathbf{y})\phi(\theta)}
+\end{align*}
+\end{split}\]</div>
+<p>Thus, the conjugate prior is given by:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{align*}
+p(\theta) &amp; \propto \exp\left\{-\frac{\eta}{2\sigma^2}\theta^2\right\}\exp\left\{\xi \frac{\theta}{\sigma^2}\right\} \\
+&amp; = \exp\left\{-\frac{1}{2\sigma^2}(\theta^2\eta-2\theta\xi)\right\} \\
+&amp; = \exp\left\{-\frac{\eta}{2\sigma^2}\left(\theta^2-2\theta\frac{\xi}{\eta}\right)\right\} \\
+&amp; \propto \exp\left\{-\frac{1}{2\sigma^2/\eta}\left(\theta-\frac{\xi}{\eta}\right)^2\right\},
+\end{align*}
+\end{split}\]</div>
+<p>which corresponds with the kernel of a normal distribution with mean <span class="math notranslate nohighlight">\(\xi/\eta\)</span> and variance <span class="math notranslate nohighlight">\(\sigma^2/\eta\)</span>.</p>
+<p>Note that <span class="math notranslate nohighlight">\(\eta\)</span> correspond with the prior “sample” size and <span class="math notranslate nohighlight">\(\xi\)</span> with the “prior statistic” <span class="math notranslate nohighlight">\(\sum_{i=1}^n y_i\)</span>, thus <span class="math notranslate nohighlight">\(\xi/\eta\)</span> corresponds with the “prior” value of <span class="math notranslate nohighlight">\(\bar{y}\)</span> and <span class="math notranslate nohighlight">\(\sigma^2/\eta\)</span> with the variance of such average.</p>
+<section id="posterior-distribution">
+<h3><span class="section-number">3.4.1. </span>Posterior distribution<a class="headerlink" href="#posterior-distribution" title="Permalink to this heading">#</a></h3>
+<p>Let be <span class="math notranslate nohighlight">\(Y_1,\ldots,Y_n|\theta,\sigma^2\overset{iid}{\sim}\textsf{Normal}(\theta, \sigma^2)\)</span>, assume <span class="math notranslate nohighlight">\(\sigma^2&gt;0\)</span> known, and consider the prior distribution for <span class="math notranslate nohighlight">\(\theta\)</span>, <span class="math notranslate nohighlight">\(\theta\sim\textsf{Normal}(\mu_0,\tau_0^2)\)</span>. Find the posterior distribution of <span class="math notranslate nohighlight">\(\theta\)</span>.</p>
+<div class="toggle admonition">
+<p class="admonition-title">Click the button to reveal the answer!</p>
+<div class="math notranslate nohighlight">
+\[\theta|\mathbf{Y}\sim\textsf{Normal}(\mu_n,\tau_n^2),\]</div>
+<p>where</p>
+<div class="math notranslate nohighlight">
+\[\mu_n=\frac{\frac{1}{\tau_0^2}\mu_0+\frac{n}{\sigma^2}\bar{Y}}{\frac{1}{\tau_0^2}+\frac{n}{\sigma^2}}\quad\text{and}\quad \tau_n^2=\frac{1}{\frac{1}{\tau_0^2}+\frac{n}{\sigma^2}}\]</div>
+</div>
+<div class="tip admonition">
+<p class="admonition-title">Precision parameter for the normal distribution</p>
+<p>In Bayesian statistics is common to parametrize the normal distribution using <span class="math notranslate nohighlight">\(\lambda=\sigma^{-2}\)</span>, which is known as the “precision” of the distribution. Let as it be, I won’t use this convention, and will parametrize the normal distribution in terms of its mean and variance.</p>
+</div>
+</section>
+<section id="posterior-predictive-distribution">
+<h3><span class="section-number">3.4.2. </span>Posterior predictive distribution<a class="headerlink" href="#posterior-predictive-distribution" title="Permalink to this heading">#</a></h3>
+<p>Remember that the posterior predictive distribution can be obtained marginalizing <span class="math notranslate nohighlight">\(\theta\)</span> from the joint distribution <span class="math notranslate nohighlight">\(p(Y,\theta|\mathbf{Y})=p(Y|\theta)p(\theta|\mathbf{Y})\)</span>, that is,</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{align*}
+p(Y|\mathbf{Y}) &amp; = \int_\Theta p(Y|\theta)p(\theta|\mathbf{Y})d\theta \\
+&amp; \propto \int_\Theta \exp\left\{-\frac{1}{2\sigma^2}(Y-\theta)^2\right\}\exp\left\{-\frac{1}{2\tau_n^2}(\theta-\mu_n)^2\right\}d\theta
+\end{align*}
+\end{split}\]</div>
+<p>Note that the integrand is the exponential of a quadratic function of <span class="math notranslate nohighlight">\((Y,\theta)\)</span>. Therefore, by properties of the bivariate normal distribution, <span class="math notranslate nohighlight">\((Y,\theta|\mathbf{Y})\)</span> have a multivariate normal distribution. Then <span class="math notranslate nohighlight">\(Y|\mathbf{Y}\)</span>, being the marginal of such bivariate distribution must follow a normal distribution as well. Thus, all that rest to do is to calculate its mean and variance.</p>
+<p>We can calculate the mean and variance of the posterior predictive distribution in the following way:</p>
+<div class="math notranslate nohighlight">
+\[\mathbb{E}(Y|\mathbf{Y})=\mathbb{E}_{\theta|\mathbf{Y}}[\mathbb{E}(Y|\theta,\mathbf{Y})]=\mathbb{E}_{\theta|\mathbf{Y}}(\theta)=\mu_n\]</div>
+<p>and</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{align*}
+\mathbb{V}(Y|\mathbf{Y}) &amp; = \mathbb{E}_{\theta|\mathbf{Y}}[\mathbb{V}(Y|\theta,\mathbf{Y})]+\mathbb{V}_{\theta|\mathbf{Y}}[\mathbb{E}(Y|\theta,\mathbf{Y})] \\
+&amp; = \mathbb{E}_{\theta|\mathbf{Y}}[\sigma^2]+\mathbb{V}_{\theta|\mathbf{Y}}[\theta] \\
+&amp; = \sigma^2 + \tau_n^2
+\end{align*}
+\end{split}\]</div>
+</section>
+</section>
+<section id="normal-distribution-with-unknown-variance">
+<h2><span class="section-number">3.5. </span>Normal distribution with unknown variance<a class="headerlink" href="#normal-distribution-with-unknown-variance" title="Permalink to this heading">#</a></h2>
+<p>Consider <span class="math notranslate nohighlight">\(Y_1,\ldots,Y_n\overset{iid}{\sim}\textsf{Normal}(\theta,\sigma^2)\)</span> with <span class="math notranslate nohighlight">\(\theta\)</span> known, then</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{align*}
+p(\mathbf{Y}|\sigma^2) &amp;\propto (\sigma^2)^{-n/2}\exp\left\{-\frac{1}{2\sigma^2}\sum_{i=1}^n (y_i-\theta)^2\right\} \\
+&amp; = (\sigma^2)^{-(n/2-1+1)}\exp\left\{-\frac{(n-2)t(\mathbf{y})}{2\sigma^2}\right\} \\
+&amp; = (\sigma^2)^{-\left(\frac{n-2}{2}+1\right)}\exp\left\{-\frac{(n-2)t(\mathbf{y})}{2\sigma^2}\right\},
+\end{align*}
+\end{split}\]</div>
+<p>where <span class="math notranslate nohighlight">\(t(\mathbf{y})=\frac{1}{n-2}\sum_{i=1}^n(y_i-\theta)^2\)</span> (assuming <span class="math notranslate nohighlight">\(n&gt;2\)</span>). Thus, the conjugate prior of <span class="math notranslate nohighlight">\(\sigma^2\)</span> has the form</p>
+<div class="math notranslate nohighlight">
+\[p(\sigma^2)\propto (\sigma^2)^{-\left(\frac{\eta-2}{2}+1\right)}\exp\left\{-\frac{(\eta-2)\xi}{2\sigma^2}\right\},\]</div>
+<p>let be <span class="math notranslate nohighlight">\(\nu=\eta-2\)</span>, then</p>
+<div class="math notranslate nohighlight">
+\[p(\sigma^2)\propto (\sigma^2)^{-\left(\frac{\nu}{2}+1\right)}\exp\left\{-\frac{\nu\xi}{2\sigma^2}\right\},\]</div>
+<p>which correspond with the kernel of a scaled inverse <span class="math notranslate nohighlight">\(\chi^2\)</span> distribution with <span class="math notranslate nohighlight">\(\nu\)</span> degrees of freedom and scale parameter <span class="math notranslate nohighlight">\(\xi\)</span>, which we’ll denote as <span class="math notranslate nohighlight">\(\textsf{Inverse-}\chi^2(\nu,\xi)\)</span>.</p>
+<div class="tip admonition">
+<p class="admonition-title">Prior distribution when we don’t have prior information</p>
+<p>In the previous case, we denoted the defrees of freedom as <span class="math notranslate nohighlight">\(\nu=\eta-2\)</span>. Remember that <span class="math notranslate nohighlight">\(\eta\)</span> corresponds to the “size” of a prior sample, so if we haven’t done previous experiments, we can set <span class="math notranslate nohighlight">\(\eta=0\)</span> and <span class="math notranslate nohighlight">\(\xi=0\)</span>, in such case, the prior distribution for <span class="math notranslate nohighlight">\(\sigma^2\)</span> would be</p>
+<div class="math notranslate nohighlight">
+\[p(\sigma^2)\propto 1_{(0,\infty)}(\sigma^2),\]</div>
+<p>which follows the principle of indifference.</p>
+</div>
+<div class="tip admonition">
+<p class="admonition-title">Inverse gamma or scaled inverse <span class="math notranslate nohighlight">\(\chi^2\)</span></p>
+<p>In the Bayesian literature, many times the conjugate prior for <span class="math notranslate nohighlight">\(\sigma^2\)</span> is said to be an inversed gamma distribution. This is because the scaled inverse <span class="math notranslate nohighlight">\(\chi^2\)</span> distribution is a particular case of an inversed gamma distribution. The inversed gamma distribution has a shape parameter <span class="math notranslate nohighlight">\(\alpha&gt;0\)</span> and a scale parameter <span class="math notranslate nohighlight">\(\beta&gt;0\)</span>, when <span class="math notranslate nohighlight">\(\alpha=\nu/2\)</span> and <span class="math notranslate nohighlight">\(\beta=\nu/2 \tau\)</span> we obtain a scaled inverse <span class="math notranslate nohighlight">\(\chi^2\)</span> distribution with <span class="math notranslate nohighlight">\(\nu\)</span> degrees of freedom and scale parameter <span class="math notranslate nohighlight">\(\tau\)</span>.</p>
+<p>Let as it be, I find easier to interpret the parameters of the scaled inverse <span class="math notranslate nohighlight">\(\chi^2\)</span> distribution in the Bayesian paradigm, than the parameters of the corresponding inversed gamma distribution, so I will use the former rather than the latter.</p>
+</div>
+</section>
+<section id="predictive-distribution-for-the-gamma-poisson-model">
+<h2><span class="section-number">3.6. </span>Predictive distribution for the Gamma-Poisson model<a class="headerlink" href="#predictive-distribution-for-the-gamma-poisson-model" title="Permalink to this heading">#</a></h2>
+<p>Up to now we have said that the prior predictive distribution is calculated marginalizing the joint distribution of <span class="math notranslate nohighlight">\(\theta\)</span> and <span class="math notranslate nohighlight">\(Y\)</span>, this is</p>
+<div class="math notranslate nohighlight">
+\[p(Y)=\int_{\Theta}p(Y,\theta)d\theta,\]</div>
+<p>however we can avoid the (generally) tedious calculation of the previous integral and find the prior predictive distribution using the formula:</p>
+<div class="math notranslate nohighlight">
+\[p(Y)=\frac{p(Y|\theta)p(\theta)}{p(\theta|Y)}.\]</div>
+<p>Consider the Gamma-Poisson model, using the previous formula find that the prior predictive distribution has the form:</p>
+<div class="math notranslate nohighlight">
+\[p(Y)=\binom{\alpha+y-1}{y}\left(\frac{\beta}{\beta+1}\right)^\alpha\left(\frac{1}{\beta+1}\right)^y 1_{\{0,1,\ldots\}}(y).\]</div>
+<p>That is, <span class="math notranslate nohighlight">\(Y\)</span> follows a negative binomial distribution with shape parameter <span class="math notranslate nohighlight">\(\alpha\)</span> and inverse scale parameter <span class="math notranslate nohighlight">\(\beta\)</span>.</p>
+<div class="tip admonition">
+<p class="admonition-title">Relation between prior and posterior distributions for conjuagte models</p>
+<p>One advantage of the conjugate models is that it is easy to determine the posterior distribution and the posterior predictive distribution if we know the posterior values of the hyperparameters.</p>
+<p>Because the prior and the posterior distributions have the belong to the same family of distributions, as a consequence the prior and posterior predictive distributions also belong to the same family of distributions, we just have to replace the prior values of the hyperparamters for their posterior values.</p>
+</div>
+</section>
+<section id="poisson-model-with-exposition">
+<h2><span class="section-number">3.7. </span>Poisson model with exposition<a class="headerlink" href="#poisson-model-with-exposition" title="Permalink to this heading">#</a></h2>
+<p>In many applications, is convenient to extend the Poisson model to the form:</p>
+<div class="math notranslate nohighlight">
+\[Y|x,\theta\sim\textsf{Poisson}(x\theta).\]</div>
+<p>in epidemiology, the paramter <span class="math notranslate nohighlight">\(\theta\)</span> is called the rate and <span class="math notranslate nohighlight">\(x\)</span> is called the exposition.</p>
+<p>Assume that we have a sample <span class="math notranslate nohighlight">\(Y_i|x_i,\theta\overset{iid}{\sim}\textsf{Poisson}(x_i\theta)\)</span>. If we use a prior <span class="math notranslate nohighlight">\(\theta\sim\textsf{Gamma}(\alpha,\beta)\)</span>, then it can be shown that</p>
+<div class="math notranslate nohighlight">
+\[\theta|\mathbf{Y}\sim\textsf{Gama}\left(\alpha+\sum_{i=1}^n y_i,\beta+\sum_{i=1}^n x_i\right).\]</div>
+<p>Check the following codes in the <a class="reference external" href="https://github.com/IrvingGomez/BayesianStatistics">repository of the course</a> where the Poisson model with exposition is used, both examples were taken from <span id="id1">[<a class="reference internal" href="../../References.html#id5" title="A. Gelman, J.B. Carlin, H.S. Stern, D.B. Dunson, A. Vehtari, and D.B. Rubin. Bayesian Data Analysis, Third Edition. Chapman &amp; Hall/CRC Texts in Statistical Science. Taylor &amp; Francis, 2013. ISBN 9781439840955. URL: https://books.google.co.th/books?id=ZXL6AQAAQBAJ.">GCS+13</a>]</span>.</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://github.com/IrvingGomez/BayesianStatistics/blob/main/Codes/02_PoissonAsthma.ipynb">02_PoissonAsthma.ipynb</a></p></li>
+<li><p><a class="reference external" href="https://github.com/IrvingGomez/BayesianStatistics/blob/main/Codes/03_KidneyCancer.ipynb">03_KidneyCancer.ipynb</a></p></li>
+</ul>
+</section>
+<section id="exercises">
+<h2><span class="section-number">3.8. </span>Exercises<a class="headerlink" href="#exercises" title="Permalink to this heading">#</a></h2>
+<ol class="arabic simple">
+<li><p>Calculate the posterior distribution for the Gamma-Poisson model.</p></li>
+<li><p>Consider the following parametrization for the exponential distribution <span class="math notranslate nohighlight">\(p(Y|\theta)=\theta e^{-\theta y}1_{(0,\infty)}(y)\)</span></p>
+<ol class="arabic simple">
+<li><p>Using the results of the conjugate model for the exponential family, prove that the gamma distribution is conjugate of the exponential distribution</p></li>
+<li><p>Find its posterior distribution.</p></li>
+<li><p>Interpret the hyperparameters and find the prior distribution distribution when we don’t have prior information.</p></li>
+</ol>
+</li>
+<li><p>Consider the case of the normal distribution with unknown mean <span class="math notranslate nohighlight">\(\theta\)</span> but known variance <span class="math notranslate nohighlight">\(\sigma^2\)</span>, and take as prior for <span class="math notranslate nohighlight">\(\theta\)</span> a normal distribution. Interpret the hyperparameters, and from this interpretation find the prior distribution distribution when we don’t have prior information.</p></li>
+</ol>
+</section>
 </section>
 
     <script type="text/x-thebe-config">
@@ -480,6 +630,15 @@ p(\theta) &amp; \propto e^{-\eta\theta}\exp\{\xi\log\theta\} \\
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#conjugate-models-for-the-exponential-family">3.1. Conjugate models for the exponential family</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#binomial-distribution">3.2. Binomial distribution</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#poisson-distribution">3.3. Poisson distribution</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#normal-distribution-with-unknown-mean">3.4. Normal distribution with unknown mean</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#posterior-distribution">3.4.1. Posterior distribution</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#posterior-predictive-distribution">3.4.2. Posterior predictive distribution</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#normal-distribution-with-unknown-variance">3.5. Normal distribution with unknown variance</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#predictive-distribution-for-the-gamma-poisson-model">3.6. Predictive distribution for the Gamma-Poisson model</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#poisson-model-with-exposition">3.7. Poisson model with exposition</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercises">3.8. Exercises</a></li>
 </ul>
   </nav></div>
 
