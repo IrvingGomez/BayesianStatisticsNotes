@@ -342,8 +342,9 @@ document.write(`
 <section id="conjugate-models-for-the-exponential-family">
 <h2><span class="section-number">3.1. </span>Conjugate models for the exponential family<a class="headerlink" href="#conjugate-models-for-the-exponential-family" title="Permalink to this heading">#</a></h2>
 <p>When the likelihood of the data follows a distribution of the exponential family of distributions, it is possible to obtain the form of the prior conjugate.</p>
-<p>Let be <span class="math notranslate nohighlight">\(p(Y|\theta)\in\mathcal{F}\)</span>, where <span class="math notranslate nohighlight">\(\mathcal{F}\)</span> is the exponential family of distributions. Then, by the Fisher’s factorization theorem, <span class="math notranslate nohighlight">\(p(Y|\theta)\)</span> can be expressed as:
-$<span class="math notranslate nohighlight">\(p(Y|\theta)=f(y)g(\theta)\exp\left\lbrace\phi^T(\theta)u(y)\right\rbrace,\)</span>$</p>
+<p>Let be <span class="math notranslate nohighlight">\(p(Y|\theta)\in\mathcal{F}\)</span>, where <span class="math notranslate nohighlight">\(\mathcal{F}\)</span> is the exponential family of distributions. Then, by the Fisher’s factorization theorem, <span class="math notranslate nohighlight">\(p(Y|\theta)\)</span> can be expressed as:</p>
+<div class="math notranslate nohighlight">
+\[p(Y|\theta)=f(y)g(\theta)\exp\left\lbrace\phi^T(\theta)u(y)\right\rbrace,\]</div>
 <p>where <span class="math notranslate nohighlight">\(\phi(\theta)\)</span> and <span class="math notranslate nohighlight">\(u(y)\)</span> are, in general, of the same dimension than <span class="math notranslate nohighlight">\(\theta\)</span>, <span class="math notranslate nohighlight">\(\phi(\theta)\)</span> is called the natural parameter of the family <span class="math notranslate nohighlight">\(\mathcal{F}\)</span>.</p>
 <p>If <span class="math notranslate nohighlight">\(Y_1,\ldots,Y_n\)</span> are random variables independent and identically distributed, then</p>
 <div class="math notranslate nohighlight">
