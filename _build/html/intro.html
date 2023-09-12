@@ -64,7 +64,7 @@ const thebe_selector_output = ".output, .cell_output"
     <script>DOCUMENTATION_OPTIONS.pagename = 'intro';</script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="1. Bayesian philosophy" href="content/part1/Chapter1.html" />
+    <link rel="next" title="1. Bayesian philosophy" href="content/Part1/01_BayesianPhilosophy.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -155,11 +155,33 @@ const thebe_selector_output = ".output, .cell_output"
                 </a>
             </li>
         </ul>
-        <p aria-level="2" class="caption" role="heading"><span class="caption-text">I Bayesian foundations</span></p>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">I Philosophy and basics of Bayesian statistics</span></p>
 <ul class="nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="content/part1/Chapter1.html">1. Bayesian philosophy</a></li>
-<li class="toctree-l1"><a class="reference internal" href="content/part1/Chapter2.html">2. Uniparametric models</a></li>
-<li class="toctree-l1"><a class="reference internal" href="content/part1/Chapter3.html">3. Conjugate analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="content/Part1/01_BayesianPhilosophy.html">1. Bayesian philosophy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="content/Part1/02_UniparametricModels.html">2. Uniparametric models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="content/Part1/03_ConjugateAnalysis.html">3. Conjugate analysis</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">II Multiparametric models and regression</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="content/Part2/04_MultiparametricModels.html">4. Multiparametric models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="content/Part2/05_BayesianRegression.html">5. Bayesian regression</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">III Reference analysis and normal approximation</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="content/Part3/06_ReferenceAnalysis.html">6. Reference analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="content/Part3/07_NormalApproximation.html">7. Normal approximation</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">IV Bayesian inference</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="content/Part4/08_GridApproximation.html">8. Grid approximation and statistical inference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="content/Part4/09_ModelChecking.html">9. Model checking</a></li>
+<li class="toctree-l1"><a class="reference internal" href="content/Part4/10_BayesianRegression.html">10. Bayesian regression (2)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="content/Part4/11_ComputationalApproximations.html">11. Computational approximations</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">V Advanced topics</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="content/Part5/12_HierarchicalModels.html">12. Hierarchical models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="content/Part5/13_EvaluatingComparingModels.html">13. Evaluating and comparing models</a></li>
 </ul>
 <ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="References.html">References</a></li>
@@ -313,14 +335,45 @@ document.write(`
                   
   <section class="tex2jax_ignore mathjax_ignore" id="bayesian-statistics-course-notes">
 <h1>Bayesian statistics: Course notes<a class="headerlink" href="#bayesian-statistics-course-notes" title="Permalink to this heading">#</a></h1>
+<p>by <a class="reference external" href="https://irvinggomez.com">Irving Gómez Méndez</a></p>
 <p>These are the notes for the course of Bayesian statistics.</p>
 <p>The codes are available in this <a class="reference external" href="https://github.com/IrvingGomez/BayesianStatistics">Github repository</a>.</p>
 <div class="toctree-wrapper compound">
-<p aria-level="2" class="caption" role="heading"><span class="caption-text">I Bayesian foundations</span></p>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">I Philosophy and basics of Bayesian statistics</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="content/part1/Chapter1.html">1. Bayesian philosophy</a></li>
-<li class="toctree-l1"><a class="reference internal" href="content/part1/Chapter2.html">2. Uniparametric models</a></li>
-<li class="toctree-l1"><a class="reference internal" href="content/part1/Chapter3.html">3. Conjugate analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="content/Part1/01_BayesianPhilosophy.html">1. Bayesian philosophy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="content/Part1/02_UniparametricModels.html">2. Uniparametric models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="content/Part1/03_ConjugateAnalysis.html">3. Conjugate analysis</a></li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">II Multiparametric models and regression</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="content/Part2/04_MultiparametricModels.html">4. Multiparametric models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="content/Part2/05_BayesianRegression.html">5. Bayesian regression</a></li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">III Reference analysis and normal approximation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="content/Part3/06_ReferenceAnalysis.html">6. Reference analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="content/Part3/07_NormalApproximation.html">7. Normal approximation</a></li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">IV Bayesian inference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="content/Part4/08_GridApproximation.html">8. Grid approximation and statistical inference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="content/Part4/09_ModelChecking.html">9. Model checking</a></li>
+<li class="toctree-l1"><a class="reference internal" href="content/Part4/10_BayesianRegression.html">10. Bayesian regression (2)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="content/Part4/11_ComputationalApproximations.html">11. Computational approximations</a></li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">V Advanced topics</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="content/Part5/12_HierarchicalModels.html">12. Hierarchical models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="content/Part5/13_EvaluatingComparingModels.html">13. Evaluating and comparing models</a></li>
 </ul>
 </div>
 <div class="toctree-wrapper compound">
@@ -362,7 +415,7 @@ document.write(`
     <div class="footer-article-item"><!-- Previous / next buttons -->
 <div class="prev-next-area">
     <a class="right-next"
-       href="content/part1/Chapter1.html"
+       href="content/Part1/01_BayesianPhilosophy.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
@@ -389,7 +442,7 @@ document.write(`
   <div class="footer-item">
     
 <p class="component-author">
-By Irving Gómez-Méndez
+By Irving Gómez Méndez
 </p>
 
   </div>

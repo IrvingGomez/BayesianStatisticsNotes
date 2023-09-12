@@ -4,22 +4,34 @@
 format: jb-book
 root: intro
 parts:
-#  - caption: Guide files to create a jupyter book
-#    chapters:
-#    - file: content/part0/Chapter0
-#      sections:
-#      - file: content/part0/chapter0/markdown
-#      - file: content/part0/chapter0/notebooks
-#      - file: content/part0/chapter0/markdown-notebooks
-  - caption: I Bayesian foundations
+  - caption: I Philosophy and basics of Bayesian statistics
     numbered: True
     chapters:
-    - file: content/part1/Chapter1
-    - file: content/part1/Chapter2
-    - file: content/part1/Chapter3
-#      sections:
-#      - file: content/part1/chapter1/01_BayesianPhilosophy
-#      - file: content/part1/chapter1/SecondSection
+    - file: content/Part1/01_BayesianPhilosophy
+    - file: content/Part1/02_UniparametricModels
+    - file: content/Part1/03_ConjugateAnalysis
+  - caption: II Multiparametric models and regression
+    numbered: True
+    chapters:
+    - file: content/Part2/04_MultiparametricModels
+    - file: content/Part2/05_BayesianRegression
+  - caption: III Reference analysis and normal approximation
+    numbered: True
+    chapters:
+    - file: content/Part3/06_ReferenceAnalysis
+    - file: content/Part3/07_NormalApproximation
+  - caption: IV Bayesian inference
+    numbered: True
+    chapters:
+    - file: content/Part4/08_GridApproximation
+    - file: content/Part4/09_ModelChecking
+    - file: content/Part4/10_BayesianRegression
+    - file: content/Part4/11_ComputationalApproximations
+  - caption: V Advanced topics
+    numbered: True
+    chapters:
+    - file: content/Part5/12_HierarchicalModels
+    - file: content/Part5/13_EvaluatingComparingModels
   - caption:
     chapters:
     - file: References

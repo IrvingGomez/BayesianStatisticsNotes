@@ -2,7 +2,7 @@
 # Learn more at https://jupyterbook.org/customize/config.html
 
 title: Bayesian Statistics
-author: Irving Gómez-Méndez
+author: Irving Gómez Méndez
 logo: RF_logo.png
 
 # Force re-execution of notebooks on each build.
