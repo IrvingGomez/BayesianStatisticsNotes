@@ -9,7 +9,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
-    <title>4. Multiparametric models &#8212; Bayesian Statistics</title>
+    <title>4. Normal likelihood with mean and variance unknown &#8212; Bayesian Statistics</title>
   
   
   
@@ -61,6 +61,8 @@ const thebe_selector_input = "pre"
 const thebe_selector_output = ".output, .cell_output"
 </script>
     <script async="async" src="../../_static/sphinx-thebe.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'content/Part2/04_MultiparametricModels';</script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
@@ -164,7 +166,7 @@ const thebe_selector_output = ".output, .cell_output"
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">II Multiparametric models and regression</span></p>
 <ul class="current nav bd-sidenav">
-<li class="toctree-l1 current active"><a class="current reference internal" href="#">4. Multiparametric models</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">4. Normal likelihood with mean and variance unknown</a></li>
 <li class="toctree-l1"><a class="reference internal" href="05_BayesianRegression.html">5. Bayesian regression</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">III Reference analysis and normal approximation</span></p>
@@ -309,7 +311,9 @@ document.write(`
   </button>
 `);
 </script>
-
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
 </div></div>
       
     </div>
@@ -320,11 +324,35 @@ document.write(`
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>Multiparametric models</h1>
+    <h1>Normal likelihood with mean and variance unknown</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
             
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#normal-likelihood-with-noninformative-prior">4.1. Normal likelihood with noninformative prior</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distribution-of-mu-sigma-2-mathbf-y">4.1.1. Distribution of <span class="math notranslate nohighlight">\(\mu|\sigma^2,\mathbf{Y}\)</span></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distribution-of-sigma-2-mathbf-y">4.1.2. Distribution of <span class="math notranslate nohighlight">\(\sigma^2|\mathbf{Y}\)</span></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distribution-of-mu-mathbf-y">4.1.3. Distribution of <span class="math notranslate nohighlight">\(\mu|\mathbf{Y}\)</span></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#connection-with-the-frequentist-statistics">4.1.4. Connection with the frequentist statistics</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#simulate-from-the-posterior-predictive-distribution">4.1.5. Simulate from the posterior predictive distribution</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#normal-inverse-chi-2-prior-for-the-normal-likelihood">4.2. Normal - Inverse-<span class="math notranslate nohighlight">\(\chi^2\)</span> prior for the normal likelihood</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#bayesian-statistical-process-control">4.3. Bayesian statistical process control</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#control-intervals-for-bar-y">4.3.1. Control intervals for <span class="math notranslate nohighlight">\(\bar{Y}\)</span></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#control-intervals-for-s">4.3.2. Control intervals for <span class="math notranslate nohighlight">\(S\)</span></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#simulated-control-intervals-for-bar-y">4.3.3. Simulated control intervals for <span class="math notranslate nohighlight">\(\bar{Y}\)</span></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#setting-the-hyperparameters">4.3.4. Setting the hyperparameters</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#predictive-distribution-of-the-normal-likelihood-with-unknown-variance">4.4. Predictive distribution of the normal likelihood with unknown variance</a></li>
+</ul>
+            </nav>
         </div>
     </div>
 </div>
@@ -334,8 +362,242 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article" role="main">
                   
-  <section class="tex2jax_ignore mathjax_ignore" id="multiparametric-models">
-<h1><span class="section-number">4. </span>Multiparametric models<a class="headerlink" href="#multiparametric-models" title="Permalink to this heading">#</a></h1>
+  <section class="tex2jax_ignore mathjax_ignore" id="normal-likelihood-with-mean-and-variance-unknown">
+<h1><span class="section-number">4. </span>Normal likelihood with mean and variance unknown<a class="headerlink" href="#normal-likelihood-with-mean-and-variance-unknown" title="Permalink to this heading">#</a></h1>
+<section id="normal-likelihood-with-noninformative-prior">
+<h2><span class="section-number">4.1. </span>Normal likelihood with noninformative prior<a class="headerlink" href="#normal-likelihood-with-noninformative-prior" title="Permalink to this heading">#</a></h2>
+<p>Let be <span class="math notranslate nohighlight">\(Y_1,\ldots,Y_n|\mu,\sigma^2\overset{iid}{\sim}\textsf{Normal}(\mu,\sigma^2)\)</span>, so the likelihood evaluated in our sample is given by</p>
+<div class="math notranslate nohighlight">
+\[p(\mathbf{Y}|\mu,\sigma^2)=\frac{1}{(2\pi)^{n/2}\sigma^n}\exp\left\{-\frac{1}{2\sigma^2}\sum_{i=1}^n (y_i-\mu)^2\right\}.\]</div>
+<p>In <a class="reference internal" href="../Part3/06_ReferenceAnalysis.html"><span class="doc std std-doc">Chapter 6</span></a>  we’ll see  that, because <span class="math notranslate nohighlight">\(\mu\)</span> and <span class="math notranslate nohighlight">\(\sigma\)</span> are parameters of location and scale, respectively, then a noninformative prior is given by</p>
+<div class="math notranslate nohighlight">
+\[p(\mu,\sigma^2)\propto \frac{1}{\sigma^2}1_{\mathbb{R}}(\mu)1_{(0,\infty)}(\sigma^2).\]</div>
+<p>Thus,</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{align*}
+p(\mu,\sigma^2|\mathbf{Y}) &amp;\propto \sigma^{-n-2}\exp\left\{-\frac{1}{2\sigma^2}\sum_{i=1}^n (y_i-\mu)^2\right\} \\
+&amp;= \sigma^{-n-2}\exp\left\{-\frac{1}{2\sigma^2}\left[\sum_{i=1}^n (y_i-\bar{y})^2+n(\bar{y}-\mu)^2\right]\right\} \\
+&amp;= \sigma^{-n-2}\exp\left\{-\frac{1}{2\sigma^2}\left[(n-1)s^2+n(\bar{y}-\mu)^2\right]\right\},
+\end{align*}
+\end{split}\]</div>
+<p>where</p>
+<div class="math notranslate nohighlight">
+\[s^2=\frac{1}{n-1}\sum_{i=1}^n (y_i-\bar{y})^2.\]</div>
+<section id="distribution-of-mu-sigma-2-mathbf-y">
+<h3><span class="section-number">4.1.1. </span>Distribution of <span class="math notranslate nohighlight">\(\mu|\sigma^2,\mathbf{Y}\)</span><a class="headerlink" href="#distribution-of-mu-sigma-2-mathbf-y" title="Permalink to this heading">#</a></h3>
+<p>From the previous expression we can deduce the distribution of <span class="math notranslate nohighlight">\(\mu|\sigma^2,\mathbf{Y}\)</span> taking <span class="math notranslate nohighlight">\(\sigma^2\)</span> as a constant,</p>
+<div class="math notranslate nohighlight">
+\[p(\mu|\sigma^2,\mathbf{Y})\propto \exp\left\{-\frac{n}{2\sigma^2}(\bar{y}-\mu)^2\right\}.\]</div>
+<p>That is,
+$<span class="math notranslate nohighlight">\(\mu|\sigma^2,\mathbf{Y}\sim\textsf{Normal}(\bar{y},\sigma^2/n).\)</span>$</p>
+</section>
+<section id="distribution-of-sigma-2-mathbf-y">
+<h3><span class="section-number">4.1.2. </span>Distribution of <span class="math notranslate nohighlight">\(\sigma^2|\mathbf{Y}\)</span><a class="headerlink" href="#distribution-of-sigma-2-mathbf-y" title="Permalink to this heading">#</a></h3>
+<p>To get the distribution of <span class="math notranslate nohighlight">\(\sigma^2|\mathbf{Y}\)</span> we can marginalize <span class="math notranslate nohighlight">\(p(\mu,\sigma^2|\mathbf{Y})\)</span> with respect to <span class="math notranslate nohighlight">\(\mu\)</span>. That is, we can calculate the next integral</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{align*}
+p(\sigma^2|\mathbf{Y}) &amp;= \int p(\mu,\sigma^2)d\mu \\\\
+&amp;\propto \int\sigma^{-n-2}\exp\left\{-\frac{1}{2\sigma^2}\left[(n-1)s^2+n(\bar{y}-\mu)^2\right]\right\}d\mu \\\\
+&amp;\propto \sigma^{-n-2}\exp\left\{-\frac{(n-1)s^2}{2\sigma^2}\right\}\int\exp\left\{-\frac{1}{2\sigma^2}\left[n(\bar{y}-\mu)^2\right]\right\}d\mu \\\\
+&amp;\propto (\sigma^2)^{-(n+1)/2}\exp\left\{-\frac{(n-1)s^2}{2\sigma^2}\right\},
+\end{align*}
+\end{split}\]</div>
+<p>which corresponds with a scaled inverse <span class="math notranslate nohighlight">\(\chi^2\)</span> with <span class="math notranslate nohighlight">\(n-1\)</span> degrees of freedom and scale parameter <span class="math notranslate nohighlight">\(s^2\)</span>, that is</p>
+<div class="math notranslate nohighlight">
+\[\sigma^2|\mathbf{Y}\sim\textsf{Inverse-}\chi^2(n-1,s^2).\]</div>
+</section>
+<section id="distribution-of-mu-mathbf-y">
+<h3><span class="section-number">4.1.3. </span>Distribution of <span class="math notranslate nohighlight">\(\mu|\mathbf{Y}\)</span><a class="headerlink" href="#distribution-of-mu-mathbf-y" title="Permalink to this heading">#</a></h3>
+<p>Analogously, we can obtain the distribution of <span class="math notranslate nohighlight">\(\mu|\mathbf{Y}\)</span> marginalizing the joint posterior, that is</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{align*}
+p(\mu|\mathbf{Y}) &amp;= \int p(\mu,\sigma^2|\mathbf{Y})d\sigma^2 \\
+&amp;\propto \int\sigma^{-n-2}\exp\left\{-\frac{1}{2\sigma^2}\left[(n-1)s^2+n(\bar{y}-\mu)^2\right]\right\}d\sigma^2.
+\end{align*}
+\end{split}\]</div>
+<p>This integral can be calculated making the change of variable</p>
+<div class="math notranslate nohighlight">
+\[z=\frac{A}{2\sigma^2},\text{ donde }A=(n-1)s^2+n(\mu-\bar{y})^2.\]</div>
+<p>Then,</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{align*}
+p(\mu|\mathbf{Y}) &amp;\propto A^{-n/2}\int_0^\infty z^{(n-2)/2}\exp\{-z\}dz \\\\
+&amp;\propto \left[(n-1)s^2+n(\mu-\bar{y})^2\right]^{-n/2} \\\\
+&amp;\propto \left[1+\frac{n(\mu-\bar{y})^2}{(n-1)s^2}\right]^{-n/2},
+\end{align*}
+\end{split}\]</div>
+<p>which corresponds to the kernel of a <span class="math notranslate nohighlight">\(t\)</span> distribution with <span class="math notranslate nohighlight">\(n-1\)</span> degrees of freedom, with location parameter <span class="math notranslate nohighlight">\(\bar{y}\)</span> and scale parameter <span class="math notranslate nohighlight">\(s/\sqrt{n}\)</span>. That is,</p>
+<div class="math notranslate nohighlight">
+\[\mu|\mathbf{Y}\sim t_{n-1}(\bar{y}, s^2/n).\]</div>
+</section>
+<section id="connection-with-the-frequentist-statistics">
+<h3><span class="section-number">4.1.4. </span>Connection with the frequentist statistics<a class="headerlink" href="#connection-with-the-frequentist-statistics" title="Permalink to this heading">#</a></h3>
+<p>In other words, considering noninformative priors for <span class="math notranslate nohighlight">\(\mu\)</span> and <span class="math notranslate nohighlight">\(\sigma^2\)</span>, we have that</p>
+<div class="math notranslate nohighlight">
+\[\sqrt{n}\frac{\mu-\bar{y}}{\sigma}\Big|\sigma^2,\mathbf{Y}\sim\textsf{Normal}(0,1).\]</div>
+<p>Meanwhile, the central limit theorem stablishes that</p>
+<div class="math notranslate nohighlight">
+\[\sqrt{n}\frac{\bar{y}-\mu}{\sigma}\Big|\mu,\sigma^2\sim\textsf{Normal}(0,1).\]</div>
+<p>We also prove that</p>
+<div class="math notranslate nohighlight">
+\[\sqrt{n}\frac{\mu-\bar{y}}{s}\Big|\mathbf{Y}\sim t_{n-1},\]</div>
+<p>which coincides with the result of the frequentist statistics:
+$<span class="math notranslate nohighlight">\(\sqrt{n}\frac{\bar{y}-\mu}{s}\Big|\mu\sim t_{n-1}.\)</span>$</p>
+</section>
+<section id="simulate-from-the-posterior-predictive-distribution">
+<h3><span class="section-number">4.1.5. </span>Simulate from the posterior predictive distribution<a class="headerlink" href="#simulate-from-the-posterior-predictive-distribution" title="Permalink to this heading">#</a></h3>
+<p>Once we obtained the posterior distributions, it is easy to simulate from the posterior predictive distribution, we just need to execute the following steps:</p>
+<ol class="arabic simple">
+<li><p>Simulate <span class="math notranslate nohighlight">\(\tilde{\sigma}^2\sim\textsf{Inverse-}\chi^2(n-1,s^2).\)</span></p></li>
+<li><p>Simulate <span class="math notranslate nohighlight">\(\tilde{\mu}\sim\textsf{Normal}(\bar{y},\tilde{\sigma}^2/n)\)</span>.</p></li>
+<li><p>Simulate <span class="math notranslate nohighlight">\(\tilde{Y}\sim\textsf{Normal}(\tilde{\mu},\tilde{\sigma}^2)\)</span>.</p></li>
+</ol>
+</section>
+</section>
+<section id="normal-inverse-chi-2-prior-for-the-normal-likelihood">
+<h2><span class="section-number">4.2. </span>Normal - Inverse-<span class="math notranslate nohighlight">\(\chi^2\)</span> prior for the normal likelihood<a class="headerlink" href="#normal-inverse-chi-2-prior-for-the-normal-likelihood" title="Permalink to this heading">#</a></h2>
+<p>It is well-known that the prior Normal - Inverse-<span class="math notranslate nohighlight">\(\chi^2\)</span> forms a conjugate model for the normal likelihood. If</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{align*}
+\mu|\sigma^2 &amp;\sim \textsf{Normal}(\mu_0,\sigma^2/\kappa_0) \\
+\sigma^2 &amp;\sim \textsf{Inverse-}\chi^2(\nu_0,\sigma_0^2)
+\end{align*}
+\end{split}\]</div>
+<p>and <span class="math notranslate nohighlight">\(Y_1,\ldots,Y_n|\mu,\sigma^2\overset{iid}{\sim}\textsf{Normal}(\mu,\sigma^2)\)</span>. Then,</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{align*}
+\mu|\sigma^2,\mathbf{Y} &amp;\sim \textsf{Normal}(\mu_n,\sigma^2/\kappa_n)\\
+\sigma^2|\mathbf{Y} &amp;\sim \textsf{Inverse-}\chi^2(\nu_n,\sigma_n^2),
+\end{align*}
+\end{split}\]</div>
+<p>where</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{align*}
+\mu_n &amp;= \frac{\kappa_0}{\kappa_0+n}\mu_0 + \frac{n}{\kappa_0+n}\bar{y} \\
+\kappa_n &amp;= \kappa_0+n \\
+\nu_n &amp;= \nu_0+n \\
+\nu_n\sigma_n^2 &amp;= \nu_0\sigma_0^2+(n-1)s^2+\frac{\kappa_0 n}{\kappa_0+n}(\bar{y}-\mu_0)^2.
+\end{align*}
+\end{split}\]</div>
+<p>More over,</p>
+<div class="math notranslate nohighlight">
+\[\mu|\mathbf{Y}\sim t_{\nu_n}(\mu_n, \sigma_n^2/\kappa_n)\]</div>
+<p>and</p>
+<div class="math notranslate nohighlight">
+\[Y|\mathbf{Y}\sim t_{\nu_n}\left(\mu_n, \frac{(1+\kappa_n)\sigma_n^2}{\kappa_n}\right).\]</div>
+</section>
+<section id="bayesian-statistical-process-control">
+<h2><span class="section-number">4.3. </span>Bayesian statistical process control<a class="headerlink" href="#bayesian-statistical-process-control" title="Permalink to this heading">#</a></h2>
+<p>Because</p>
+<div class="math notranslate nohighlight">
+\[Y|\mathbf{Y}\sim t_{\nu_n}\left(\mu_n, \frac{(1+\kappa_n)\sigma_n^2}{\kappa_n}\right),\]</div>
+<p>then</p>
+<div class="math notranslate nohighlight">
+\[\mathbb{E}[Y|\mathbf{Y}] = \mu_n\quad\text{and}\quad \mathbb{V}[Y|\mathbf{Y}]=\left(\frac{\nu_n}{\nu_n-2}\right)\left(\frac{1+\kappa_n}{\kappa_n}\right)\sigma_n^2.\]</div>
+<section id="control-intervals-for-bar-y">
+<h3><span class="section-number">4.3.1. </span>Control intervals for <span class="math notranslate nohighlight">\(\bar{Y}\)</span><a class="headerlink" href="#control-intervals-for-bar-y" title="Permalink to this heading">#</a></h3>
+<p>Therefore, an approximate prediction interval of posterior probability <span class="math notranslate nohighlight">\((1-\alpha)\times 100\%\)</span> for the sample average <span class="math notranslate nohighlight">\(\bar{Y}\)</span> is given by</p>
+<div class="math notranslate nohighlight">
+\[\mu_n \pm q_{t_{\nu_n}}(1-\alpha/2)\frac{1}{\sqrt{n}}\left(\frac{\nu_n}{\nu_n-2}\right)^{1/2}\left(\frac{1+\kappa_n}{\kappa_n}\right)^{1/2}\sigma_n,\]</div>
+<p>where <span class="math notranslate nohighlight">\(q_{t_{\nu_n}}(1-\alpha/2)\)</span> denotes the quantile of probability <span class="math notranslate nohighlight">\(1-\alpha/2\)</span> of a <span class="math notranslate nohighlight">\(t\)</span> distribution with <span class="math notranslate nohighlight">\(\nu_n\)</span> degrees of freedom.</p>
+<p>In the field of statistical process control, the extremes of the prediction interval are called lower and upper control limitis (LCL and UCL, respectively). It is usual to consider <span class="math notranslate nohighlight">\(\alpha=0.002\)</span>, so the interval coincides with the normal case of <span class="math notranslate nohighlight">\(\pm 3\sigma\)</span>.</p>
+</section>
+<section id="control-intervals-for-s">
+<h3><span class="section-number">4.3.2. </span>Control intervals for <span class="math notranslate nohighlight">\(S\)</span><a class="headerlink" href="#control-intervals-for-s" title="Permalink to this heading">#</a></h3>
+<p>When monitoring a process, it’s important to check not only its mean but also the behavior of its variability. Unfortunately, it is not easy to find theoretical control limits for the sample deviaton <span class="math notranslate nohighlight">\(S\)</span>. But not everything is lost, we can use simulation to solve the problem! We just need to perform the following steps:</p>
+<ol class="arabic simple">
+<li><p>Simulate <span class="math notranslate nohighlight">\(M\)</span> samples <span class="math notranslate nohighlight">\(Y_1,\ldots,Y_n\)</span> from the posterior predictive distribution, with <span class="math notranslate nohighlight">\(M\)</span> large.</p></li>
+<li><p>The sample deviation of each one of the simulated samples, <span class="math notranslate nohighlight">\(S_1,\ldots,S_M\)</span> will follow the same distribution that the sample deviattion <span class="math notranslate nohighlight">\(S\)</span> of our original observations.</p></li>
+<li><p>Using the sample <span class="math notranslate nohighlight">\(S_1,\ldots,S_M\)</span>, we calculate its mean <span class="math notranslate nohighlight">\(\bar{S}\)</span> and standard deviation <span class="math notranslate nohighlight">\(S_S\)</span>.</p></li>
+<li><p>We can define the <span class="math notranslate nohighlight">\(\pm 3\sigma\)</span> control limits as</p></li>
+</ol>
+<div class="math notranslate nohighlight">
+\[UCL=\bar{S} + 3 S_S\quad\text{y}\quad LCL=\max\{0, \bar{S} - 3 S_S\}.\]</div>
+</section>
+<section id="simulated-control-intervals-for-bar-y">
+<h3><span class="section-number">4.3.3. </span>Simulated control intervals for <span class="math notranslate nohighlight">\(\bar{Y}\)</span><a class="headerlink" href="#simulated-control-intervals-for-bar-y" title="Permalink to this heading">#</a></h3>
+<p>Similarly, we can obtain a sample of the sample average <span class="math notranslate nohighlight">\(\bar{Y}_1,\ldots,\bar{Y}_M\)</span> and estimate its control limits as:</p>
+<div class="math notranslate nohighlight">
+\[UCL=\bar{\bar{Y}} + q_{t_{\nu_n}}^{1-\alpha/2} S_{\bar{Y}}\quad\text{and}\quad LCL=\bar{\bar{Y}} - q_{t_{\nu_n}}^{1-\alpha/2} S_{\bar{Y}}.\]</div>
+</section>
+<section id="setting-the-hyperparameters">
+<h3><span class="section-number">4.3.4. </span>Setting the hyperparameters<a class="headerlink" href="#setting-the-hyperparameters" title="Permalink to this heading">#</a></h3>
+<p>Because <em>a priori</em> we know nothing about the process, we can use the reference prior given by</p>
+<div class="math notranslate nohighlight">
+\[p(\mu,\sigma^2)\propto\frac{1}{\sigma^2}1_{\mathbb{R}}(\mu)1_{(0,\infty)}(\sigma^2),\]</div>
+<p>which is obtained setting the hyperparameters in the following values:</p>
+<div class="math notranslate nohighlight">
+\[\kappa_0=0,\quad \mu_0\in\mathbb{R},\quad\nu_0=-1,\quad\sigma_0^2=0.\]</div>
+</section>
+</section>
+<section id="predictive-distribution-of-the-normal-likelihood-with-unknown-variance">
+<h2><span class="section-number">4.4. </span>Predictive distribution of the normal likelihood with unknown variance<a class="headerlink" href="#predictive-distribution-of-the-normal-likelihood-with-unknown-variance" title="Permalink to this heading">#</a></h2>
+<p>Back in <a class="reference internal" href="../Part1/03_ConjugateAnalysis.html"><span class="doc std std-doc">Chapter 3</span></a> we study the case where our data comes from a normal distribution with unknown variance. We found that the conjugate distribution in such case is an scaled inverse <span class="math notranslate nohighlight">\(\chi^2\)</span> distribution, we are now ready to deduce its posterior predictive distribution.</p>
+<p>Consider the posterior distributions of the Normal - Inverse-<span class="math notranslate nohighlight">\(\chi^2\)</span> prior for the normal likelihood,</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{align*}
+\mu|\sigma^2,\mathbf{Y} &amp;\sim \textsf{Normal}(\mu_n,\sigma^2/\kappa_n) \\
+\sigma^2|\mathbf{Y} &amp;\sim \textsf{Inverse-}\chi^2(\nu_n,\sigma_n^2)
+\end{align*}
+\end{split}\]</div>
+<p>and</p>
+<div class="math notranslate nohighlight">
+\[\mu|\mathbf{Y}\sim t_{\nu_n}(\mu_n,\sigma_n^2/\kappa_n).\]</div>
+<p>Note that</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{align*}
+p(\mu|\mathbf{Y}) &amp; = \int p(\mu,\sigma^2|\mathbf{Y})d\sigma^2 \\
+&amp; = \int p(\mu|\sigma^2,\mathbf{Y})p(\sigma^2|\mathbf{Y})d\sigma^2.
+\end{align*}
+\end{split}\]</div>
+<p>That is,</p>
+<div class="math notranslate nohighlight">
+\[t_{\nu_n}(\mu_n,\sigma_n^2/\kappa_n) = \int\textsf{Normal}(\mu_n,\sigma^2/\kappa_n)\textsf{Inverse-}\chi^2(\nu_n,\sigma_n^2)d\sigma^2.\]</div>
+<p>On the other hand, consider the model with <span class="math notranslate nohighlight">\(\mu\)</span> known but <span class="math notranslate nohighlight">\(\sigma^2\)</span> unknown,</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{align*}
+Y|\sigma^2 &amp; \sim \textsf{Normal}(\mu,\sigma^2) \\
+\sigma^2 &amp; \sim \textsf{Inverse-}\chi^2(\nu_0,\sigma_0^2),
+\end{align*}
+\end{split}\]</div>
+<p>then</p>
+<div class="math notranslate nohighlight">
+\[\sigma^2|\mathbf{Y}\sim\textsf{Inverse-}\chi^2(\nu_n,\sigma_n^2),\]</div>
+<p>where</p>
+<div class="math notranslate nohighlight">
+\[\nu_n=\nu_0+n,\quad \sigma_n^2=\frac{\nu_0\sigma_0^2+nv}{\nu_0+n}\]</div>
+<p>and</p>
+<div class="math notranslate nohighlight">
+\[v=\frac{1}{n}\sum_{i=1}^n (Y_i-\mu)^2.\]</div>
+<p>Note that</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{align*}
+p(Y|\mathbf{Y}) &amp; = \int p(Y,\sigma^2|\mathbf{Y})d\sigma^2 \\
+&amp; = \int p(Y|\sigma^2,\mathbf{Y})p(\sigma^2|\mathbf{Y})d\sigma^2 \\
+&amp; = \int \textsf{Normal}(\mu,\sigma^2)\textsf{Inverse-}\chi^2(\nu_n,\sigma_n^2)d\sigma^2,
+\end{align*}
+\end{split}\]</div>
+<p>by analogy, we deduce that</p>
+<div class="math notranslate nohighlight">
+\[Y|\mathbf{Y}\sim t_{\nu_n}(\mu,\sigma_n^2).\]</div>
+<p>Furthermore, in this case the noninformative prior is acgieved setting <span class="math notranslate nohighlight">\(\nu_0=0\)</span> and <span class="math notranslate nohighlight">\(\sigma_0^2&gt;0\)</span>, so <span class="math notranslate nohighlight">\(\nu_n=n\)</span> and <span class="math notranslate nohighlight">\(\sigma_n^2=v\)</span>. Then,</p>
+<div class="math notranslate nohighlight">
+\[Y|\mathbf{Y}\sim t_n(\mu,v),\]</div>
+<p>or, equivalently</p>
+<div class="math notranslate nohighlight">
+\[\frac{Y-\mu}{\sqrt{v}}|\mathbf{Y}\sim t_n.\]</div>
+</section>
 </section>
 
     <script type="text/x-thebe-config">
@@ -396,6 +658,36 @@ document.write(`
             </div>
             
             
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#normal-likelihood-with-noninformative-prior">4.1. Normal likelihood with noninformative prior</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distribution-of-mu-sigma-2-mathbf-y">4.1.1. Distribution of <span class="math notranslate nohighlight">\(\mu|\sigma^2,\mathbf{Y}\)</span></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distribution-of-sigma-2-mathbf-y">4.1.2. Distribution of <span class="math notranslate nohighlight">\(\sigma^2|\mathbf{Y}\)</span></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distribution-of-mu-mathbf-y">4.1.3. Distribution of <span class="math notranslate nohighlight">\(\mu|\mathbf{Y}\)</span></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#connection-with-the-frequentist-statistics">4.1.4. Connection with the frequentist statistics</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#simulate-from-the-posterior-predictive-distribution">4.1.5. Simulate from the posterior predictive distribution</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#normal-inverse-chi-2-prior-for-the-normal-likelihood">4.2. Normal - Inverse-<span class="math notranslate nohighlight">\(\chi^2\)</span> prior for the normal likelihood</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#bayesian-statistical-process-control">4.3. Bayesian statistical process control</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#control-intervals-for-bar-y">4.3.1. Control intervals for <span class="math notranslate nohighlight">\(\bar{Y}\)</span></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#control-intervals-for-s">4.3.2. Control intervals for <span class="math notranslate nohighlight">\(S\)</span></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#simulated-control-intervals-for-bar-y">4.3.3. Simulated control intervals for <span class="math notranslate nohighlight">\(\bar{Y}\)</span></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#setting-the-hyperparameters">4.3.4. Setting the hyperparameters</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#predictive-distribution-of-the-normal-likelihood-with-unknown-variance">4.4. Predictive distribution of the normal likelihood with unknown variance</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
               
             
           </div>
