@@ -66,7 +66,7 @@ const thebe_selector_output = ".output, .cell_output"
     <script>DOCUMENTATION_OPTIONS.pagename = 'content/Part1/03_ConjugateAnalysis';</script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="next" title="4. Multiparametric models" href="../Part2/04_MultiparametricModels.html" />
+    <link rel="next" title="4. Normal likelihood with mean and variance unknown" href="../Part2/04_MultiparametricModels.html" />
     <link rel="prev" title="2. Uniparametric models" href="02_UniparametricModels.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
@@ -166,7 +166,7 @@ const thebe_selector_output = ".output, .cell_output"
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">II Multiparametric models and regression</span></p>
 <ul class="nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="../Part2/04_MultiparametricModels.html">4. Multiparametric models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Part2/04_MultiparametricModels.html">4. Normal likelihood with mean and variance unknown</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../Part2/05_BayesianRegression.html">5. Bayesian regression</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">III Reference analysis and normal approximation</span></p>
@@ -335,14 +335,14 @@ document.write(`
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#conjugate-models-for-the-exponential-family">3.1. Conjugate models for the exponential family</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#binomial-distribution">3.2. Binomial distribution</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#poisson-distribution">3.3. Poisson distribution</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#normal-distribution-with-unknown-mean">3.4. Normal distribution with unknown mean</a><ul class="nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#binomial-likelihood">3.2. Binomial likelihood</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#poisson-likelihood">3.3. Poisson likelihood</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#normal-likelihood-with-unknown-mean">3.4. Normal likelihood with unknown mean</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#posterior-distribution">3.4.1. Posterior distribution</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#posterior-predictive-distribution">3.4.2. Posterior predictive distribution</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#normal-distribution-with-unknown-variance">3.5. Normal distribution with unknown variance</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#normal-likelihood-with-unknown-variance">3.5. Normal likelihood with unknown variance</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#predictive-distribution-for-the-gamma-poisson-model">3.6. Predictive distribution for the Gamma-Poisson model</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#poisson-model-with-exposition">3.7. Poisson model with exposition</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercises">3.8. Exercises</a></li>
@@ -385,8 +385,8 @@ p(\mathbf{Y}|\theta) &amp;= \left(\prod_{i=1}^n f(y_i)\right)g^n(\theta)\exp\lef
 \[p(\theta|\mathbf{Y})\propto g(\theta)^{n+\eta}e^{\phi^T(\theta)(\xi+t(\mathbf{y}))}.\]</div>
 <p>Moreover, note that, due to the structure, we can interpret <span class="math notranslate nohighlight">\(\eta\)</span> as the “size” of the sample <em>a priori</em>  and <span class="math notranslate nohighlight">\(\xi\)</span> as the “sufficient and minimal statistic” <em>a priori</em>.</p>
 </section>
-<section id="binomial-distribution">
-<h2><span class="section-number">3.2. </span>Binomial distribution<a class="headerlink" href="#binomial-distribution" title="Permalink to this heading">#</a></h2>
+<section id="binomial-likelihood">
+<h2><span class="section-number">3.2. </span>Binomial likelihood<a class="headerlink" href="#binomial-likelihood" title="Permalink to this heading">#</a></h2>
 <p>Let be <span class="math notranslate nohighlight">\(Y_1,\ldots,Y_n|\theta\overset{iid}{\sim}\textsf{Bernoulli}(\theta)\)</span>, then</p>
 <div class="math notranslate nohighlight">
 \[\begin{split}
@@ -416,8 +416,8 @@ p(\theta) &amp; \propto (1-\theta)^\eta\exp\left\lbrace\xi\log\frac{\theta}{1-\t
 \[p(\theta)\propto \theta^{\alpha-1}(1-\theta)^{\beta-1},\]</div>
 <p>which we recognize as the kernelr of a distrbution <span class="math notranslate nohighlight">\(\textsf{Beta}(\alpha,\beta)\)</span>.</p>
 </section>
-<section id="poisson-distribution">
-<h2><span class="section-number">3.3. </span>Poisson distribution<a class="headerlink" href="#poisson-distribution" title="Permalink to this heading">#</a></h2>
+<section id="poisson-likelihood">
+<h2><span class="section-number">3.3. </span>Poisson likelihood<a class="headerlink" href="#poisson-likelihood" title="Permalink to this heading">#</a></h2>
 <p>Let be <span class="math notranslate nohighlight">\(Y_1,\ldots,Y_n|\theta\overset{iid}{\sim}\textsf{Poisson}(\theta)\)</span>, then</p>
 <div class="math notranslate nohighlight">
 \[\begin{split}
@@ -440,8 +440,8 @@ p(\theta) &amp; \propto e^{-\eta\theta}\exp\{\xi\log\theta\} \\
 <p>which we recognize as the kernel of a distribution <span class="math notranslate nohighlight">\(\textsf{Gama}(\alpha,\beta)\)</span>.</p>
 <p>Note that <span class="math notranslate nohighlight">\(\alpha-1\)</span> is equivalent as the sum of prior counts and <span class="math notranslate nohighlight">\(\beta\)</span> the number of prior experiments. Therefore, if we haven’t done experiments previously, we can set <span class="math notranslate nohighlight">\(\alpha=1\)</span> and <span class="math notranslate nohighlight">\(\beta=0\)</span>, in such case <span class="math notranslate nohighlight">\(p(\theta)\propto 1_{(0,\infty)}(\theta)\)</span>.</p>
 </section>
-<section id="normal-distribution-with-unknown-mean">
-<h2><span class="section-number">3.4. </span>Normal distribution with unknown mean<a class="headerlink" href="#normal-distribution-with-unknown-mean" title="Permalink to this heading">#</a></h2>
+<section id="normal-likelihood-with-unknown-mean">
+<h2><span class="section-number">3.4. </span>Normal likelihood with unknown mean<a class="headerlink" href="#normal-likelihood-with-unknown-mean" title="Permalink to this heading">#</a></h2>
 <p>Let be <span class="math notranslate nohighlight">\(Y_1,\ldots,Y_n|\theta,\sigma^2\overset{iid}{\sim}\textsf{Normal}(\theta, \sigma^2)\)</span> and assume <span class="math notranslate nohighlight">\(\sigma^2&gt;0\)</span> known. Then</p>
 <div class="math notranslate nohighlight">
 \[\begin{split}
@@ -503,8 +503,8 @@ p(Y|\mathbf{Y}) &amp; = \int_\Theta p(Y|\theta)p(\theta|\mathbf{Y})d\theta \\
 \end{split}\]</div>
 </section>
 </section>
-<section id="normal-distribution-with-unknown-variance">
-<h2><span class="section-number">3.5. </span>Normal distribution with unknown variance<a class="headerlink" href="#normal-distribution-with-unknown-variance" title="Permalink to this heading">#</a></h2>
+<section id="normal-likelihood-with-unknown-variance">
+<h2><span class="section-number">3.5. </span>Normal likelihood with unknown variance<a class="headerlink" href="#normal-likelihood-with-unknown-variance" title="Permalink to this heading">#</a></h2>
 <p>Consider <span class="math notranslate nohighlight">\(Y_1,\ldots,Y_n\overset{iid}{\sim}\textsf{Normal}(\theta,\sigma^2)\)</span> with <span class="math notranslate nohighlight">\(\theta\)</span> known, then</p>
 <div class="math notranslate nohighlight">
 \[\begin{split}
@@ -628,7 +628,7 @@ p(\mathbf{Y}|\sigma^2) &amp;\propto (\sigma^2)^{-n/2}\exp\left\{-\frac{1}{2\sigm
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title"><span class="section-number">4. </span>Multiparametric models</p>
+        <p class="prev-next-title"><span class="section-number">4. </span>Normal likelihood with mean and variance unknown</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -651,14 +651,14 @@ p(\mathbf{Y}|\sigma^2) &amp;\propto (\sigma^2)^{-n/2}\exp\left\{-\frac{1}{2\sigm
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#conjugate-models-for-the-exponential-family">3.1. Conjugate models for the exponential family</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#binomial-distribution">3.2. Binomial distribution</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#poisson-distribution">3.3. Poisson distribution</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#normal-distribution-with-unknown-mean">3.4. Normal distribution with unknown mean</a><ul class="nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#binomial-likelihood">3.2. Binomial likelihood</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#poisson-likelihood">3.3. Poisson likelihood</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#normal-likelihood-with-unknown-mean">3.4. Normal likelihood with unknown mean</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#posterior-distribution">3.4.1. Posterior distribution</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#posterior-predictive-distribution">3.4.2. Posterior predictive distribution</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#normal-distribution-with-unknown-variance">3.5. Normal distribution with unknown variance</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#normal-likelihood-with-unknown-variance">3.5. Normal likelihood with unknown variance</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#predictive-distribution-for-the-gamma-poisson-model">3.6. Predictive distribution for the Gamma-Poisson model</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#poisson-model-with-exposition">3.7. Poisson model with exposition</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercises">3.8. Exercises</a></li>
