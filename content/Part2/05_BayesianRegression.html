@@ -61,11 +61,13 @@ const thebe_selector_input = "pre"
 const thebe_selector_output = ".output, .cell_output"
 </script>
     <script async="async" src="../../_static/sphinx-thebe.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'content/Part2/05_BayesianRegression';</script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
     <link rel="next" title="6. Reference analysis" href="../Part3/06_ReferenceAnalysis.html" />
-    <link rel="prev" title="4. Multiparametric models" href="04_MultiparametricModels.html" />
+    <link rel="prev" title="4. Normal likelihood with mean and variance unknown" href="04_MultiparametricModels.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -164,7 +166,7 @@ const thebe_selector_output = ".output, .cell_output"
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">II Multiparametric models and regression</span></p>
 <ul class="current nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="04_MultiparametricModels.html">4. Multiparametric models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="04_MultiparametricModels.html">4. Normal likelihood with mean and variance unknown</a></li>
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">5. Bayesian regression</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">III Reference analysis and normal approximation</span></p>
@@ -309,7 +311,9 @@ document.write(`
   </button>
 `);
 </script>
-
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
 </div></div>
       
     </div>
@@ -325,6 +329,22 @@ document.write(`
     <div id="print-main-content">
         <div id="jb-print-toc">
             
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#bayesian-linear-regression-the-normal-inverse-chi-2-model">5.1. Bayesian linear regression, the Normal - Inverse-<span class="math notranslate nohighlight">\(\chi^2\)</span> model</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#prior-distributions">5.1.1. Prior distributions</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#posterior-joint-distribution">5.1.2. Posterior joint distribution</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#prior-predictive-distribution">5.1.3. Prior predictive distribution</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#posterior-predictive-distribution">5.1.4. Posterior predictive distribution</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#example">5.2. Example</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercises">5.3. Exercises</a></li>
+</ul>
+            </nav>
         </div>
     </div>
 </div>
@@ -336,6 +356,101 @@ document.write(`
                   
   <section class="tex2jax_ignore mathjax_ignore" id="bayesian-regression">
 <h1><span class="section-number">5. </span>Bayesian regression<a class="headerlink" href="#bayesian-regression" title="Permalink to this heading">#</a></h1>
+<p>Mathematical modeling refers to the construction of mathematical expressions that describe the behavior of a variable of interest <span class="math notranslate nohighlight">\(Y\)</span>. Frequently, we want to add to the model other variables (features) <span class="math notranslate nohighlight">\(X\)</span>, which have information about the variable of interest <span class="math notranslate nohighlight">\(Y\)</span>. This problem is known as regression. Formally, we look for a function  <span class="math notranslate nohighlight">\(f:\mathcal{X}\to\mathcal{Y}\)</span> such that <span class="math notranslate nohighlight">\(f(X)\)</span> is a good approximation of <span class="math notranslate nohighlight">\(Y\)</span>.</p>
+<section id="bayesian-linear-regression-the-normal-inverse-chi-2-model">
+<h2><span class="section-number">5.1. </span>Bayesian linear regression, the Normal - Inverse-<span class="math notranslate nohighlight">\(\chi^2\)</span> model<a class="headerlink" href="#bayesian-linear-regression-the-normal-inverse-chi-2-model" title="Permalink to this heading">#</a></h2>
+<p>Consider the usual regression model</p>
+<div class="math notranslate nohighlight">
+\[Y=X^T\beta+\varepsilon,\]</div>
+<p>with <span class="math notranslate nohighlight">\(\varepsilon|X\sim \textsf{Normal}(0,\sigma^2)\)</span> and <span class="math notranslate nohighlight">\(\varepsilon\perp\!\!\!\perp\beta|X\)</span>.</p>
+<p>And assume that we have a sample <span class="math notranslate nohighlight">\(\mathcal{D}_n=\left((X_1,Y_1),\ldots,(X_n,Y_n)\right)\)</span> with <span class="math notranslate nohighlight">\((X_i,Y_i)\overset{iid}{\sim}(X,Y)\)</span>. Thus, the model can be written as</p>
+<div class="math notranslate nohighlight">
+\[\mathbf{Y}=\mathbf{X}\beta+\vec{\varepsilon},\quad \vec{\varepsilon}\sim\textsf{Normal}_n(0,\sigma^2 I).\]</div>
+<p>The parameters of this model are <span class="math notranslate nohighlight">\(\beta\)</span> and <span class="math notranslate nohighlight">\(\sigma\)</span>.</p>
+<section id="prior-distributions">
+<h3><span class="section-number">5.1.1. </span>Prior distributions<a class="headerlink" href="#prior-distributions" title="Permalink to this heading">#</a></h3>
+<p>Consider the following priors for this model</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{align*}
+\sigma^2 &amp;\sim \textsf{Inverse-}\chi^2(\nu_0,\sigma_0^2),\quad \nu_0,\sigma_0&gt;0, \\
+\beta|\sigma^2 &amp;\sim \textsf{Normal}_p(\mu_0, \sigma^2 V_0),
+\end{align*}
+\end{split}\]</div>
+<p>with <span class="math notranslate nohighlight">\(\mu_\beta\in \mathbb{R}^p\)</span> and <span class="math notranslate nohighlight">\(V_0\)</span> a symmetric, positive definite matrix.</p>
+<p>In this case we say that the joint distribution of <span class="math notranslate nohighlight">\(\beta,\sigma^2\)</span> is a Normal - Inverse-<span class="math notranslate nohighlight">\(\chi^2\)</span> distribution with parameters <span class="math notranslate nohighlight">\(\mu_0,\, V_0,\, \nu_0\)</span> and <span class="math notranslate nohighlight">\(\sigma_0^2\)</span>, which is denoted as</p>
+<div class="math notranslate nohighlight">
+\[\beta,\sigma^2\sim \textsf{NI}\chi^2(\mu_0, V_0, \nu_0, \sigma_0^2).\]</div>
+<p>With some extra effort, it is possible to show that</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{align*}
+\beta &amp;\sim \textsf{t}_{\nu_0}(\mu_0,\sigma_0^2 V_0), \\
+\sigma^2|\beta &amp;\sim \textsf{Inverse-}\chi^2\left(\nu_0+p, \frac{\nu_0\sigma_0^2+(\beta-\mu_0)^TV_0^{-1}(\beta-\mu_0)}{\nu_0+p}\right).
+\end{align*}
+\end{split}\]</div>
+</section>
+<section id="posterior-joint-distribution">
+<h3><span class="section-number">5.1.2. </span>Posterior joint distribution<a class="headerlink" href="#posterior-joint-distribution" title="Permalink to this heading">#</a></h3>
+<p>Due to the conjugacy property, the joint posterior distribution is given by</p>
+<div class="math notranslate nohighlight">
+\[\beta,\sigma^2\sim \textsf{NI}\chi^2(\mu_n, V_n, \nu_n, \sigma_n^2),\]</div>
+<p>where</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{align*}
+V_n &amp; = \left(V_0^{-1}+\mathbf{X}^T\mathbf{X}\right)^{-1} \\
+\mu_n &amp; = V_n \left(V_0^{-1}\mu_0+\mathbf{X}^T\mathbf{Y}\right) \\
+\nu_n &amp; = \nu_0+n \\
+\nu_n\sigma_n^2 &amp; = \nu_0\sigma_0^2 + \mu_0^T V_0^{-1}\mu_0 + \mathbf{Y}^T\mathbf{Y} - \mu_n^TV_n^{-1}\mu_n
+\end{align*}
+\end{split}\]</div>
+</section>
+<section id="prior-predictive-distribution">
+<h3><span class="section-number">5.1.3. </span>Prior predictive distribution<a class="headerlink" href="#prior-predictive-distribution" title="Permalink to this heading">#</a></h3>
+<p>It can be shown that</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{align*}
+\mathbf{\tilde{Y}}|\mathbf{\tilde{X}},\beta,\sigma^2 &amp; \sim \textsf{Normal}_n\left(\mathbf{\tilde{X}} \beta, \sigma^2 I\right) \\
+\mathbf{\tilde{Y}}|\mathbf{\tilde{X}},\sigma^2 &amp; \sim \textsf{Normal}_n\left(\mathbf{\tilde{X}} \mu_0, \sigma^2 \left(I+\mathbf{\tilde{X}} V_0 \mathbf{\tilde{X}}^T\right)\right) \\
+\mathbf{\tilde{Y}}|\mathbf{\tilde{X}} &amp; \sim t_{\nu_0}\left(\mathbf{\tilde{X}} \mu_0, \sigma_0^2\left(I+\mathbf{\tilde{X}} V_0 \mathbf{\tilde{X}}^T\right)\right) \\
+\end{align*}
+\end{split}\]</div>
+</section>
+<section id="posterior-predictive-distribution">
+<h3><span class="section-number">5.1.4. </span>Posterior predictive distribution<a class="headerlink" href="#posterior-predictive-distribution" title="Permalink to this heading">#</a></h3>
+<p>Due to the conjugacy property, it is immediate that</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{align*}
+\mathbf{\tilde{Y}}|\mathbf{\tilde{X}},\beta,\sigma^2,\mathcal{D}_n &amp; \sim \textsf{Normal}_n\left(\mathbf{\tilde{X}} \beta, \sigma^2 I\right) \\
+\mathbf{\tilde{Y}}|\mathbf{\tilde{X}},\sigma^2,\mathcal{D}_n &amp; \sim \textsf{Normal}_n\left(\mathbf{\tilde{X}} \mu_n, \sigma^2 \left(I+\mathbf{\tilde{X}} V_n \mathbf{\tilde{X}}^T\right)\right) \\
+\mathbf{\tilde{Y}}|\mathbf{\tilde{X}},\mathcal{D}_n &amp; \sim t_{\nu_n}\left(\mathbf{\tilde{X}} \mu_n, \sigma_n^2\left(I+\mathbf{\tilde{X}} V_n \mathbf{\tilde{X}}^T\right)\right) \\
+\end{align*}
+\end{split}\]</div>
+</section>
+</section>
+<section id="example">
+<h2><span class="section-number">5.2. </span>Example<a class="headerlink" href="#example" title="Permalink to this heading">#</a></h2>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The data for this example were taken from the problem 2.7 of <span id="id1">[<a class="reference internal" href="../../References.html#id7" title="Douglas C Montgomery, Elizabeth A Peck, and G Geoffrey Vining. Introduction to linear regression analysis. John Wiley &amp; Sons, 2021.">MPV21</a>]</span>, fifth edition</p>
+</div>
+<p>You can check the whole code for this example in the file <a class="reference external" href="https://github.com/IrvingGomez/BayesianStatistics/blob/main/Codes/04_RegressionPurityCondensor.ipynb">04_RegressionPurityCondensor.ipynb</a> within the <a class="reference external" href="https://github.com/IrvingGomez/BayesianStatistics">repository of the course</a>. Here I just present the results.</p>
+<p>Since <em>a priori</em> I didn’t know anything about the process from which the data was taken, I used noninformative priors for the <span class="math notranslate nohighlight">\(\beta\)</span> and <span class="math notranslate nohighlight">\(\sigma^2\)</span>. The next figure shows the posterior joint distribution of <span class="math notranslate nohighlight">\(\beta_0\)</span> and <span class="math notranslate nohighlight">\(\beta_1\)</span>, which we know that follows a multivariate <span class="math notranslate nohighlight">\(t\)</span> distribution, I have added individual intervals of posteriori probability of 0.95 for each one. Note that there are a lot of points in the intervals, that are not likely at all when we consider the joint distribution.</p>
+<img alt="BetasRegression" class="align-center" src="../../_images/BetasRegression.png" />
+<p>Similarly, in the next image I present the posterior distribution of <span class="math notranslate nohighlight">\(\sigma^2\)</span> with a posterior interval of probability 0.95 obtained with the quantiles method, i.e. the interval is given by the quantiles of probability 0.025 and 0.975.</p>
+<img alt="SpcMeanTheoretical" class="align-center" src="../../_images/Sigma2Regression.png" />
+<p>Finally, in the next image I present the scatterplot with the fitted regression line, I present posterior intervals for both, the regression function and observations comming from the process analyzed. It is common in the Bayesian framework to call them “Credible intervals”, other authors have proposed to call them “Compatibility intervals”. Let as it be, I denoted these intervals as “Confidence interval” and “Prediction interval”, respectively.</p>
+<img alt="SpcMeanTheoretical" class="align-center" src="../../_images/ScatterplotRegression.png" />
+</section>
+<section id="exercises">
+<h2><span class="section-number">5.3. </span>Exercises<a class="headerlink" href="#exercises" title="Permalink to this heading">#</a></h2>
+<ol class="arabic simple">
+<li><p>Verify that the expressions of the normal inverse <span class="math notranslate nohighlight">\(\chi^2\)</span> are obtained from the expressions of this section.</p></li>
+</ol>
+</section>
 </section>
 
     <script type="text/x-thebe-config">
@@ -375,7 +490,7 @@ document.write(`
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title"><span class="section-number">4. </span>Multiparametric models</p>
+        <p class="prev-next-title"><span class="section-number">4. </span>Normal likelihood with mean and variance unknown</p>
       </div>
     </a>
     <a class="right-next"
@@ -396,6 +511,28 @@ document.write(`
             </div>
             
             
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#bayesian-linear-regression-the-normal-inverse-chi-2-model">5.1. Bayesian linear regression, the Normal - Inverse-<span class="math notranslate nohighlight">\(\chi^2\)</span> model</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#prior-distributions">5.1.1. Prior distributions</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#posterior-joint-distribution">5.1.2. Posterior joint distribution</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#prior-predictive-distribution">5.1.3. Prior predictive distribution</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#posterior-predictive-distribution">5.1.4. Posterior predictive distribution</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#example">5.2. Example</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercises">5.3. Exercises</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
               
             
           </div>
