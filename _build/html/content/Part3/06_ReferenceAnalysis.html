@@ -61,6 +61,8 @@ const thebe_selector_input = "pre"
 const thebe_selector_output = ".output, .cell_output"
 </script>
     <script async="async" src="../../_static/sphinx-thebe.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'content/Part3/06_ReferenceAnalysis';</script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
@@ -164,7 +166,7 @@ const thebe_selector_output = ".output, .cell_output"
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">II Multiparametric models and regression</span></p>
 <ul class="nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="../Part2/04_MultiparametricModels.html">4. Multiparametric models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Part2/04_MultiparametricModels.html">4. Normal likelihood with mean and variance unknown</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../Part2/05_BayesianRegression.html">5. Bayesian regression</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">III Reference analysis and normal approximation</span></p>
@@ -309,7 +311,9 @@ document.write(`
   </button>
 `);
 </script>
-
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
 </div></div>
       
     </div>
@@ -325,6 +329,31 @@ document.write(`
     <div id="print-main-content">
         <div id="jb-print-toc">
             
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#ambiguity-of-the-principle-of-indifference">6.1. Ambiguity of the principle of indifference</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#jeffreys-rule">6.2. Jeffreys rule</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#score-function">6.2.1. Score function</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#expected-fisher-information-per-sample-unit">6.2.2. (Expected) Fisher information per sample unit</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exponential-likelihood">6.2.3. Exponential likelihood</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#jeffreys-prior">6.2.4. Jeffreys prior</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#proof-of-the-invariance-of-jeffreys-prior-optional">6.2.5. Proof of the invariance of Jeffreys prior (optional)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#cramerrao-bound-optional">6.2.6. Cramér–Rao bound (optional)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#historical-relevance-of-jeffrey-prior">6.2.7. Historical relevance of Jeffrey prior</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#reference-analysis-with-pivotals">6.3. Reference analysis with pivotals</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#reference-prior-for-a-parameter-of-location">6.3.1. Reference prior for a parameter of location</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#reference-prior-for-a-parameter-of-scale">6.3.2. Reference prior for a parameter of scale</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#uniform-likelihood">6.4. Uniform likelihood</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercises">6.5. Exercises</a></li>
+</ul>
+            </nav>
         </div>
     </div>
 </div>
@@ -336,6 +365,284 @@ document.write(`
                   
   <section class="tex2jax_ignore mathjax_ignore" id="reference-analysis">
 <h1><span class="section-number">6. </span>Reference analysis<a class="headerlink" href="#reference-analysis" title="Permalink to this heading">#</a></h1>
+<p>Sometimes, we are looking for prior distributions with little impact in the posterior distribution. Such priors are known as noninformative or reference priors, which are usually described as flat, constant or diffuse.</p>
+<p>For example, in the case of a normal likelihood with mean <span class="math notranslate nohighlight">\(\theta\)</span> and known variance <span class="math notranslate nohighlight">\(\sigma^2&gt;0\)</span>, when we consider a normal prior with mean <span class="math notranslate nohighlight">\(\mu_0\)</span> and variance <span class="math notranslate nohighlight">\(\tau_0^2\)</span>, we get</p>
+<div class="math notranslate nohighlight">
+\[\theta|\mathbf{Y}\sim\textsf{Normal}(\mu_n,\tau_n^2),\]</div>
+<p>where</p>
+<div class="math notranslate nohighlight">
+\[\mu_n=\frac{\frac{1}{\tau_0^2}\mu_0+\frac{n}{\sigma^2}\bar{Y}}{\frac{1}{\tau_0^2}+\frac{n}{\sigma^2}}\quad \text{and}\quad \frac{1}{\tau_n^2}=\frac{1}{\tau_0^2}+\frac{n}{\sigma^2}.\]</div>
+<p>We can model the case where we do not posses prior information considering a normal distribution with infinite variance. That is, the case in which we do not have prior information can me model taking <span class="math notranslate nohighlight">\(\tau_0\to\infty\)</span>. In such case, the prior distribution would be given by <span class="math notranslate nohighlight">\(p(\theta)\propto1_{\mathbb{R}}(\theta)\)</span>, which agree with the principle of indifference.</p>
+<p>Furthermore, when we take the limit case <span class="math notranslate nohighlight">\(\tau\to\infty\)</span>, then the posterior distribution is given by</p>
+<div class="math notranslate nohighlight">
+\[\theta|\mathbf{Y}\sim\textsf{Normal}\left(\bar{Y},\frac{\sigma^2}{n}\right),\]</div>
+<p>which coincides with the frequentist statistics.</p>
+<div class="tip admonition">
+<p class="admonition-title">Improper distributions</p>
+<p>Note that the function <span class="math notranslate nohighlight">\(1_{\mathbb{R}}(\theta)\)</span> does not have a finite integral. Therefore, there is no normalizing constant that can turn it into a density, and it does not determine a distribution properly said. This kind of distributions whose density does not have a finite integral are known as <em>improper distributions</em>.</p>
+</div>
+<section id="ambiguity-of-the-principle-of-indifference">
+<h2><span class="section-number">6.1. </span>Ambiguity of the principle of indifference<a class="headerlink" href="#ambiguity-of-the-principle-of-indifference" title="Permalink to this heading">#</a></h2>
+<p>Consider the binomial likelihood, we had proposed to model the noninformative case through a uniform distribution. That is, considering <span class="math notranslate nohighlight">\(\theta\sim\textsf{Uniform}(0,1)\)</span>. On the other hand, assume that we are actually interested in <span class="math notranslate nohighlight">\(\phi=-\log\theta\)</span>. If <span class="math notranslate nohighlight">\(\theta\sim\textsf{Uniform}(0,1)\)</span>, then <span class="math notranslate nohighlight">\(\phi\sim\textsf{Exponencial}(1)\)</span>. But accordingly to to the principle of indifference, since we don’t have prior information about the value of <span class="math notranslate nohighlight">\(\phi\)</span>, we should have model it as <span class="math notranslate nohighlight">\(p(\phi)\propto 1_{(0,\infty)}(\phi)\)</span>. So, which prior should we take for <span class="math notranslate nohighlight">\(\phi\)</span>?!</p>
+<p>This ambiguity of the principle of indifference, in which it is not clear what parameter should follow a uniform distribution can yield important contradictions. As an example, check <a class="reference external" href="https://en.wikipedia.org/wiki/Bertrand_paradox_(probability)">Bertrand paradox</a>.</p>
+</section>
+<section id="jeffreys-rule">
+<h2><span class="section-number">6.2. </span>Jeffreys rule<a class="headerlink" href="#jeffreys-rule" title="Permalink to this heading">#</a></h2>
+<p>There exists some rules that helps us to define a noninformative prior distribution for the parameters, without suffering from the inconsistency of the principle of indifference. The most popular option is Jeffreys rule. To properly define it, we first need concepts as the score function and the (expected) Fisher information.</p>
+<section id="score-function">
+<h3><span class="section-number">6.2.1. </span>Score function<a class="headerlink" href="#score-function" title="Permalink to this heading">#</a></h3>
+<p>Assume that <span class="math notranslate nohighlight">\(Y\sim p(Y|\theta_0)\)</span>, we define the score function as</p>
+<div class="math notranslate nohighlight">
+\[sc(\theta)=\frac{d}{d\theta}\log p(Y|\theta).\]</div>
+<p>Note that,</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{align*}
+\mathbb{E}_{Y|\theta_0}[sc(\theta)] &amp;= \int_\mathcal{Y}\left[\frac{d}{d\theta}\log p(Y|\theta)\right]p(Y|\theta_0)dY \\\\
+&amp;= \int_\mathcal{Y}\frac{p(Y|\theta_0)}{p(Y|\theta)}\frac{d}{d\theta}p(Y|\theta)dY,
+\end{align*}
+\end{split}\]</div>
+<p>so</p>
+<div class="math notranslate nohighlight">
+\[\mathbb{E}_{Y|\theta_0}[sc(\theta_0)]=\int_\mathcal{Y}\left.\frac{d}{d\theta} p(Y|\theta)\right|_{\theta=\theta_0}dY.\]</div>
+<p>If the integrate and derivative operations can be interchage, then</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{align*}
+\mathbb{E}_{Y|\theta_0}[sc(\theta_0)] &amp;= \frac{d}{d\theta}\left[\int_\mathcal{Y} p(Y|\theta)dY\right]_{\theta=\theta_0} \\\\
+&amp;= \left.\frac{d}{d\theta} 1\right|_{\theta=\theta_0} \\\\
+&amp;= 0.
+\end{align*}
+\end{split}\]</div>
+</section>
+<section id="expected-fisher-information-per-sample-unit">
+<h3><span class="section-number">6.2.2. </span>(Expected) Fisher information per sample unit<a class="headerlink" href="#expected-fisher-information-per-sample-unit" title="Permalink to this heading">#</a></h3>
+<p>We define the expected Fisher information per sample unit as</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{align*}
+\mathcal{I}_{\theta_0}(\theta) &amp;= \mathbb{E}_{Y|\theta_0}[sc^2(\theta)] \\\\
+&amp;= \mathbb{E}_{Y|\theta_0}\left[\frac{1}{p^2(Y|\theta)}\left(\frac{d}{d\theta}p(Y|\theta)\right)^2\right].
+\end{align*}
+\end{split}\]</div>
+<p>On the other hand, note that</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{align*}
+\frac{d^2}{d\theta^2}\log p(Y|\theta) &amp;= \frac{d}{d\theta}\left[\frac{1}{p(Y|\theta)}\frac{d}{d\theta}p(Y|\theta)\right] \\\\
+&amp;= -\frac{1}{p^2(Y|\theta)}\left(\frac{d}{d\theta} p(Y|\theta)\right)^2 + \frac{1}{p(Y|\theta)}\frac{d^2}{d\theta^2} p(Y|\theta).
+\end{align*}
+\end{split}\]</div>
+<p>Then,</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{align*}
+-\mathbb{E}_{Y|\theta_0}\left[\frac{d^2}{d\theta^2}\log p(Y|\theta)\right] &amp;= \mathcal{I}_{\theta_0}(\theta)-\mathbb{E}_{Y|\theta_0}\left[\frac{1}{p(Y|\theta)}\frac{d^2}{d\theta^2} p(Y|\theta)\right] \\\\
+&amp; = \mathcal{I}_{\theta_0}(\theta)-\int_\mathcal{Y}\frac{p(Y|\theta_0)}{p(Y|\theta)}\frac{d^2}{d\theta^2}p(Y|\theta)dY
+\end{align*}
+\end{split}\]</div>
+<p>Evaluating in <span class="math notranslate nohighlight">\(\theta_0\)</span> and assuming that we can interchange the integrate and derivate operations, we get that</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{align*}
+-\mathbb{E}_{Y|\theta_0}\left[\left.\frac{d^2}{d\theta^2}\log p(Y|\theta)\right|_{\theta=\theta_0}\right] &amp;= \mathcal{I}_{\theta_0}(\theta_0) - \left.\frac{d^2}{d\theta^2}\int_\mathcal{Y}p(Y|\theta)d\theta\right|_{\theta=\theta_0} \\\\
+&amp; = \mathcal{I}_{\theta_0}(\theta_0)
+\end{align*}
+\end{split}\]</div>
+<div class="tip admonition">
+<p class="admonition-title">Regularity conditions</p>
+<p>To assure that the integrate and derivate operations are interchangeable in the previous results, the likelihood must satisfies certain conditions known as regularity conditions. These are essentially smoothness conditions of the likelihood. We will tacitly assume that these conditions hold.</p>
+</div>
+<p>Therefore, under regularity conditions,</p>
+<div class="math notranslate nohighlight">
+\[\mathbb{E}_{Y|\theta_0}[sc(\theta_0)]=0,\quad \mathbb{V}_{Y|\theta_0}[sc(\theta_0)]=\mathcal{I}_{\theta_0}(\theta_0)\]</div>
+<p>and</p>
+<div class="math notranslate nohighlight">
+\[J(\theta_0) \equiv \mathcal{I}_{\theta_0}(\theta_0)=-\mathbb{E}_{Y|\theta_0}\left[\left.\frac{d^2}{d\theta^2}\log p(Y|\theta)\right|_{\theta=\theta_0}\right].\]</div>
+</section>
+<section id="exponential-likelihood">
+<h3><span class="section-number">6.2.3. </span>Exponential likelihood<a class="headerlink" href="#exponential-likelihood" title="Permalink to this heading">#</a></h3>
+<p>You can check the code <a class="reference external" href="https://github.com/IrvingGomez/BayesianStatistics/blob/main/Codes/05_ScoreExponentialLikelihood.ipynb">05_ScoreExponentialLikelihood.ipynb</a> within the <a class="reference external" href="https://github.com/IrvingGomez/BayesianStatistics">repository of the course</a>, for an example of the previous concepts for the exponential likeklihood.</p>
+</section>
+<section id="jeffreys-prior">
+<h3><span class="section-number">6.2.4. </span>Jeffreys prior<a class="headerlink" href="#jeffreys-prior" title="Permalink to this heading">#</a></h3>
+<p>The noninformative Jefrreys prior is given by</p>
+<div class="math notranslate nohighlight">
+\[p(\theta)\propto \sqrt{J(\theta)}.\]</div>
+<p>Assume that <span class="math notranslate nohighlight">\(\phi\)</span> is a tansformed parameter from <span class="math notranslate nohighlight">\(\theta\)</span>. If we use Jeffreys rule to determine the prior of <span class="math notranslate nohighlight">\(\theta\)</span> and then we apply the transformation theorem to calculate the distribution of <span class="math notranslate nohighlight">\(\phi\)</span>, or if we use directly Jeffreys rule to determine the distribution of <span class="math notranslate nohighlight">\(\phi\)</span>, we would end up with the same distribution. Thus, Jeffreys prior does not suffer from the inconsistencies of the principle of indifference, previously pointed out. Moreover, the fact that Jeffreys prior is invariant under transformations 1-1 has been interpretated as that we do not add information, it does not matter in which parametric space your working in, and thus generates a noninformative prior.</p>
+<p>On the other hand, it also implies that not all the values of <span class="math notranslate nohighlight">\(\theta\)</span> have the same amount of information. Therefore, understanding the prior distribution as a way to quantify the information of each value <em>a priori</em>, it makes sense to consider it proportional to (some function of) Fisher information.</p>
+<p>For example, for the binomial likelihood, it can be shown that</p>
+<div class="math notranslate nohighlight">
+\[J(\theta)=\frac{n}{\theta(1-\theta)},\]</div>
+<p>note that <span class="math notranslate nohighlight">\(\theta\to 0\)</span> or <span class="math notranslate nohighlight">\(\theta\to 1\)</span> correspond to the most informative cases, and <span class="math notranslate nohighlight">\(J(\theta)\to\infty\)</span> in those cases. On the other hand, <span class="math notranslate nohighlight">\(J(\theta)\)</span> is minimized when <span class="math notranslate nohighlight">\(\theta=0.5\)</span>, which corresponds with the less informative case.</p>
+</section>
+<section id="proof-of-the-invariance-of-jeffreys-prior-optional">
+<h3><span class="section-number">6.2.5. </span>Proof of the invariance of Jeffreys prior (optional)<a class="headerlink" href="#proof-of-the-invariance-of-jeffreys-prior-optional" title="Permalink to this heading">#</a></h3>
+<p>Assume that <span class="math notranslate nohighlight">\(p(\theta)\propto \sqrt{J(\theta)}\)</span> and let be <span class="math notranslate nohighlight">\(\phi=\phi(\theta)\)</span> a 1-1 transformation of <span class="math notranslate nohighlight">\(\theta\)</span>.</p>
+<p>By the chain rule, we have that</p>
+<div class="math notranslate nohighlight">
+\[\frac{d}{d\phi}\log p(Y|\phi)=\frac{d}{d\theta}\log p(Y|\phi)\frac{d\theta}{d\phi}\]</div>
+<p>and</p>
+<div class="math notranslate nohighlight">
+\[\frac{d^2}{d\phi^2}\log p(Y|\phi)=\frac{d^2}{d\theta^2}\log p(Y|\phi)\left(\frac{d\theta}{d\phi}\right)^2+\frac{d}{d\theta}\log p(Y|\phi)\frac{d^2\theta}{d\phi^2}.\]</div>
+<p>Multiplying both side by -1 and taking the expected value with respect to <span class="math notranslate nohighlight">\(Y\)</span>, we get</p>
+<div class="math notranslate nohighlight">
+\[J(\phi)=J(\theta)\left(\frac{d\theta}{d\phi}\right)^2 -\underbrace{\mathbb{E}_{Y|\theta}\left[\frac{d}{d\theta}\log p(Y|\theta)\right]}_{0}\frac{d^2\theta}{d\phi^2}.\]</div>
+<p>Thus</p>
+<div class="math notranslate nohighlight">
+\[\sqrt{J(\phi)}=\sqrt{J(\theta)}\left|\frac{d\theta}{d\phi}\right|,\]</div>
+<p>that is,</p>
+<div class="math notranslate nohighlight">
+\[p(\phi)\propto p(\theta)\left|\frac{d\theta}{d\phi}\right|.\]</div>
+<p><span class="math notranslate nohighlight">\(\blacksquare\)</span></p>
+</section>
+<section id="cramerrao-bound-optional">
+<h3><span class="section-number">6.2.6. </span>Cramér–Rao bound (optional)<a class="headerlink" href="#cramerrao-bound-optional" title="Permalink to this heading">#</a></h3>
+<p>Let be <span class="math notranslate nohighlight">\(Y_1,\ldots,Y_n\)</span> random variables with joint density <span class="math notranslate nohighlight">\(p(\mathbf{Y}|\theta)\)</span>, and let be <span class="math notranslate nohighlight">\(T(\mathbf{Y})\)</span> any function such that <span class="math notranslate nohighlight">\(\mathbb{E}_{\mathbf{Y}|\theta}[T(\mathbf{Y})]\)</span> is a differentiable function of <span class="math notranslate nohighlight">\(\theta\)</span>.</p>
+<p>Moreover, define the score function (of the samplel) as</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{align*}
+sc_n(\theta) &amp; = \frac{d}{d\theta} \log p(\mathbf{Y}|\theta) \\
+&amp; = \frac{1}{p(\mathbf{Y}|\theta)}\frac{d}{d\theta} p(\mathbf{Y}|\theta),
+\end{align*}
+\end{split}\]</div>
+<p>we proved that, under regularity conditions</p>
+<div class="math notranslate nohighlight">
+\[\mathbb{E}_{\mathbf{Y}|\theta}[sc_n(\theta)]=0.\]</div>
+<p>Thus, under such conditions, it is satisfied that</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{align*}
+\text{Cov}_{\mathbf{Y}|\theta}(T(\mathbf{Y}), sc_n(\theta)) &amp; = \mathbb{E}_{\mathbf{Y}|\theta}[T(\mathbf{Y})sc_n(\theta)] \\\\
+&amp; = \mathbb{E}_{\mathbf{Y}|\theta}\left[T(\mathbf{Y})\frac{1}{p(\mathbf{Y}|\theta)}\frac{d}{d\theta}p(\mathbf{Y}|\theta)\right] \\\\
+&amp; = \int_{\mathcal{Y}^n} T(\mathbf{y})\frac{d}{d\theta}p(\mathbf{y}|\theta)d\mathbf{y} \\\\
+&amp; = \frac{d}{d\theta}\int_{\mathcal{Y}^n} T(\mathbf{y})p(\mathbf{y}|\theta)d\mathbf{y} \\\\
+&amp; = \frac{d}{d\theta}\mathbb{E}_{\mathbf{Y}|\theta}(T(\mathbf{Y})).
+\end{align*}
+\end{split}\]</div>
+<p>On the other hand, by Cauchy-Schwartz inequality</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{align*}
+\mathbb{V}_{\mathbf{Y}|\theta}(T(\mathbf{Y}))\mathbb{V}_{\mathbf{Y}|\theta}(sc_n(\theta)) &amp;\geq \left(\text{Cov}_{\mathbf{Y}|\theta}(T(\mathbf{Y}), sc_n(\theta))\right)^2 \\
+&amp; = \left(\frac{d}{d\theta} \mathbb{E}_{\mathbf{Y}|\theta}(T(\mathbf{Y}))\right)^2 \\\\
+\Rightarrow \mathbb{V}_{\mathbf{Y}|\theta}(T(\mathbf{Y})) &amp; \geq \frac{\left(\frac{d}{d\theta}\mathbb{E}_{\mathbf{Y}|\theta}(T(\mathbf{Y}))\right)^2}{\mathbb{V}_{\mathbf{Y}|\theta}(sc_n(\theta))}.
+\end{align*}
+\end{split}\]</div>
+<p>If, <span class="math notranslate nohighlight">\(Y_1,\ldots,Y_n\)</span> are i.i.d. r.v. with density function <span class="math notranslate nohighlight">\(p(Y|\theta)\)</span>, then</p>
+<div class="math notranslate nohighlight">
+\[\mathbb{V}_{\mathbf{Y}|\theta}(T(\mathbf{Y})) \geq \frac{\left(\frac{d}{d\theta}\mathbb{E}_{\mathbf{Y}|\theta}(T(\mathbf{Y}))\right)^2}{n J(\theta)}.\]</div>
+<p>Moreover, if <span class="math notranslate nohighlight">\(T(\mathbf{Y})\)</span> is an unbiased estimator for <span class="math notranslate nohighlight">\(\theta\)</span>, i.e. <span class="math notranslate nohighlight">\(\mathbb{E}_{\mathbf{Y}|\theta}(T(\mathbf{Y}))=\theta\)</span>, then</p>
+<div class="math notranslate nohighlight">
+\[\mathbb{V}_{\mathbf{Y}|\theta}(T(\mathbf{Y})) \geq \frac{1}{n J(\theta)}.\]</div>
+<p>This inequality formalizes our intuitive thinking of the inverse behavior between variance and information. Large variance implies low information, while low variance implies large information.</p>
+</section>
+<section id="historical-relevance-of-jeffrey-prior">
+<h3><span class="section-number">6.2.7. </span>Historical relevance of Jeffrey prior<a class="headerlink" href="#historical-relevance-of-jeffrey-prior" title="Permalink to this heading">#</a></h3>
+<p>The problem of the not-invariance under 1-1 transformations by the principle of indifference was a major critique to Bayesian statistics at the beginning of the century XX, made, among others, by Ronald A. Fisher. However, the studies and contributions done by Harold Jeffres about the noninformative priors that were invariant brought interest to the field again.</p>
+</section>
+</section>
+<section id="reference-analysis-with-pivotals">
+<h2><span class="section-number">6.3. </span>Reference analysis with pivotals<a class="headerlink" href="#reference-analysis-with-pivotals" title="Permalink to this heading">#</a></h2>
+<section id="reference-prior-for-a-parameter-of-location">
+<h3><span class="section-number">6.3.1. </span>Reference prior for a parameter of location<a class="headerlink" href="#reference-prior-for-a-parameter-of-location" title="Permalink to this heading">#</a></h3>
+<p>If <span class="math notranslate nohighlight">\(U=Y-\theta\)</span> is a random variable whose distribution does not depend of <span class="math notranslate nohighlight">\(\theta\)</span> nor <span class="math notranslate nohighlight">\(Y\)</span>, we say that <span class="math notranslate nohighlight">\(U\)</span> is a pivotal quantity and <span class="math notranslate nohighlight">\(\theta\)</span> is known as the parameter of localization <span class="math notranslate nohighlight">\(\theta\in\mathbb{R}\)</span>.</p>
+<p>Note that</p>
+<div class="math notranslate nohighlight">
+\[\frac{dY}{dU}=1\quad\text{and}\quad \left|\frac{d\theta}{dU}\right|=|-1|=1,\]</div>
+<p>then</p>
+<div class="math notranslate nohighlight">
+\[p(U)=p(Y|\theta)\left|\frac{dY}{dU}\right|=p(Y|\theta)\]</div>
+<p>and</p>
+<div class="math notranslate nohighlight">
+\[p(U)=p(\theta|Y)\left|\frac{d\theta}{dU}\right|=p(\theta|Y).\]</div>
+<p>Thus,</p>
+<div class="math notranslate nohighlight">
+\[p(\theta|Y)=p(Y|\theta)\]</div>
+<p>this implies that <span class="math notranslate nohighlight">\(p(\theta)\propto 1_{\mathbb{R}}(\theta)\)</span>, which is the prior of reference for a location parameter.</p>
+</section>
+<section id="reference-prior-for-a-parameter-of-scale">
+<h3><span class="section-number">6.3.2. </span>Reference prior for a parameter of scale<a class="headerlink" href="#reference-prior-for-a-parameter-of-scale" title="Permalink to this heading">#</a></h3>
+<p>If <span class="math notranslate nohighlight">\(U=\frac{Y}{\theta}\)</span> is a random variable whose distribution does not depend of <span class="math notranslate nohighlight">\(\theta\)</span> nor <span class="math notranslate nohighlight">\(Y\)</span>, we say that <span class="math notranslate nohighlight">\(U\)</span> is a pivotal quantity and <span class="math notranslate nohighlight">\(\theta\)</span> is known as the parameter of scale, <span class="math notranslate nohighlight">\(\theta&gt;0\)</span>.</p>
+<p>Note that</p>
+<div class="math notranslate nohighlight">
+\[\frac{dY}{dU}=\theta\]</div>
+<p>and</p>
+<div class="math notranslate nohighlight">
+\[\frac{d\theta}{dU}=-\frac{Y}{U^2}=-\frac{Y}{Y^2}\theta^2=-\frac{\theta^2}{Y},\]</div>
+<p>then</p>
+<div class="math notranslate nohighlight">
+\[p(U)=p(Y|\theta)\left|\frac{dY}{dU}\right|=\theta p(Y|\theta)\]</div>
+<p>and</p>
+<div class="math notranslate nohighlight">
+\[p(U)=p(\theta|Y)\left|\frac{d\theta}{dU}\right|=\frac{\theta^2}{|Y|}p(\theta|Y)\]</div>
+<p>Thus,</p>
+<div class="math notranslate nohighlight">
+\[\frac{\theta^2}{|y|}p(\theta|Y)=\theta p(Y|\theta)\]</div>
+<p>this impllies that</p>
+<div class="math notranslate nohighlight">
+\[p(\theta|Y)=\frac{1}{\theta}|y|p(Y|\theta),\]</div>
+<p>that is <span class="math notranslate nohighlight">\(p(\theta)\propto \frac{1}{\theta}1_{(0,\infty)}(\theta),\)</span> which is the prior of reference for a scale parameter.</p>
+</section>
+</section>
+<section id="uniform-likelihood">
+<h2><span class="section-number">6.4. </span>Uniform likelihood<a class="headerlink" href="#uniform-likelihood" title="Permalink to this heading">#</a></h2>
+<p>Let be <span class="math notranslate nohighlight">\(Y|a,b\sim\textsf{Uniform}(a,b)\)</span>,</p>
+<div class="math notranslate nohighlight">
+\[p(Y|a,b)=\frac{1}{b-a}1_{(a,b)}(Y).\]</div>
+<p>Consider the following transformation</p>
+<div class="math notranslate nohighlight">
+\[U=\frac{Y-a}{b-a}\Rightarrow Y=(b-a)U+a,\]</div>
+<p>so</p>
+<div class="math notranslate nohighlight">
+\[\frac{dY}{dU}=b-a,\]</div>
+<p>then</p>
+<div class="math notranslate nohighlight">
+\[p(U|a,b)=1_{(0,1)}(U).\]</div>
+<p>That is <span class="math notranslate nohighlight">\(U\sim\textsf{Uniform}(0,1)\)</span>, because its distribution does not depend of <span class="math notranslate nohighlight">\(a,b\)</span> nor <span class="math notranslate nohighlight">\(Y\)</span>, then <span class="math notranslate nohighlight">\(U\)</span> is a pivotal quantity, <span class="math notranslate nohighlight">\(a\)</span> is the localization parameter and <span class="math notranslate nohighlight">\(b-a\)</span> is the scale parameter. Thus, we can use the reference prior:</p>
+<div class="math notranslate nohighlight">
+\[p(a,b-a)\propto \frac{1}{b-a}1_{(0,\infty)}(b-a)1_{\mathbb{R}}(a).\]</div>
+<p>Considering the reparametrization <span class="math notranslate nohighlight">\(\phi(a, b-a)=(a,b)\)</span>, we obtain the reference prior for the original parameters <span class="math notranslate nohighlight">\(a\)</span> and <span class="math notranslate nohighlight">\(b\)</span>, given by</p>
+<div class="math notranslate nohighlight">
+\[p(a,b)\propto \frac{1}{b-a}1_{(a,\infty)}(b)1_{\mathbb{R}}(a).\]</div>
+<p>On the pther hand, note that the likelihood can be expressed as</p>
+<div class="math notranslate nohighlight">
+\[p(Y|a,b)=\frac{1}{b-a}1_{(-\infty,y)}(a)1_{(y,\infty)}(b)\]</div>
+<p>and the likelihood of the sample would be</p>
+<div class="math notranslate nohighlight">
+\[p(\mathbf{Y}|a,b)=\frac{1}{(b-a)^n}1_{(-\infty,y_{(1)})}(a)1_{(y_{(n)},\infty)}(b).\]</div>
+<p>Thus, the posterior distribution satisfies</p>
+<div class="math notranslate nohighlight">
+\[p(a,b|\mathbf{Y})\propto \frac{1}{(b-a)^{n+1}}1_{(-\infty,y_{(1)})}(a)1_{(y_{(n)},\infty)}(b).\]</div>
+<p>Integrating the left side of the last expression, we can get the constant of proportionality, so the posterior density is given by</p>
+<div class="math notranslate nohighlight">
+\[p(a,b|\mathbf{Y})=n(n-1)\frac{\left(y_{(n)}-y_{(1)}\right)^{n-1}}{(b-a)^{n+1}}1_{(-\infty,y_{(1)})}(a)1_{(y_{(n)},\infty)}(b)\]</div>
+<p>You can check the code <a class="reference external" href="https://github.com/IrvingGomez/BayesianStatistics/blob/main/Codes/06_UniformPivotalPrior.ipynb">06_UniformPivotalPrior.ipynb</a> within the <a class="reference external" href="https://github.com/IrvingGomez/BayesianStatistics">repository of the course</a>, for an example of Bayesian inference for the Uniform distribution with <span class="math notranslate nohighlight">\(a=-1\)</span> and <span class="math notranslate nohighlight">\(b=1\)</span>.</p>
+<p>The next figure correspond to the joint posterior <span class="math notranslate nohighlight">\(p(a,b|\mathbf{Y})\)</span>. Note that it is not well-approximated by a normal distribution. This is because the uniform likelihood does not satisfy the regularity conditions, which include that the likelihood should not be maximized in border of the parametric space.</p>
+<img alt="UniformLikelihood" class="align-center" src="../../_images/UniformLikelihood.png" />
+</section>
+<section id="exercises">
+<h2><span class="section-number">6.5. </span>Exercises<a class="headerlink" href="#exercises" title="Permalink to this heading">#</a></h2>
+<ol class="arabic simple">
+<li><p>Let be <span class="math notranslate nohighlight">\(Y|\theta\sim\textsf{Poisson}(\theta)\)</span>. Prove that the expected Fisher information per sample unit is given by</p></li>
+</ol>
+<div class="math notranslate nohighlight">
+\[J(\theta_0)=\frac{1}{\theta_0}.\]</div>
+<ol class="arabic simple" start="2">
+<li><p>Let be <span class="math notranslate nohighlight">\(Y|\theta\sim\textsf{Binomial}(n,\theta)\)</span>. Prove that the expected Fisher information per sample unit is given by</p></li>
+</ol>
+<div class="math notranslate nohighlight">
+\[J(\theta_0)=\frac{n}{\theta_0(1-\theta_0)}.\]</div>
+<ol class="arabic simple" start="3">
+<li><p>If <span class="math notranslate nohighlight">\(\theta\)</span> is a scale parameter and <span class="math notranslate nohighlight">\(p(\theta)\propto \frac{1}{\theta}1_{(0,\infty)}(\theta)\)</span>, prove that</p></li>
+</ol>
+<div class="math notranslate nohighlight">
+\[p(\theta^2)\propto \frac{1}{\theta^2}1_{(0,\infty)}(\theta^2)\]</div>
+<p>and</p>
+<div class="math notranslate nohighlight">
+\[p(\log \theta)\propto 1_{\mathbb{R}}(\log \theta).\]</div>
+</section>
 </section>
 
     <script type="text/x-thebe-config">
@@ -396,6 +703,37 @@ document.write(`
             </div>
             
             
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#ambiguity-of-the-principle-of-indifference">6.1. Ambiguity of the principle of indifference</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#jeffreys-rule">6.2. Jeffreys rule</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#score-function">6.2.1. Score function</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#expected-fisher-information-per-sample-unit">6.2.2. (Expected) Fisher information per sample unit</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exponential-likelihood">6.2.3. Exponential likelihood</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#jeffreys-prior">6.2.4. Jeffreys prior</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#proof-of-the-invariance-of-jeffreys-prior-optional">6.2.5. Proof of the invariance of Jeffreys prior (optional)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#cramerrao-bound-optional">6.2.6. Cramér–Rao bound (optional)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#historical-relevance-of-jeffrey-prior">6.2.7. Historical relevance of Jeffrey prior</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#reference-analysis-with-pivotals">6.3. Reference analysis with pivotals</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#reference-prior-for-a-parameter-of-location">6.3.1. Reference prior for a parameter of location</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#reference-prior-for-a-parameter-of-scale">6.3.2. Reference prior for a parameter of scale</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#uniform-likelihood">6.4. Uniform likelihood</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercises">6.5. Exercises</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
               
             
           </div>
