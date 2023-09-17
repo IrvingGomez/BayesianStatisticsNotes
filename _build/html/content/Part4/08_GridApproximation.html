@@ -61,6 +61,8 @@ const thebe_selector_input = "pre"
 const thebe_selector_output = ".output, .cell_output"
 </script>
     <script async="async" src="../../_static/sphinx-thebe.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'content/Part4/08_GridApproximation';</script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
@@ -309,7 +311,9 @@ document.write(`
   </button>
 `);
 </script>
-
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
 </div></div>
       
     </div>
@@ -325,6 +329,18 @@ document.write(`
     <div id="print-main-content">
         <div id="jb-print-toc">
             
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#grid-approximation">8.1. Grid approximation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#hypothesis-test">8.2. Hypothesis test</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#punctual-estimation">8.3. Punctual estimation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#region-and-interval-estimation">8.4. Region and interval estimation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#simulate-from-the-posterior-predictive-distribution">8.5. Simulate from the posterior predictive distribution</a></li>
+</ul>
+            </nav>
         </div>
     </div>
 </div>
@@ -336,6 +352,60 @@ document.write(`
                   
   <section class="tex2jax_ignore mathjax_ignore" id="grid-approximation-and-statistical-inference">
 <h1><span class="section-number">8. </span>Grid approximation and statistical inference<a class="headerlink" href="#grid-approximation-and-statistical-inference" title="Permalink to this heading">#</a></h1>
+<p>A Bayesian model is a machine that takes as input the prior distribution and the likelihood and, using Bayes rule as an engine, generates the posterior distribution. However, knowing the mathematical rule is usually of little help. Restricting ourselves to those models that allow a mathematical manipulation is a <em>Procrustean</em> solution.</p>
+<p>To solve this problem, we need to use nnumerical techniques that approximate the mathematical manipulation.</p>
+<div class="tip admonition">
+<p class="admonition-title">Procrustean solution</p>
+<p>In Greek mythology, Procrustes was a rogue smith and bandit from Attica who attacked people by stretching them or cutting off their legs, so as to force them to fit the size of an iron bed.</p>
+<p>The word <em>Procrustean</em> is thus used to describe situations where an arbitrary standard is used to measure success, while completely disregarding obvious harm that results from the effort.</p>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p>You can read more about Procrustes and <em>Procrustean</em> solutions in <a class="reference external" href="https://en.wikipedia.org/wiki/Procrustes">this Wikipedia article</a>.</p>
+</div>
+</div>
+<section id="grid-approximation">
+<h2><span class="section-number">8.1. </span>Grid approximation<a class="headerlink" href="#grid-approximation" title="Permalink to this heading">#</a></h2>
+<p>A simple solution when there are few parameters (tipically one or two) consists in generate a grid of values for them. Let be <span class="math notranslate nohighlight">\(\theta_j\)</span> one of such values, then we can calculate the posterior distribution at <span class="math notranslate nohighlight">\(\theta_j\)</span> (except for some constant of proportionality) using the formula</p>
+<div class="math notranslate nohighlight">
+\[p(\theta_j|\mathbf{Y})\propto p(\mathbf{Y}|\theta_j)p(\theta_j).\]</div>
+<p>An important consequence of this fact is that we can generate a sample from the posterior distribution from the proposed grid of values, we simply need to select <span class="math notranslate nohighlight">\(\theta_j\)</span> proportionally to <span class="math notranslate nohighlight">\(p(\mathbf{Y}|\theta_j)p(\theta_j)\)</span>. To get a good approximation of the posterior we need two conditions, the first one is that we need a thin grid, the second one is that we need to get a large sample from this grid.</p>
+</section>
+<section id="hypothesis-test">
+<h2><span class="section-number">8.2. </span>Hypothesis test<a class="headerlink" href="#hypothesis-test" title="Permalink to this heading">#</a></h2>
+<p>Sometimes the statistical inference can be described as:</p>
+<ol class="arabic simple">
+<li><p>We have a hypothesis, which might be true or false (<span class="math notranslate nohighlight">\(H:\theta\in\Theta_1\)</span>).</p></li>
+<li><p>We get statistical evidence about the falsifiability of the hypothesis.</p></li>
+<li><p>We use (or should use) Bayes rule to deduce logically the impact of the evident in the hypothesis</p></li>
+</ol>
+<div class="math notranslate nohighlight">
+\[\mathbb{P}(H|\mathbf{Y})=\mathbb{P}(\theta\in\Theta_1|\mathbf{Y})=\int_{\Theta_1}p(\theta|\mathbf{Y})d\theta.\]</div>
+<div class="tip admonition">
+<p class="admonition-title">Hypothesis test</p>
+<p>Generally speaking, in a hypothesis test, we want to calculate</p>
+<div class="math notranslate nohighlight">
+\[\mathbb{P}(H|\text{evidence})=\frac{\mathbb{P}(\text{evidence}|H)\mathbb{P}(H)}{\mathbb{P}(\text{evidence})}.\]</div>
+<p>To increase the posterior probability, it is highly important to increase <span class="math notranslate nohighlight">\(\mathbb{P}(H)\)</span>, this requires a cognitive and argumentative effort, and it is not limited to a simple statistical test. <strong>Statistics is not a substitute of argumentation and science</strong>.</p>
+</div>
+<p><strong>Present Lidley paradox</strong></p>
+</section>
+<section id="punctual-estimation">
+<h2><span class="section-number">8.3. </span>Punctual estimation<a class="headerlink" href="#punctual-estimation" title="Permalink to this heading">#</a></h2>
+<p>The Bayesian estimator consists of the whole posterior distribution. However, somtimes we need to report a punctual value of the parameters. In this case is common to report the MAP. Unfortunately, this estimator might arrise absurd results. For example <strong>I need to add the example of estimating the proportion of water on the Earth surface.</strong> Thus, instead of reporting the MAP other popular options are the posterior mean and the posterior median. Another option is to define a loss function and find the estimator that minimizes it. For instance, the mean minimizes the quadratic loss, while the median minimizes the absolute loss.</p>
+</section>
+<section id="region-and-interval-estimation">
+<h2><span class="section-number">8.4. </span>Region and interval estimation<a class="headerlink" href="#region-and-interval-estimation" title="Permalink to this heading">#</a></h2>
+<p>If we count with a sample from the (approximate) posterior distribution <span class="math notranslate nohighlight">\(\tilde\theta_1,\ldots,\tilde\theta_S\)</span>, we can estimate <span class="math notranslate nohighlight">\(\mathbb{P}(\theta\in\Theta_1|\mathbf{Y})=\mathbb{E}\left[1_{\theta\in\Theta_1}|\mathbf{Y}\right]\)</span> through</p>
+<div class="math notranslate nohighlight">
+\[\frac{1}{S}\sum_{s=1}^S 1_{\tilde\theta_s\in\Theta_1},\]</div>
+<p>where <span class="math notranslate nohighlight">\(\Theta_1\)</span> is (in principle) any arbitrary region in the parametric space.</p>
+<p>In this way, it becomes particularly easy to estimate intervals <span class="math notranslate nohighlight">\((\theta_1, \theta_2)\)</span> such that <span class="math notranslate nohighlight">\(\mathbb{P}(\theta\in(\theta_1,\theta_2))=1-\alpha\)</span>. This intervals are known as <strong>credible intervals</strong>. The shorter intervals of posterior probability of <span class="math notranslate nohighlight">\(1-\alpha\)</span> are of particular interests, such intervals are known as <strong>highest posterior density interval</strong>, HPDI.</p>
+</section>
+<section id="simulate-from-the-posterior-predictive-distribution">
+<h2><span class="section-number">8.5. </span>Simulate from the posterior predictive distribution<a class="headerlink" href="#simulate-from-the-posterior-predictive-distribution" title="Permalink to this heading">#</a></h2>
+<p>We could also be interested in making inference about the variable of interest <span class="math notranslate nohighlight">\(Y\)</span>. To do so, we can simulate a sample from the posterior predictive distribution in the following way. Once we count with a sample from the posterior distribution, <span class="math notranslate nohighlight">\(\tilde\theta_1,\ldots,\tilde\theta_S\)</span>, te generate the sample <span class="math notranslate nohighlight">\(\tilde{Y}_1,\ldots, \tilde{Y}_S\)</span> from the posterior predictive distribution we simply simulate <span class="math notranslate nohighlight">\(\tilde{Y}_s\sim p(Y|\tilde\theta_s)\)</span>.</p>
+<p><strong>Present Beta-Binomial case</strong></p>
+</section>
 </section>
 
     <script type="text/x-thebe-config">
@@ -396,6 +466,24 @@ document.write(`
             </div>
             
             
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#grid-approximation">8.1. Grid approximation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#hypothesis-test">8.2. Hypothesis test</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#punctual-estimation">8.3. Punctual estimation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#region-and-interval-estimation">8.4. Region and interval estimation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#simulate-from-the-posterior-predictive-distribution">8.5. Simulate from the posterior predictive distribution</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
               
             
           </div>
