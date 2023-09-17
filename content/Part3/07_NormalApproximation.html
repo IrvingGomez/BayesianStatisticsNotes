@@ -61,6 +61,8 @@ const thebe_selector_input = "pre"
 const thebe_selector_output = ".output, .cell_output"
 </script>
     <script async="async" src="../../_static/sphinx-thebe.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'content/Part3/07_NormalApproximation';</script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
@@ -309,7 +311,9 @@ document.write(`
   </button>
 `);
 </script>
-
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
 </div></div>
       
     </div>
@@ -325,6 +329,21 @@ document.write(`
     <div id="print-main-content">
         <div id="jb-print-toc">
             
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#observed-fisher-information">7.1. Observed Fisher information</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#region-of-approximately-1-alpha-posterior-probability">7.2. Region of approximately <span class="math notranslate nohighlight">\((1-\alpha)\)</span> posterior probability</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#normal-approximation-of-the-beta-binomial-model">7.3. Normal approximation of the Beta-Binomial model</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#normal-approximation-for-the-normal-likelihood-considering-the-conjugate-prior">7.4. Normal approximation for the normal likelihood considering the conjugate prior</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#normal-aprroximation-considering-the-reference-prior">7.4.1. Normal aprroximation considering the reference prior</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercises">7.5. Exercises</a></li>
+</ul>
+            </nav>
         </div>
     </div>
 </div>
@@ -336,6 +355,250 @@ document.write(`
                   
   <section class="tex2jax_ignore mathjax_ignore" id="normal-approximation">
 <h1><span class="section-number">7. </span>Normal approximation<a class="headerlink" href="#normal-approximation" title="Permalink to this heading">#</a></h1>
+<p>Assume that <span class="math notranslate nohighlight">\(Y_1,\ldots,Y_n\)</span> are i.i.d. r.v. with common density <span class="math notranslate nohighlight">\(f(Y)\)</span>, but we, in our ignorance, model them with the likelihood <span class="math notranslate nohighlight">\(p(Y|\theta)\)</span>. Let be <span class="math notranslate nohighlight">\(\theta_0\)</span> the value that minimizes the Kullback-Leibler divergence between <span class="math notranslate nohighlight">\(f(Y)\)</span> and <span class="math notranslate nohighlight">\(p(Y|\theta)\)</span>.</p>
+<p>Under regularity conditions, for <span class="math notranslate nohighlight">\(n\)</span> sufficiently large, it can be shown that</p>
+<div class="math notranslate nohighlight">
+\[\theta|\mathbf{Y}\overset{\cdot}{\sim}\textsf{Normal}\left(\theta_0, (nJ(\theta_0))^{-1}\right).\]</div>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p>Entropy and the Kullback-Leibler divergence are fundamental concepts in the fields of machine learning, statistics and information theory. For interested readers in entropy and its use in machine learning algorithms, I recommend the following video.</p>
+<iframe width="560" height="315" src="https://www.youtube.com/embed/YtebGVx-Fxw?si=T8m9VQFd6esm2P6d" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+<p>For those interested in the relationship between the entropy,the Kullback-Leibler divergence and their relationship with maximum likelihood, you can find some notes that I wrote <a class="reference external" href="https://en.wikipedia.org/wiki/Kullback%E2%80%93Leibler_divergence">here should be a link to my notes, meanwhile there is a link to wikipedia</a>.</p>
+<p>Since entropy and the Kullback-Leibler divergence are concepts strongly associated with the field of information theory, I recommend the following reference for those interested in the field. <strong>I have to add the references.</strong></p>
+</div>
+<section id="observed-fisher-information">
+<h2><span class="section-number">7.1. </span>Observed Fisher information<a class="headerlink" href="#observed-fisher-information" title="Permalink to this heading">#</a></h2>
+<p>If <span class="math notranslate nohighlight">\(\hat{\theta}\)</span> denotes the mode of the posterior distribution, known as the <em>maximum a posteriori</em> (MAP), under the same regularity conditions and for <span class="math notranslate nohighlight">\(n\)</span> sufficently large,</p>
+<div class="math notranslate nohighlight">
+\[\hat{\theta}\approx\theta_0.\]</div>
+<p>On the other hand, we define the observed Fisher information, in the Bayesin framework and under regularity conditions, as</p>
+<div class="math notranslate nohighlight">
+\[I(\hat{\theta})=-\left[\frac{d^2}{d\theta^2}\log p(\theta|\mathbf{Y})\right]_{\theta=\hat{\theta}}.\]</div>
+<p>Note that we can write this expression as:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{align*}
+I(\hat{\theta}) &amp;= -\left[\frac{d^2}{d\theta^2}\log p(\theta|\mathbf{Y})\right]_{\theta=\hat{\theta}} \\\\
+&amp; = -\frac{d^2}{d\theta^2}\Big[\log p(\mathbf{Y}|\theta) + \log p(\theta) - \log p(\mathbf{Y})\Big]_{\theta=\hat{\theta}} \\\\
+&amp; = -\left[\frac{d^2}{d\theta^2}\log p(\mathbf{Y}|\theta)\right]_{\theta=\hat{\theta}} - \left[\frac{d^2}{d\theta^2} \log p(\theta)\right]_{\theta=\hat{\theta}},
+\end{align*}
+\end{split}\]</div>
+<p>because we assume that <span class="math notranslate nohighlight">\(Y_1,\ldots Y_n\)</span> are i.i.d., then</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{align*}
+I(\hat{\theta}) &amp;= -\sum_{i=1}^n\left[\frac{d^2}{d\theta^2}\log p(Y_i|\theta)\right]_{\theta=\hat{\theta}} - \left[\frac{d^2}{d\theta^2} \log p(\theta)\right]_{\theta=\hat{\theta}} \\\\
+&amp;= -n\left[\frac{1}{n}\sum_{i=1}^n\frac{d^2}{d\theta^2}\log p(Y_i|\theta)\right]_{\theta=\hat{\theta}} - \left[\frac{d^2}{d\theta^2} \log p(\theta)\right]_{\theta=\hat{\theta}}.
+\end{align*}
+\end{split}\]</div>
+<p>By law of large numbers, under regularity conditions and for <span class="math notranslate nohighlight">\(n\)</span> sufficiently large,</p>
+<div class="math notranslate nohighlight">
+\[-\frac{1}{n}\sum_{i=1}^n\left[\frac{d^2}{d\theta^2}\log p(Y_i|\theta)\right]_{\theta=\hat{\theta}} \approx J(\theta_0),\]</div>
+<p>also the second term on the right side becomes negligible.</p>
+<p>Thus, under regularity conditions and for <span class="math notranslate nohighlight">\(n\)</span> sufficiently large,</p>
+<div class="math notranslate nohighlight">
+\[I(\hat{\theta})\approx nJ(\theta_0)\]</div>
+<p>and</p>
+<div class="math notranslate nohighlight">
+\[\theta|\mathbf{Y}\overset{\cdot}{\sim}\textsf{Normal}\left(\hat{\theta},\left(I(\hat{\theta})\right)^{-1}\right).\]</div>
+</section>
+<section id="region-of-approximately-1-alpha-posterior-probability">
+<h2><span class="section-number">7.2. </span>Region of approximately <span class="math notranslate nohighlight">\((1-\alpha)\)</span> posterior probability<a class="headerlink" href="#region-of-approximately-1-alpha-posterior-probability" title="Permalink to this heading">#</a></h2>
+<p>On the other hand, consider the Taylor series of the log-posterior around the MAP <span class="math notranslate nohighlight">\(\hat{\theta}\)</span>,</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{align*}
+\log p(\theta|\mathbf{Y})-\log p(\hat{\theta}|\mathbf{Y}) &amp;\approx \frac{1}{2}(\theta-\hat{\theta})^T\left[\frac{d^2}{d\theta^2}\log p(\theta|\mathbf{Y})\right]_{\theta=\hat{\theta}}(\theta-\hat{\theta})\\\\
+\Rightarrow -2\log \frac{p(\theta|\mathbf{Y})}{p(\hat{\theta}|\mathbf{Y})} &amp;\approx (\theta-\hat{\theta})^T\left[-\frac{d^2}{d\theta^2}\log p(\theta|\mathbf{Y})\right]_{\theta=\hat{\theta}}(\theta-\hat{\theta}).
+\end{align*}
+\end{split}\]</div>
+<p>Thus, if <span class="math notranslate nohighlight">\(\theta\)</span> has dimension <span class="math notranslate nohighlight">\(k\)</span>,</p>
+<div class="math notranslate nohighlight">
+\[-2\log \frac{p(\theta|\mathbf{Y})}{p(\hat{\theta}|\mathbf{Y})}\overset{\cdot}{\sim}\chi^2_k.\]</div>
+<p>Let be <span class="math notranslate nohighlight">\(q_{\chi^2_k}^{1-\alpha}\)</span> the quantile of probability <span class="math notranslate nohighlight">\(1-\alpha\)</span> of a <span class="math notranslate nohighlight">\(\chi^2_k\)</span> distribution, i.e.</p>
+<div class="math notranslate nohighlight">
+\[\mathbb{P}\left(\chi^2_k\leq q_{\chi^2_k}^{1-\alpha}\right)=1-\alpha.\]</div>
+<p>Therefore,</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{align*}
+\mathbb{P}\left[-2\log \frac{p(\theta|\mathbf{Y})}{p(\hat{\theta}|\mathbf{Y})}\leq q_{\chi^2_k}^{1-\alpha}\right] &amp; \approx 1-\alpha \\\\
+\Rightarrow \mathbb{P}\left[\frac{p(\theta|\mathbf{Y})}{p(\hat{\theta}|\mathbf{Y})}\geq \exp\left\{-\frac{q_{\chi^2_k}^{1-\alpha}}{2}\right\}\right] &amp; \approx 1-\alpha.
+\end{align*}
+\end{split}\]</div>
+<p>That is, the region of <span class="math notranslate nohighlight">\(\Theta\)</span>, given by</p>
+<div class="math notranslate nohighlight">
+\[R(\Theta)=\left\{\theta: \frac{p(\theta|\mathbf{Y})}{p(\hat{\theta}|\mathbf{Y})}\geq \exp\left\{-\frac{q_{\chi^2_k}^{1-\alpha}}{2}\right\}\right\}\]</div>
+<p>corresponds to a region of approximately <span class="math notranslate nohighlight">\(1-\alpha\)</span> posterior probability.</p>
+</section>
+<section id="normal-approximation-of-the-beta-binomial-model">
+<h2><span class="section-number">7.3. </span>Normal approximation of the Beta-Binomial model<a class="headerlink" href="#normal-approximation-of-the-beta-binomial-model" title="Permalink to this heading">#</a></h2>
+<p>Let be <span class="math notranslate nohighlight">\(Y_1,\ldots,Y_n|\theta\overset{iid}{\sim}\textsf{Bernoulli}(\theta)\)</span>, and consider the prior <span class="math notranslate nohighlight">\(\textsf{Beta}(\alpha,\beta)\)</span>, then <span class="math notranslate nohighlight">\(\theta|\mathbf{Y}\sim\textsf{Beta}(\alpha_n,\beta_n)\)</span>, where <span class="math notranslate nohighlight">\(\alpha_n=\alpha+\sum_{i=1}^n Y_i\)</span> and <span class="math notranslate nohighlight">\(\beta_n=\beta+n-\sum_{i=1}^n Y_i\)</span>, so</p>
+<div class="math notranslate nohighlight">
+\[p(\theta|\mathbf{Y})=\text{constant}\times\theta^{\alpha_n-1}(1-\theta)^{\beta_n-1}\]</div>
+<p>and</p>
+<div class="math notranslate nohighlight">
+\[\log p(\theta|\mathbf{Y})=\text{constant}+(\alpha_n-1)\log\theta+(\beta_n-1)\log(1-\theta).\]</div>
+<p>We now compute the first derivative,</p>
+<div class="math notranslate nohighlight">
+\[\frac{d}{d\theta}\log p(\theta|\mathbf{Y})=\frac{\alpha_n-1}{\theta}-\frac{\beta_n-1}{1-\theta}.\]</div>
+<p>Assume that <span class="math notranslate nohighlight">\(\alpha_n,\beta_n&gt;1\)</span>. Then, the MAP of <span class="math notranslate nohighlight">\(\theta\)</span>, <span class="math notranslate nohighlight">\(\hat{\theta}\)</span>, satisfies</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{align*}
+\frac{1-\hat{\theta}}{\hat{\theta}} &amp; = \frac{\beta_n-1}{\alpha_n-1} \\\\
+\Rightarrow \frac{1}{\hat{\theta}} &amp; = \frac{\beta_n-1}{\alpha_n-1}+1 \\\\
+\Rightarrow \hat{\theta} &amp; = \frac{\alpha_n-1}{\alpha_n+\beta_n-2},
+\end{align*}
+\end{split}\]</div>
+<p>which, of course, corresponds to the mode of a distribution <span class="math notranslate nohighlight">\(\textsf{Beta}(\alpha_n,\beta_n)\)</span>.</p>
+<p>Now, we calculate the second derivative and evaluate it in the MAP,</p>
+<div class="math notranslate nohighlight">
+\[\left[\frac{d^2}{d\theta^2}\log p(\theta|\mathbf{Y})\right]_{\hat{\theta}}=-\frac{\alpha_n-1}{\hat{\theta}^2}-\frac{\beta_n-1}{(1-\hat{\theta})^2},\]</div>
+<p>note that</p>
+<div class="math notranslate nohighlight">
+\[1-\hat{\theta}=\hat{\theta}\left(\frac{\beta_n-1}{\alpha_n-1}\right),\]</div>
+<p>then</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{align*}
+\left[\frac{d^2}{d\theta^2}\log p(\theta|\mathbf{Y})\right]_{\hat{\theta}} &amp; = -\frac{\alpha_n-1}{\hat{\theta}^2}-\frac{(\alpha_n-1)^2}{\hat{\theta}^2(\beta_n-1)} \\\\
+&amp; = -\frac{\alpha_n-1}{\hat{\theta}^2}\left(1+\frac{\alpha_n-1}{\beta_n-1}\right) \\\\
+&amp; = -\frac{\alpha_n-1}{\hat{\theta}^2}\left(\frac{\alpha_n+\beta_n-2}{\beta_n-1}\right) \\\\
+&amp; = -\frac{\alpha_n+\beta_n-2}{\hat{\theta}(1-\hat{\theta})},
+\end{align*}
+\end{split}\]</div>
+<p>the last equality is obatined noting that</p>
+<div class="math notranslate nohighlight">
+\[\frac{\alpha_n-1}{\beta_n-1}=\frac{\hat{\theta}}{1-\hat{\theta}}.\]</div>
+<p>Thus,</p>
+<div class="math notranslate nohighlight">
+\[\theta|\mathbf{Y}\overset{\cdot}{\sim}\textsf{Normal}\left(\hat{\theta},\frac{\hat{\theta}(1-\hat{\theta})}{\alpha_n+\beta_n-2}\right),\]</div>
+<p>where</p>
+<div class="math notranslate nohighlight">
+\[\hat{\theta}=\frac{\alpha_n-1}{\alpha_n+\beta_n-2}.\]</div>
+<p>If we set <span class="math notranslate nohighlight">\(\alpha=1\)</span> and <span class="math notranslate nohighlight">\(\beta=1\)</span>, then <span class="math notranslate nohighlight">\(\alpha_n=1+\sum_{i=1}^n Y_i\)</span>, <span class="math notranslate nohighlight">\(\beta_n=1+n-\sum_{i=1}^n Y_i\)</span>. So, <span class="math notranslate nohighlight">\(\hat{\theta}=\bar{Y}\)</span> and</p>
+<div class="math notranslate nohighlight">
+\[\theta|\mathbf{Y}\overset{\cdot}{\sim}\textsf{Normal}\left(\hat{\theta},\frac{\hat{\theta}(1-\hat{\theta})}{n}\right)\]</div>
+<p>In the code <a class="reference external" href="https://github.com/IrvingGomez/BayesianStatistics/blob/main/Codes/07_NormalApproximation.ipynb">07_NormalApproximation.ipynb</a> within the <a class="reference external" href="https://github.com/IrvingGomez/BayesianStatistics">repository of the course</a>, there are two examples of the normal approximation for the posterior distribution, on for the Beta-Binomial model and the other for the Gamma-Exponential model.</p>
+</section>
+<section id="normal-approximation-for-the-normal-likelihood-considering-the-conjugate-prior">
+<h2><span class="section-number">7.4. </span>Normal approximation for the normal likelihood considering the conjugate prior<a class="headerlink" href="#normal-approximation-for-the-normal-likelihood-considering-the-conjugate-prior" title="Permalink to this heading">#</a></h2>
+<p>As mentioned in <a class="reference internal" href="../Part2/04_MultiparametricModels.html"><span class="doc std std-doc">Chapter 4</span></a>, if <span class="math notranslate nohighlight">\(Y_1,\ldots,Y_n|\mu,\sigma^2\overset{iid}{\sim}\textsf{Normal}(\mu,\sigma^2)\)</span>, then the conjugate prior is given by the NI<span class="math notranslate nohighlight">\(\chi^2\)</span> distribution:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{align*}
+\mu|\sigma^2 &amp;\sim \textsf{Normal}(\mu_0,\sigma^2/\kappa_0) \\
+\sigma^2 &amp;\sim \textsf{Inversa}-\chi^2(\nu_0,\sigma_0^2),
+\end{align*}
+\end{split}\]</div>
+<p>whose posterior distributions are given by</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{align*}
+\mu|\sigma^2,\mathbf{Y} &amp;\sim \textsf{Normal}(\mu_n,\sigma^2/\kappa_n)\\
+\sigma^2|\mathbf{Y} &amp;\sim \textsf{Inversa}-\chi^2(\nu_n,\sigma_n^2),
+\end{align*}
+\end{split}\]</div>
+<p>where</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{align*}
+\mu_n &amp;= \frac{\kappa_0}{\kappa_0+n}\mu_0 + \frac{n}{\kappa_0+n}\bar{y} \\
+\kappa_n &amp;= \kappa_0+n \\
+\nu_n &amp;= \nu_0+n \\
+\nu_n\sigma_n^2 &amp;= \nu_0\sigma_0^2+(n-1)s^2+\frac{\kappa_0 n}{\kappa_0+n}(\bar{y}-\mu_0)^2.
+\end{align*}
+\end{split}\]</div>
+<p>Then</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{align*}
+p(\mu,\sigma^2|\mathbf{Y})= &amp; \text{constant} \times(\sigma^2)^{-1/2}\exp\left\{-\frac{\kappa_n}{2\sigma^2}(\mu-\mu_n)^2\right\} \\\\
+&amp; \times(\sigma^2)^{-(\nu_n/2+1)}\exp\left\{-\frac{\nu_n\sigma_n^2}{2\sigma^2}\right\}1_{\mathbb{R}}(\mu)1_{(0,\infty)}(\sigma^2),
+\end{align*}
+\end{split}\]</div>
+<p>so</p>
+<div class="math notranslate nohighlight">
+\[\log p(\mu,\sigma^2|\mathbf{Y})=\text{constant}-\left(\frac{\nu_n+3}{2}\right)\log(\sigma^2)-\frac{\kappa_n}{2\sigma^2}(\mu-\mu_n)^2-\frac{\nu_n\sigma_n^2}{2\sigma^2}.\]</div>
+<p>We now calculate the first derivative of the log-posterior with respect to <span class="math notranslate nohighlight">\(\mu\)</span></p>
+<div class="math notranslate nohighlight">
+\[\frac{\partial}{\partial\mu}\log p(\mu,\sigma^2|\mathbf{Y})=-\frac{\kappa_n}{\sigma^2}(\mu-\mu_n),\]</div>
+<p>where we can recognize easily that the MAP of <span class="math notranslate nohighlight">\(\mu\)</span> is given by <span class="math notranslate nohighlight">\(\hat{\mu}=\mu_n\)</span>.</p>
+<p>The first derivative of the log-posterior with respect to <span class="math notranslate nohighlight">\(\sigma^2\)</span> is given by</p>
+<div class="math notranslate nohighlight">
+\[\frac{\partial}{\partial\sigma^2}\log p(\mu,\sigma^2|\mathbf{Y})=-\left(\frac{\nu_n+3}{2}\right)\frac{1}{\sigma^2}+\frac{\kappa_n}{2\sigma^4}(\mu-\mu_n)^2+\frac{\nu_n\sigma_n^2}{2\sigma^4}.\]</div>
+<p>Then, the MAP of <span class="math notranslate nohighlight">\(\sigma^2\)</span>, <span class="math notranslate nohighlight">\(\hat{\sigma}^2\)</span>, satisfies that</p>
+<div class="math notranslate nohighlight">
+\[-\left(\frac{\nu_n+3}{2}\right)\frac{1}{\hat\sigma^2}+\frac{\nu_n\sigma_n^2}{2\hat\sigma^4}=0,\]</div>
+<p>where we get</p>
+<div class="math notranslate nohighlight">
+\[\hat{\sigma}^2=\frac{\nu_n}{\nu_n+3}\sigma_n^2.\]</div>
+<p>We now calculate the second derivatives of the log-posterior:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{align*}
+\frac{\partial^2}{\partial\mu^2}\log p(\mu,\sigma^2|\mathbf{Y}) &amp; = -\frac{\kappa_n}{\sigma^2}, \\\\
+\frac{\partial^2}{\partial\mu\partial\sigma}\log p(\mu,\sigma^2|\mathbf{Y}) &amp; = \frac{\kappa_n}{\sigma^4}(\mu-\mu_n), \\\\
+\frac{\partial^2}{\partial(\sigma^2)^2}\log p(\mu,\sigma^2|\mathbf{Y}) &amp; = \frac{\nu_n+3}{2\sigma^4}-\frac{\kappa_n}{\sigma^6}(\mu-\mu_n)^2-\frac{\nu_n\sigma_n^2}{\sigma^6}.
+\end{align*}
+\end{split}\]</div>
+<p>And evaluate these expressions in the MAP of the parameters, <span class="math notranslate nohighlight">\((\hat{\mu},\hat{\sigma}^2)\)</span>,</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{align*}
+\left[\frac{\partial^2}{\partial\mu^2}\log p(\mu,\sigma^2|\mathbf{Y})\right]_{(\hat{\mu},\hat{\sigma}^2)} &amp; = -\frac{\kappa_n}{\hat\sigma^2}, \\\\
+\left[\frac{\partial^2}{\partial\mu\partial\sigma^2}\log p(\mu,\sigma^2|\mathbf{Y})\right]_{(\hat{\mu},\hat{\sigma}^2)} &amp; = 0, \\\\
+\left[\frac{\partial^2}{\partial(\sigma^2)^2}\log p(\mu,\sigma^2|\mathbf{Y})\right]_{(\hat{\mu},\hat{\sigma}^2)} &amp; = \frac{\nu_n+3}{2\hat\sigma^4}-\frac{\nu_n\sigma_n^2}{\hat\sigma^6} \\
+&amp; = \frac{\nu_n+3}{2\hat\sigma^4}-\frac{\cancel{\nu_n\sigma_n^2}}{\hat\sigma^4\cancel{\nu_n\sigma_n^2}}(\nu_n+3) \\
+&amp; = -\frac{\nu_n+3}{2\hat{\sigma}^4}.
+\end{align*}
+\end{split}\]</div>
+<p>Then,</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\mu,\sigma^2|\mathbf{Y}\overset{\cdot}{\sim}\textsf{Normal}\left(
+\begin{pmatrix}
+    \hat{\mu} \\ \hat{\sigma}^2
+\end{pmatrix},
+\begin{pmatrix}
+    \frac{\hat{\sigma}^2}{\kappa_n} &amp; 0 \\ 0 &amp; \frac{2}{\nu_n+3}\hat{\sigma}^4
+\end{pmatrix}
+\right),\end{split}\]</div>
+<p>where</p>
+<div class="math notranslate nohighlight">
+\[\hat{\mu}=\mu_n\text{ and }\hat{\sigma}^2=\frac{\nu_n}{\nu_n+3}\sigma_n^2.\]</div>
+<section id="normal-aprroximation-considering-the-reference-prior">
+<h3><span class="section-number">7.4.1. </span>Normal aprroximation considering the reference prior<a class="headerlink" href="#normal-aprroximation-considering-the-reference-prior" title="Permalink to this heading">#</a></h3>
+<p>As discussed in <a class="reference internal" href="06_ReferenceAnalysis.html"><span class="doc std std-doc">Chapter 6</span></a>, the reference prior is given by</p>
+<div class="math notranslate nohighlight">
+\[p(\mu,\sigma^2)\propto\frac{1}{\sigma^2}1_{\mathbb{R}}(\mu)1_{(0,\infty)}(\sigma^2),\]</div>
+<p>which is obateined setting the hyperparameters in the following values</p>
+<div class="math notranslate nohighlight">
+\[\kappa_0=0,\quad \mu_0\in\mathbb{R},\quad\nu_0=-1,\quad\sigma_0^2=0,\]</div>
+<p>then</p>
+<div class="math notranslate nohighlight">
+\[\kappa_n=n,\quad \mu_n=\bar{y},\quad\nu_n=n-1,\quad\sigma_n^2=s^2,\]</div>
+<p>with</p>
+<p><span class="math notranslate nohighlight">\(s^2=\frac{1}{n-1}\sum_{i=1}^n(y_i-\bar{y})^2\)</span>.</p>
+<p>Therefore, if we take the reference prior, we get that</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\mu,\sigma^2|\mathbf{Y}\overset{\cdot}{\sim}\textsf{Normal}\left(
+\begin{pmatrix}
+    \bar{y} \\ \hat{\sigma}^2
+\end{pmatrix},
+\begin{pmatrix}
+    \frac{\hat{\sigma}^2}{n} &amp; 0 \\ 0 &amp; \frac{2}{n+2}\hat{\sigma}^4
+\end{pmatrix}
+\right),
+\end{split}\]</div>
+<p>where</p>
+<div class="math notranslate nohighlight">
+\[\hat{\sigma}^2=\frac{n-1}{n+2}s^2.\]</div>
+</section>
+</section>
+<section id="exercises">
+<h2><span class="section-number">7.5. </span>Exercises<a class="headerlink" href="#exercises" title="Permalink to this heading">#</a></h2>
+</section>
 </section>
 
     <script type="text/x-thebe-config">
@@ -396,6 +659,27 @@ document.write(`
             </div>
             
             
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#observed-fisher-information">7.1. Observed Fisher information</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#region-of-approximately-1-alpha-posterior-probability">7.2. Region of approximately <span class="math notranslate nohighlight">\((1-\alpha)\)</span> posterior probability</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#normal-approximation-of-the-beta-binomial-model">7.3. Normal approximation of the Beta-Binomial model</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#normal-approximation-for-the-normal-likelihood-considering-the-conjugate-prior">7.4. Normal approximation for the normal likelihood considering the conjugate prior</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#normal-aprroximation-considering-the-reference-prior">7.4.1. Normal aprroximation considering the reference prior</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercises">7.5. Exercises</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
               
             
           </div>

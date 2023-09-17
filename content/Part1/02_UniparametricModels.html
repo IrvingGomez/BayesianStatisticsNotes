@@ -347,8 +347,8 @@ document.write(`
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#predictive-distributions">2.5. Predictive distributions</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#prior-predictive-distribution">2.5.1. Prior predictive distribution:</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#posterior-predictive-distribution">2.5.2. Posterior predictive distribution:</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#prior-predictive-distribution">2.5.1. Prior predictive distribution</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#posterior-predictive-distribution">2.5.2. Posterior predictive distribution</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#rule-of-succession">2.5.3. Rule of succession</a></li>
 </ul>
 </li>
@@ -454,8 +454,8 @@ document.write(`
 <div class="math notranslate nohighlight">
 \[\begin{split}
 \begin{aligned}
-\theta &amp; \sim \textsf{Beta}(1,1), \\
-Y|\theta &amp; \sim \textsf{Binomial}(n,\theta) \\
+\theta &amp; \sim \textsf{Beta}(1,1), \\\\
+Y|\theta &amp; \sim \textsf{Binomial}(n,\theta) \\\\
 \Rightarrow \theta|Y &amp; \sim \textsf{Beta}(Y+1, n-Y+1).
 \end{aligned}
 \end{split}\]</div>
@@ -550,7 +550,7 @@ Y|\theta &amp; \sim \textsf{Binomial}(n,\theta) \\
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/4686ad6e50fa3d814cdae3ca09f4c175660160c8d38f13552dc43eb9c625f2dd.png" src="../../_images/4686ad6e50fa3d814cdae3ca09f4c175660160c8d38f13552dc43eb9c625f2dd.png" />
+<img alt="../../_images/6ef33a5664cc65858e75580a00cd6cf9fd28434a8ef5bb49e46cbf55bfe91088.png" src="../../_images/6ef33a5664cc65858e75580a00cd6cf9fd28434a8ef5bb49e46cbf55bfe91088.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -560,7 +560,7 @@ Y|\theta &amp; \sim \textsf{Binomial}(n,\theta) \\
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([0.411, 0.473])
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([0.412, 0.475])
 </pre></div>
 </div>
 </div>
@@ -576,7 +576,7 @@ Y|\theta &amp; \sim \textsf{Binomial}(n,\theta) \\
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/759e55b646579a6ec91d99ab516eda71ba22d73b0112686d5b35f6dd34b164e8.png" src="../../_images/759e55b646579a6ec91d99ab516eda71ba22d73b0112686d5b35f6dd34b164e8.png" />
+<img alt="../../_images/64b276934f98a3941cbd7cd1a393ed0625c92b36fa35e302c7d3ba1aec7e55eb.png" src="../../_images/64b276934f98a3941cbd7cd1a393ed0625c92b36fa35e302c7d3ba1aec7e55eb.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -661,19 +661,19 @@ Prob. C: 0.4876
 <p>In many cases we are more interested in the behavior of future observations of the phenomenon than on some vector of parameters <span class="math notranslate nohighlight">\(\theta\)</span>. Usually, in frequentist statistics we solve this problem using a punctual estimator of <span class="math notranslate nohighlight">\(\theta\)</span> based on the observed sample, <span class="math notranslate nohighlight">\(\hat{\theta}\)</span>, who is later plug in <span class="math notranslate nohighlight">\(p(Y|\theta)\)</span>, that is, we use <span class="math notranslate nohighlight">\(p(Y|\hat\theta)\)</span> to predict the behavior of future observations.</p>
 <p>In Bayesian statistics the problem is solved marginalizing the joint distribution of <span class="math notranslate nohighlight">\(\theta\)</span> and <span class="math notranslate nohighlight">\(Y\)</span>.</p>
 <section id="prior-predictive-distribution">
-<h3><span class="section-number">2.5.1. </span>Prior predictive distribution:<a class="headerlink" href="#prior-predictive-distribution" title="Permalink to this heading">#</a></h3>
+<h3><span class="section-number">2.5.1. </span>Prior predictive distribution<a class="headerlink" href="#prior-predictive-distribution" title="Permalink to this heading">#</a></h3>
 <p>Thus, the prior predictive distributions can be caculated as</p>
 <div class="math notranslate nohighlight">
 \[p(Y)=\int_\Theta p(Y|\theta)p(\theta)d\theta\]</div>
 </section>
 <section id="posterior-predictive-distribution">
-<h3><span class="section-number">2.5.2. </span>Posterior predictive distribution:<a class="headerlink" href="#posterior-predictive-distribution" title="Permalink to this heading">#</a></h3>
+<h3><span class="section-number">2.5.2. </span>Posterior predictive distribution<a class="headerlink" href="#posterior-predictive-distribution" title="Permalink to this heading">#</a></h3>
 <p>Once we obtain a sample <span class="math notranslate nohighlight">\(\mathbf{Y}\)</span>, it induced a joint distribution for <span class="math notranslate nohighlight">\(Y\)</span> and <span class="math notranslate nohighlight">\(\theta\)</span> conditional on the sample,</p>
 <div class="math notranslate nohighlight">
 \[\begin{split}
 \begin{aligned}
-p(Y,\theta|\mathbf{Y}) &amp; = \frac{p(Y,\theta,\mathbf{Y})}{p(\mathbf{Y})} \\
-&amp; = p(Y|\theta,\mathbf{Y})\frac{p(\theta,\mathbf{Y})}{p(\mathbf{Y})} \\
+p(Y,\theta|\mathbf{Y}) &amp; = \frac{p(Y,\theta,\mathbf{Y})}{p(\mathbf{Y})} \\\\
+&amp; = p(Y|\theta,\mathbf{Y})\frac{p(\theta,\mathbf{Y})}{p(\mathbf{Y})} \\\\
 &amp; = p(Y|\theta)p(\theta|\mathbf{Y}).
 \end{aligned}
 \end{split}\]</div>
@@ -698,9 +698,9 @@ p(Y|\mathbf{Y})=\int_\Theta p(Y|\theta)p(\theta|\mathbf{Y})d\theta
 <div class="math notranslate nohighlight">
 \[\begin{split}
 \begin{aligned}
-\mathbb{P}(\tilde{Y}=1|Y) &amp; = \int_0^1 \mathbb{P}(\tilde{Y}=1|\theta)p(\theta|Y)d\theta \\
-&amp; = \int_0^1\theta p(\theta|Y)d\theta \\
-&amp; = \mathbb{E}(\theta|Y) \\
+\mathbb{P}(\tilde{Y}=1|Y) &amp; = \int_0^1 \mathbb{P}(\tilde{Y}=1|\theta)p(\theta|Y)d\theta \\\\
+&amp; = \int_0^1\theta p(\theta|Y)d\theta \\\\
+&amp; = \mathbb{E}(\theta|Y) \\\\
 &amp; = \frac{Y+1}{n+2}.
 \end{aligned}
 \end{split}\]</div>
@@ -952,8 +952,8 @@ p(Y|\mathbf{Y})&amp;=\sum_{\theta\in\Theta}p(Y|\theta)p(\theta|\mathbf{Y}) \\\\
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#predictive-distributions">2.5. Predictive distributions</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#prior-predictive-distribution">2.5.1. Prior predictive distribution:</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#posterior-predictive-distribution">2.5.2. Posterior predictive distribution:</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#prior-predictive-distribution">2.5.1. Prior predictive distribution</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#posterior-predictive-distribution">2.5.2. Posterior predictive distribution</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#rule-of-succession">2.5.3. Rule of succession</a></li>
 </ul>
 </li>

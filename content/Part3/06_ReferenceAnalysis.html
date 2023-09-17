@@ -404,13 +404,13 @@ document.write(`
 \end{split}\]</div>
 <p>so</p>
 <div class="math notranslate nohighlight">
-\[\mathbb{E}_{Y|\theta_0}[sc(\theta_0)]=\int_\mathcal{Y}\left.\frac{d}{d\theta} p(Y|\theta)\right|_{\theta=\theta_0}dY.\]</div>
+\[\mathbb{E}_{Y|\theta_0}[sc(\theta_0)]=\int_\mathcal{Y}\left[\frac{d}{d\theta} p(Y|\theta)\right]_{\theta=\theta_0}dY.\]</div>
 <p>If the integrate and derivative operations can be interchage, then</p>
 <div class="math notranslate nohighlight">
 \[\begin{split}
 \begin{align*}
 \mathbb{E}_{Y|\theta_0}[sc(\theta_0)] &amp;= \frac{d}{d\theta}\left[\int_\mathcal{Y} p(Y|\theta)dY\right]_{\theta=\theta_0} \\\\
-&amp;= \left.\frac{d}{d\theta} 1\right|_{\theta=\theta_0} \\\\
+&amp;= \left[\frac{d}{d\theta} 1\right]_{\theta=\theta_0} \\\\
 &amp;= 0.
 \end{align*}
 \end{split}\]</div>
@@ -445,7 +445,7 @@ document.write(`
 <div class="math notranslate nohighlight">
 \[\begin{split}
 \begin{align*}
--\mathbb{E}_{Y|\theta_0}\left[\left.\frac{d^2}{d\theta^2}\log p(Y|\theta)\right|_{\theta=\theta_0}\right] &amp;= \mathcal{I}_{\theta_0}(\theta_0) - \left.\frac{d^2}{d\theta^2}\int_\mathcal{Y}p(Y|\theta)d\theta\right|_{\theta=\theta_0} \\\\
+-\mathbb{E}_{Y|\theta_0}\left[\left[\frac{d^2}{d\theta^2}\log p(Y|\theta)\right]_{\theta=\theta_0}\right] &amp;= \mathcal{I}_{\theta_0}(\theta_0) - \left[\frac{d^2}{d\theta^2}\int_\mathcal{Y}p(Y|\theta)d\theta\right]_{\theta=\theta_0} \\\\
 &amp; = \mathcal{I}_{\theta_0}(\theta_0)
 \end{align*}
 \end{split}\]</div>
@@ -458,7 +458,7 @@ document.write(`
 \[\mathbb{E}_{Y|\theta_0}[sc(\theta_0)]=0,\quad \mathbb{V}_{Y|\theta_0}[sc(\theta_0)]=\mathcal{I}_{\theta_0}(\theta_0)\]</div>
 <p>and</p>
 <div class="math notranslate nohighlight">
-\[J(\theta_0) \equiv \mathcal{I}_{\theta_0}(\theta_0)=-\mathbb{E}_{Y|\theta_0}\left[\left.\frac{d^2}{d\theta^2}\log p(Y|\theta)\right|_{\theta=\theta_0}\right].\]</div>
+\[J(\theta_0) \equiv \mathcal{I}_{\theta_0}(\theta_0)=-\mathbb{E}_{Y|\theta_0}\left[\left[\frac{d^2}{d\theta^2}\log p(Y|\theta)\right]_{\theta=\theta_0}\right].\]</div>
 </section>
 <section id="exponential-likelihood">
 <h3><span class="section-number">6.2.3. </span>Exponential likelihood<a class="headerlink" href="#exponential-likelihood" title="Permalink to this heading">#</a></h3>
@@ -490,10 +490,10 @@ document.write(`
 \[J(\phi)=J(\theta)\left(\frac{d\theta}{d\phi}\right)^2 -\underbrace{\mathbb{E}_{Y|\theta}\left[\frac{d}{d\theta}\log p(Y|\theta)\right]}_{0}\frac{d^2\theta}{d\phi^2}.\]</div>
 <p>Thus</p>
 <div class="math notranslate nohighlight">
-\[\sqrt{J(\phi)}=\sqrt{J(\theta)}\left|\frac{d\theta}{d\phi}\right|,\]</div>
+\[\sqrt{J(\phi)}=\sqrt{J(\theta)}\left|\frac{d\theta}{d\phi}\right],\]</div>
 <p>that is,</p>
 <div class="math notranslate nohighlight">
-\[p(\phi)\propto p(\theta)\left|\frac{d\theta}{d\phi}\right|.\]</div>
+\[p(\phi)\propto p(\theta)\left|\frac{d\theta}{d\phi}\right].\]</div>
 <p><span class="math notranslate nohighlight">\(\blacksquare\)</span></p>
 </section>
 <section id="cramerrao-bound-optional">
@@ -550,13 +550,13 @@ sc_n(\theta) &amp; = \frac{d}{d\theta} \log p(\mathbf{Y}|\theta) \\
 <p>If <span class="math notranslate nohighlight">\(U=Y-\theta\)</span> is a random variable whose distribution does not depend of <span class="math notranslate nohighlight">\(\theta\)</span> nor <span class="math notranslate nohighlight">\(Y\)</span>, we say that <span class="math notranslate nohighlight">\(U\)</span> is a pivotal quantity and <span class="math notranslate nohighlight">\(\theta\)</span> is known as the parameter of localization <span class="math notranslate nohighlight">\(\theta\in\mathbb{R}\)</span>.</p>
 <p>Note that</p>
 <div class="math notranslate nohighlight">
-\[\frac{dY}{dU}=1\quad\text{and}\quad \left|\frac{d\theta}{dU}\right|=|-1|=1,\]</div>
+\[\frac{dY}{dU}=1\quad\text{and}\quad \left|\frac{d\theta}{dU}\right]=|-1|=1,\]</div>
 <p>then</p>
 <div class="math notranslate nohighlight">
-\[p(U)=p(Y|\theta)\left|\frac{dY}{dU}\right|=p(Y|\theta)\]</div>
+\[p(U)=p(Y|\theta)\left|\frac{dY}{dU}\right]=p(Y|\theta)\]</div>
 <p>and</p>
 <div class="math notranslate nohighlight">
-\[p(U)=p(\theta|Y)\left|\frac{d\theta}{dU}\right|=p(\theta|Y).\]</div>
+\[p(U)=p(\theta|Y)\left|\frac{d\theta}{dU}\right]=p(\theta|Y).\]</div>
 <p>Thus,</p>
 <div class="math notranslate nohighlight">
 \[p(\theta|Y)=p(Y|\theta)\]</div>
@@ -573,10 +573,10 @@ sc_n(\theta) &amp; = \frac{d}{d\theta} \log p(\mathbf{Y}|\theta) \\
 \[\frac{d\theta}{dU}=-\frac{Y}{U^2}=-\frac{Y}{Y^2}\theta^2=-\frac{\theta^2}{Y},\]</div>
 <p>then</p>
 <div class="math notranslate nohighlight">
-\[p(U)=p(Y|\theta)\left|\frac{dY}{dU}\right|=\theta p(Y|\theta)\]</div>
+\[p(U)=p(Y|\theta)\left|\frac{dY}{dU}\right]=\theta p(Y|\theta)\]</div>
 <p>and</p>
 <div class="math notranslate nohighlight">
-\[p(U)=p(\theta|Y)\left|\frac{d\theta}{dU}\right|=\frac{\theta^2}{|Y|}p(\theta|Y)\]</div>
+\[p(U)=p(\theta|Y)\left|\frac{d\theta}{dU}\right]=\frac{\theta^2}{|Y|}p(\theta|Y)\]</div>
 <p>Thus,</p>
 <div class="math notranslate nohighlight">
 \[\frac{\theta^2}{|y|}p(\theta|Y)=\theta p(Y|\theta)\]</div>
