@@ -372,7 +372,7 @@ document.write(`
 <div class="math notranslate nohighlight">
 \[\begin{split}
 \begin{align*}
-p(\mathbf{Y}|\theta) &amp;= \left(\prod_{i=1}^n f(y_i)\right)g^n(\theta)\exp\left\lbrace\phi^T(\theta)\sum_{i=1}^n u(y_i)\right\rbrace \\
+p(\mathbf{Y}|\theta) &amp;= \left(\prod_{i=1}^n f(y_i)\right)g^n(\theta)\exp\left\lbrace\phi^T(\theta)\sum_{i=1}^n u(y_i)\right\rbrace \\\\
 &amp;\propto g^n(\theta)e^{\phi^T(\theta)t(\mathbf{y}),}
 \end{align*}
 \end{split}\]</div>
@@ -391,17 +391,17 @@ p(\mathbf{Y}|\theta) &amp;= \left(\prod_{i=1}^n f(y_i)\right)g^n(\theta)\exp\lef
 <div class="math notranslate nohighlight">
 \[\begin{split}
 \begin{align*}
-p(\mathbf{Y}|\theta) &amp; = \theta^{\sum_{i=1}^n y_i}(1-\theta)^{n-\sum_{i=1}^n y_i} \underbrace{\prod_{i=1}^n 1_{\{0,1\}}(y_i)}_{f(\mathbf{y})} \\
-&amp; = f(\mathbf{y})\exp\left\lbrace\sum_{i=1}^n y_i\log\theta + \left(n-\sum_{i=1}^n y_i\right)\log (1-\theta)\right\rbrace \\
-&amp; = f(\mathbf{y})\exp\left\lbrace n \log (1-\theta) + \sum_{i=1}^n y_i\log\frac{\theta}{1-\theta}\right\rbrace \\
-&amp; = f(\mathbf{y})\underbrace{(1-\theta)^n}_{g(\theta)^n}\exp\underbrace{\left\lbrace\sum_{i=1}^n y_i\log\frac{\theta}{1-\theta}\right\rbrace}_{t(\mathbf{y})\phi(\theta)} \\
+p(\mathbf{Y}|\theta) &amp; = \theta^{\sum_{i=1}^n y_i}(1-\theta)^{n-\sum_{i=1}^n y_i} \underbrace{\prod_{i=1}^n 1_{\{0,1\}}(y_i)}_{f(\mathbf{y})} \\\\
+&amp; = f(\mathbf{y})\exp\left\lbrace\sum_{i=1}^n y_i\log\theta + \left(n-\sum_{i=1}^n y_i\right)\log (1-\theta)\right\rbrace \\\\
+&amp; = f(\mathbf{y})\exp\left\lbrace n \log (1-\theta) + \sum_{i=1}^n y_i\log\frac{\theta}{1-\theta}\right\rbrace \\\\
+&amp; = f(\mathbf{y})\underbrace{(1-\theta)^n}_{g(\theta)^n}\exp\underbrace{\left\lbrace\sum_{i=1}^n y_i\log\frac{\theta}{1-\theta}\right\rbrace}_{t(\mathbf{y})\phi(\theta)}
 \end{align*}
 \end{split}\]</div>
 <p>Therefore, the conjugate prior is given by</p>
 <div class="math notranslate nohighlight">
 \[\begin{split}
 \begin{align*}
-p(\theta) &amp; \propto (1-\theta)^\eta\exp\left\lbrace\xi\log\frac{\theta}{1-\theta}\right\rbrace \\
+p(\theta) &amp; \propto (1-\theta)^\eta\exp\left\lbrace\xi\log\frac{\theta}{1-\theta}\right\rbrace \\\\
 &amp; = (1-\theta)^{\eta-\xi}\theta^{\xi},
 \end{align*}
 \end{split}\]</div>
@@ -422,7 +422,7 @@ p(\theta) &amp; \propto (1-\theta)^\eta\exp\left\lbrace\xi\log\frac{\theta}{1-\t
 <div class="math notranslate nohighlight">
 \[\begin{split}
 \begin{align*}
-p(\mathbf{Y}|\theta) &amp; = \underbrace{\left\lbrack\prod_{i=1}^n \frac{1}{y_i!}1_{\{0,1,\ldots\}}(y_i)\right\rbrack}_{f(\mathbf{y})}\theta^{\sum_{i=1}^n y_i}\exp\{-n\theta\} \\
+p(\mathbf{Y}|\theta) &amp; = \underbrace{\left\lbrack\prod_{i=1}^n \frac{1}{y_i!}1_{\{0,1,\ldots\}}(y_i)\right\rbrack}_{f(\mathbf{y})}\theta^{\sum_{i=1}^n y_i}\exp\{-n\theta\} \\\\
 &amp; = f(\mathbf{y})\underbrace{\left(e^{-\theta}\right)^n}_{g(\theta)^n}\exp\underbrace{\left\{\sum_{i=1}^n y_i\log\theta\right\}}_{t(\mathbf{y})\phi(\theta)}.
 \end{align*}
 \end{split}\]</div>
@@ -430,7 +430,7 @@ p(\mathbf{Y}|\theta) &amp; = \underbrace{\left\lbrack\prod_{i=1}^n \frac{1}{y_i!
 <div class="math notranslate nohighlight">
 \[\begin{split}
 \begin{align*}
-p(\theta) &amp; \propto e^{-\eta\theta}\exp\{\xi\log\theta\} \\
+p(\theta) &amp; \propto e^{-\eta\theta}\exp\{\xi\log\theta\} \\\\
 &amp; = \theta^\xi e^{-\eta\theta}
 \end{align*}
 \end{split}\]</div>
@@ -446,7 +446,7 @@ p(\theta) &amp; \propto e^{-\eta\theta}\exp\{\xi\log\theta\} \\
 <div class="math notranslate nohighlight">
 \[\begin{split}
 \begin{align*}
-p(\mathbf{Y}|\theta) &amp; = \left[\frac{1}{(2\pi\sigma^2)^{n/2}}\prod_{i=1}^n 1_{\mathbb{R}}(y_i)\right]\exp\left\{-\frac{1}{2\sigma^2}\sum_{i=1}^n(y_i-\theta)^2\right\} \\
+p(\mathbf{Y}|\theta) &amp; = \left[\frac{1}{(2\pi\sigma^2)^{n/2}}\prod_{i=1}^n 1_{\mathbb{R}}(y_i)\right]\exp\left\{-\frac{1}{2\sigma^2}\sum_{i=1}^n(y_i-\theta)^2\right\} \\\\
 &amp; = \underbrace{\frac{1}{(2\pi\sigma^2)^{n/2}}\prod_{i=1}^n 1_{\mathbb{R}}(y_i)\exp\left\{-\frac{1}{2\sigma^2}\sum_{i=1}^n y_i^2\right\}}_{f(\mathbf{y})}\underbrace{\exp\left\{-\frac{n}{2\sigma^2}\theta^2\right\}}_{g(\theta)^n}\exp\underbrace{\left\{\sum_{i=1}^n y_i \frac{\theta}{\sigma^2}\right\}}_{t(\mathbf{y})\phi(\theta)}
 \end{align*}
 \end{split}\]</div>
@@ -454,9 +454,9 @@ p(\mathbf{Y}|\theta) &amp; = \left[\frac{1}{(2\pi\sigma^2)^{n/2}}\prod_{i=1}^n 1
 <div class="math notranslate nohighlight">
 \[\begin{split}
 \begin{align*}
-p(\theta) &amp; \propto \exp\left\{-\frac{\eta}{2\sigma^2}\theta^2\right\}\exp\left\{\xi \frac{\theta}{\sigma^2}\right\} \\
-&amp; = \exp\left\{-\frac{1}{2\sigma^2}(\theta^2\eta-2\theta\xi)\right\} \\
-&amp; = \exp\left\{-\frac{\eta}{2\sigma^2}\left(\theta^2-2\theta\frac{\xi}{\eta}\right)\right\} \\
+p(\theta) &amp; \propto \exp\left\{-\frac{\eta}{2\sigma^2}\theta^2\right\}\exp\left\{\xi \frac{\theta}{\sigma^2}\right\} \\\\
+&amp; = \exp\left\{-\frac{1}{2\sigma^2}(\theta^2\eta-2\theta\xi)\right\} \\\\
+&amp; = \exp\left\{-\frac{\eta}{2\sigma^2}\left(\theta^2-2\theta\frac{\xi}{\eta}\right)\right\} \\\\
 &amp; \propto \exp\left\{-\frac{1}{2\sigma^2/\eta}\left(\theta-\frac{\xi}{\eta}\right)^2\right\},
 \end{align*}
 \end{split}\]</div>
@@ -484,7 +484,7 @@ p(\theta) &amp; \propto \exp\left\{-\frac{\eta}{2\sigma^2}\theta^2\right\}\exp\l
 <div class="math notranslate nohighlight">
 \[\begin{split}
 \begin{align*}
-p(Y|\mathbf{Y}) &amp; = \int_\Theta p(Y|\theta)p(\theta|\mathbf{Y})d\theta \\
+p(Y|\mathbf{Y}) &amp; = \int_\Theta p(Y|\theta)p(\theta|\mathbf{Y})d\theta \\\\
 &amp; \propto \int_\Theta \exp\left\{-\frac{1}{2\sigma^2}(Y-\theta)^2\right\}\exp\left\{-\frac{1}{2\tau_n^2}(\theta-\mu_n)^2\right\}d\theta
 \end{align*}
 \end{split}\]</div>
@@ -496,8 +496,8 @@ p(Y|\mathbf{Y}) &amp; = \int_\Theta p(Y|\theta)p(\theta|\mathbf{Y})d\theta \\
 <div class="math notranslate nohighlight">
 \[\begin{split}
 \begin{align*}
-\mathbb{V}(Y|\mathbf{Y}) &amp; = \mathbb{E}_{\theta|\mathbf{Y}}[\mathbb{V}(Y|\theta,\mathbf{Y})]+\mathbb{V}_{\theta|\mathbf{Y}}[\mathbb{E}(Y|\theta,\mathbf{Y})] \\
-&amp; = \mathbb{E}_{\theta|\mathbf{Y}}[\sigma^2]+\mathbb{V}_{\theta|\mathbf{Y}}[\theta] \\
+\mathbb{V}(Y|\mathbf{Y}) &amp; = \mathbb{E}_{\theta|\mathbf{Y}}[\mathbb{V}(Y|\theta,\mathbf{Y})]+\mathbb{V}_{\theta|\mathbf{Y}}[\mathbb{E}(Y|\theta,\mathbf{Y})] \\\\
+&amp; = \mathbb{E}_{\theta|\mathbf{Y}}[\sigma^2]+\mathbb{V}_{\theta|\mathbf{Y}}[\theta] \\\\
 &amp; = \sigma^2 + \tau_n^2
 \end{align*}
 \end{split}\]</div>
@@ -509,8 +509,8 @@ p(Y|\mathbf{Y}) &amp; = \int_\Theta p(Y|\theta)p(\theta|\mathbf{Y})d\theta \\
 <div class="math notranslate nohighlight">
 \[\begin{split}
 \begin{align*}
-p(\mathbf{Y}|\sigma^2) &amp;\propto (\sigma^2)^{-n/2}\exp\left\{-\frac{1}{2\sigma^2}\sum_{i=1}^n (y_i-\theta)^2\right\} \\
-&amp; = (\sigma^2)^{-(n/2-1+1)}\exp\left\{-\frac{(n-2)t(\mathbf{y})}{2\sigma^2}\right\} \\
+p(\mathbf{Y}|\sigma^2) &amp;\propto (\sigma^2)^{-n/2}\exp\left\{-\frac{1}{2\sigma^2}\sum_{i=1}^n (y_i-\theta)^2\right\} \\\\
+&amp; = (\sigma^2)^{-(n/2-1+1)}\exp\left\{-\frac{(n-2)t(\mathbf{y})}{2\sigma^2}\right\} \\\\
 &amp; = (\sigma^2)^{-\left(\frac{n-2}{2}+1\right)}\exp\left\{-\frac{(n-2)t(\mathbf{y})}{2\sigma^2}\right\},
 \end{align*}
 \end{split}\]</div>

@@ -371,15 +371,15 @@ document.write(`
 <p>Let be <span class="math notranslate nohighlight">\(Y_1,\ldots,Y_n|\mu,\sigma^2\overset{iid}{\sim}\textsf{Normal}(\mu,\sigma^2)\)</span>, so the likelihood evaluated in our sample is given by</p>
 <div class="math notranslate nohighlight">
 \[p(\mathbf{Y}|\mu,\sigma^2)=\frac{1}{(2\pi)^{n/2}\sigma^n}\exp\left\{-\frac{1}{2\sigma^2}\sum_{i=1}^n (y_i-\mu)^2\right\}.\]</div>
-<p>In <a class="reference internal" href="../Part3/06_ReferenceAnalysis.html"><span class="doc std std-doc">Chapter 6</span></a>  we’ll see  that, because <span class="math notranslate nohighlight">\(\mu\)</span> and <span class="math notranslate nohighlight">\(\sigma\)</span> are parameters of location and scale, respectively, then a noninformative prior is given by</p>
+<p>In <a class="reference internal" href="../Part3/06_ReferenceAnalysis.html"><span class="doc std std-doc">Chapter 6</span></a> we’ll see  that, because <span class="math notranslate nohighlight">\(\mu\)</span> and <span class="math notranslate nohighlight">\(\sigma\)</span> are parameters of location and scale, respectively, then a noninformative prior is given by</p>
 <div class="math notranslate nohighlight">
 \[p(\mu,\sigma^2)\propto \frac{1}{\sigma^2}1_{\mathbb{R}}(\mu)1_{(0,\infty)}(\sigma^2).\]</div>
 <p>Thus,</p>
 <div class="math notranslate nohighlight">
 \[\begin{split}
 \begin{align*}
-p(\mu,\sigma^2|\mathbf{Y}) &amp;\propto \sigma^{-n-2}\exp\left\{-\frac{1}{2\sigma^2}\sum_{i=1}^n (y_i-\mu)^2\right\} \\
-&amp;= \sigma^{-n-2}\exp\left\{-\frac{1}{2\sigma^2}\left[\sum_{i=1}^n (y_i-\bar{y})^2+n(\bar{y}-\mu)^2\right]\right\} \\
+p(\mu,\sigma^2|\mathbf{Y}) &amp;\propto \sigma^{-n-2}\exp\left\{-\frac{1}{2\sigma^2}\sum_{i=1}^n (y_i-\mu)^2\right\} \\\\
+&amp;= \sigma^{-n-2}\exp\left\{-\frac{1}{2\sigma^2}\left[\sum_{i=1}^n (y_i-\bar{y})^2+n(\bar{y}-\mu)^2\right]\right\} \\\\
 &amp;= \sigma^{-n-2}\exp\left\{-\frac{1}{2\sigma^2}\left[(n-1)s^2+n(\bar{y}-\mu)^2\right]\right\},
 \end{align*}
 \end{split}\]</div>
@@ -416,7 +416,7 @@ p(\sigma^2|\mathbf{Y}) &amp;= \int p(\mu,\sigma^2)d\mu \\\\
 <div class="math notranslate nohighlight">
 \[\begin{split}
 \begin{align*}
-p(\mu|\mathbf{Y}) &amp;= \int p(\mu,\sigma^2|\mathbf{Y})d\sigma^2 \\
+p(\mu|\mathbf{Y}) &amp;= \int p(\mu,\sigma^2|\mathbf{Y})d\sigma^2 \\\\
 &amp;\propto \int\sigma^{-n-2}\exp\left\{-\frac{1}{2\sigma^2}\left[(n-1)s^2+n(\bar{y}-\mu)^2\right]\right\}d\sigma^2.
 \end{align*}
 \end{split}\]</div>
@@ -485,9 +485,10 @@ $<span class="math notranslate nohighlight">\(\sqrt{n}\frac{\bar{y}-\mu}{s}\Big|
 \mu_n &amp;= \frac{\kappa_0}{\kappa_0+n}\mu_0 + \frac{n}{\kappa_0+n}\bar{y} \\
 \kappa_n &amp;= \kappa_0+n \\
 \nu_n &amp;= \nu_0+n \\
-\nu_n\sigma_n^2 &amp;= \nu_0\sigma_0^2+(n-1)s^2+\frac{\kappa_0 n}{\kappa_0+n}(\bar{y}-\mu_0)^2.
+\nu_n\sigma_n^2 &amp;= \nu_0\sigma_0^2+(n-1)s^2+\frac{\kappa_0 n}{\kappa_0+n}(\bar{y}-\mu_0)^2
 \end{align*}
 \end{split}\]</div>
+<p>and <span class="math notranslate nohighlight">\(s^2=\frac{1}{n-1}\sum_{i=1}^n(y_i-\bar{y})^2\)</span>.</p>
 <p>More over,</p>
 <div class="math notranslate nohighlight">
 \[\mu|\mathbf{Y}\sim t_{\nu_n}(\mu_n, \sigma_n^2/\kappa_n)\]</div>
