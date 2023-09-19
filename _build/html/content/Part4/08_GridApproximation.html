@@ -339,6 +339,7 @@ document.write(`
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#punctual-estimation">8.3. Punctual estimation</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#region-and-interval-estimation">8.4. Region and interval estimation</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#simulate-from-the-posterior-predictive-distribution">8.5. Simulate from the posterior predictive distribution</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#simulate-from-the-prior-predictive-distribution">8.6. Simulate from the prior predictive distribution</a></li>
 </ul>
             </nav>
         </div>
@@ -405,6 +406,11 @@ document.write(`
 <h2><span class="section-number">8.5. </span>Simulate from the posterior predictive distribution<a class="headerlink" href="#simulate-from-the-posterior-predictive-distribution" title="Permalink to this heading">#</a></h2>
 <p>We could also be interested in making inference about the variable of interest <span class="math notranslate nohighlight">\(Y\)</span>. To do so, we can simulate a sample from the posterior predictive distribution in the following way. Once we count with a sample from the posterior distribution, <span class="math notranslate nohighlight">\(\tilde\theta_1,\ldots,\tilde\theta_S\)</span>, te generate the sample <span class="math notranslate nohighlight">\(\tilde{Y}_1,\ldots, \tilde{Y}_S\)</span> from the posterior predictive distribution we simply simulate <span class="math notranslate nohighlight">\(\tilde{Y}_s\sim p(Y|\tilde\theta_s)\)</span>.</p>
 <p>In the code <a class="reference external" href="https://github.com/IrvingGomez/BayesianStatistics/blob/main/Codes/09_BetaBinomialGrid.ipynb">09_BetaBinomialGrid.ipynb</a> within the <a class="reference external" href="https://github.com/IrvingGomez/BayesianStatistics">repository of the course</a>, we explore the grid approximation for the Beta-Binomial model, and show how to use it to make statistical inferences.</p>
+</section>
+<section id="simulate-from-the-prior-predictive-distribution">
+<h2><span class="section-number">8.6. </span>Simulate from the prior predictive distribution<a class="headerlink" href="#simulate-from-the-prior-predictive-distribution" title="Permalink to this heading">#</a></h2>
+<p>We can simulate a sample from the prior predictive distribution as well. To do so, we just need to simulate a sample of the parameters, <span class="math notranslate nohighlight">\(\tilde\theta_1,\ldots,\tilde\theta_S\)</span>, from the prior distribution and then simulate <span class="math notranslate nohighlight">\(\tilde{Y}_s\sim p(Y|\tilde\theta_s)\)</span>.</p>
+<p>Simulate from the prior predictive can help us to discriminate between distinct prior distributions. When we simulate from the prior predictive, we can observe the effect of the prior distribution on the variable of interest <span class="math notranslate nohighlight">\(Y\)</span>. Many of the conventional techniques to specify the prior distribution could generate absurd results.</p>
 </section>
 </section>
 
@@ -480,6 +486,7 @@ document.write(`
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#punctual-estimation">8.3. Punctual estimation</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#region-and-interval-estimation">8.4. Region and interval estimation</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#simulate-from-the-posterior-predictive-distribution">8.5. Simulate from the posterior predictive distribution</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#simulate-from-the-prior-predictive-distribution">8.6. Simulate from the prior predictive distribution</a></li>
 </ul>
   </nav></div>
 
