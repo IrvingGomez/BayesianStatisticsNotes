@@ -61,10 +61,12 @@ const thebe_selector_input = "pre"
 const thebe_selector_output = ".output, .cell_output"
 </script>
     <script async="async" src="../../_static/sphinx-thebe.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'content/Part4/10_BayesianRegression';</script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="next" title="11. Computational approximations" href="11_ComputationalApproximations.html" />
+    <link rel="next" title="11. Other computational approximations" href="11_ComputationalApproximations.html" />
     <link rel="prev" title="9. Model checking" href="09_ModelChecking.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
@@ -177,7 +179,7 @@ const thebe_selector_output = ".output, .cell_output"
 <li class="toctree-l1"><a class="reference internal" href="08_GridApproximation.html">8. Grid approximation and statistical inference</a></li>
 <li class="toctree-l1"><a class="reference internal" href="09_ModelChecking.html">9. Model checking</a></li>
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">10. Bayesian regression (2)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="11_ComputationalApproximations.html">11. Computational approximations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="11_ComputationalApproximations.html">11. Other computational approximations</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">V Advanced topics</span></p>
 <ul class="nav bd-sidenav">
@@ -309,7 +311,9 @@ document.write(`
   </button>
 `);
 </script>
-
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
 </div></div>
       
     </div>
@@ -325,6 +329,17 @@ document.write(`
     <div id="print-main-content">
         <div id="jb-print-toc">
             
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#specifying-the-priors-and-the-model">10.1. Specifying the priors and the model</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-best-fit-regression-function">10.2. The best fit regression function</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#credible-band-for-the-regression-function">10.3. Credible band for the regression function</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#credible-band-for-the-observations">10.4. Credible band for the observations</a></li>
+</ul>
+            </nav>
         </div>
     </div>
 </div>
@@ -336,6 +351,50 @@ document.write(`
                   
   <section class="tex2jax_ignore mathjax_ignore" id="bayesian-regression-2">
 <h1><span class="section-number">10. </span>Bayesian regression (2)<a class="headerlink" href="#bayesian-regression-2" title="Permalink to this heading">#</a></h1>
+<p>For this chapter, I will follow the framework developed by <span id="id1">[<a class="reference internal" href="../../References.html#id2" title="Richard McElreath. Statistical rethinking: A Bayesian course with examples in R and Stan. Chapman and Hall/CRC, 2018.">McE18</a>]</span>. The data used in this chapter are those related with the community !Kung, <a class="reference external" href="https://github.com/IrvingGomez/BayesianStatistics/blob/main/Data/Howell1.csv">Howell1.csv</a> available in the <a class="reference external" href="https://github.com/IrvingGomez/BayesianStatistics">repository of the course</a>.</p>
+<p>To see all the details check the code <a class="reference external" href="https://github.com/IrvingGomez/BayesianStatistics/blob/main/Codes/13_HeightWeightAdultsGrid.ipynb">13_HeightWeightAdultsGrid</a> in the <a class="reference external" href="https://github.com/IrvingGomez/BayesianStatistics">repository of the course</a>.</p>
+<section id="specifying-the-priors-and-the-model">
+<h2><span class="section-number">10.1. </span>Specifying the priors and the model<a class="headerlink" href="#specifying-the-priors-and-the-model" title="Permalink to this heading">#</a></h2>
+<p>For now, consider just the adults. Let be <span class="math notranslate nohighlight">\(h_i\)</span> the height of the <span class="math notranslate nohighlight">\(i\)</span>th person, <span class="math notranslate nohighlight">\(w_i\)</span> their weight and <span class="math notranslate nohighlight">\(\bar{w}\)</span> the average adults’ weight. Consider the following model:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{align*}
+h_i|\mu_i,\sigma^2 &amp;\sim \textsf{Normal}(\mu_i,\sigma^2) \\
+\mu_i &amp;= \alpha+\beta(w_i-\bar{w}) \\
+\alpha &amp;\sim \textsf{Normal}(170,3^2) \\
+\beta &amp;\sim \textsf{Normal}(0,10^2) \\
+\sigma &amp;\sim \textsf{Uniform}(0,10)
+\end{align*}
+\end{split}\]</div>
+<p>Note that when <span class="math notranslate nohighlight">\(w_i=\bar{w}\)</span>, <span class="math notranslate nohighlight">\(\mu_i=\alpha\)</span>. That is, when the weight of an equals the adults’ average weight, the expected height is <span class="math notranslate nohighlight">\(\alpha\)</span>. Thus, it makes sense to model <span class="math notranslate nohighlight">\(\alpha\sim\textsf{Normal}(170,3^2)\)</span>. This is because, for a normal distribution we know that 95% of its probability is between the mean and 2 times its standard deviation, so we are saying in this case that the average height is between 164 cm and 176 cm. For the prior of <span class="math notranslate nohighlight">\(\sigma\)</span> we proceed similarly, when <span class="math notranslate nohighlight">\(w_i=\bar{w}\)</span>, 99% of the heights are between <span class="math notranslate nohighlight">\(\alpha-3\sigma\)</span> and <span class="math notranslate nohighlight">\(\alpha+3\sigma\)</span>. Considering that the execpected value of <span class="math notranslate nohighlight">\(\alpha\)</span> is equal to 170, that means that 99% of the heights are (approx.) around <span class="math notranslate nohighlight">\(170-3\sigma\)</span> and <span class="math notranslate nohighlight">\(170+3\sigma\)</span>. Then considering <span class="math notranslate nohighlight">\(\sigma \sim \textsf{Uniform}(0,10)\)</span> means that at a extreme case we consider the height, for an adult with the average weight, to be between 140 cm and 200 cm. But, why are we using such prior for <span class="math notranslate nohighlight">\(\beta\)</span>?</p>
+<p>One way to check how these prior distributions is to simulate values of <span class="math notranslate nohighlight">\(\alpha\)</span> and <span class="math notranslate nohighlight">\(\beta\)</span>, <span class="math notranslate nohighlight">\(\tilde\alpha_1,\ldots,\tilde\alpha_S,\tilde\beta_1,\ldots,\tilde\beta_S\)</span> and then plot <span class="math notranslate nohighlight">\(\tilde\alpha_s+\tilde\beta_s(w-\bar{w})\)</span>, <span class="math notranslate nohighlight">\(s=1,\ldots,S\)</span>.</p>
+<img alt="RegressionCheckBadPrior" class="align-center" src="../../_images/RegressionCheckBadPrior.png" />
+<p>Evidently, this is a terrible prior for <span class="math notranslate nohighlight">\(\beta\)</span>.</p>
+<p>To establish a good prior for <span class="math notranslate nohighlight">\(\beta\)</span>, let’s first interpret what information is therein. First, note that the height and the weight have (to some point) a positive correlation, so <span class="math notranslate nohighlight">\(\beta\)</span> should follow a postive distribution. Second, note that <span class="math notranslate nohighlight">\(\beta\)</span> is the rate of height and weight, that is, it codes how much the height is increased (in cm) when the weight increases as well (in kg). Now, there exists this rule of the thumb that says that the weight of a person is around its height in centimeters minus 100. This means that for someone with a height of 170 cm their weigth is around 70 kg, and someone with a height of 171 cm their weight is around 71 kg. So, for every cm that the height increases, the weight increases 1 kg. Thus, <span class="math notranslate nohighlight">\(\beta\)</span> should not only be positive, but should be around 1.</p>
+<p>Therefore, we could take, for example, a gamma distribution for <span class="math notranslate nohighlight">\(\beta\)</span> and set its mean or mode to 1. If we set the mean of the distribution to be 1, this implies that both parameters are equal, and then we set by trial and error an appropriate value value for the parameters. The next figure shows the case when we model <span class="math notranslate nohighlight">\(\beta\sim\textsf{Gamma}(5,5)\)</span>.</p>
+<img alt="GoodPriorBeta" class="align-center" src="../../_images/GoodPriorBeta.png" />
+<p>Meanwhile, the next figure shows possible regression functions with this priors. We can observe more realistic relations between the height and the weight.</p>
+<img alt="RegressionCheckGoodPrior" class="align-center" src="../../_images/RegressionCheckGoodPrior.png" />
+<p>Of course, we could be even more stricts with our priors, trying to capture a more realistic relation between the variables, but for prior distributions this is good enough. Remember also that we might have trouble for taking strict narrow priors. It is the job of the posterior to use data to fit a more realistic relation between the variables.</p>
+</section>
+<section id="the-best-fit-regression-function">
+<h2><span class="section-number">10.2. </span>The best fit regression function<a class="headerlink" href="#the-best-fit-regression-function" title="Permalink to this heading">#</a></h2>
+<p>Once established the model, we can create a grid of values for <span class="math notranslate nohighlight">\(\alpha\)</span>, <span class="math notranslate nohighlight">\(\beta\)</span> and <span class="math notranslate nohighlight">\(\sigma\)</span>. And, as before, simulate a sample from the posterior, with this sample, we can take the MAP of each parameter and plot the most plausible regression function <span class="math notranslate nohighlight">\(\hat{\alpha}+\hat{\beta}(w-\bar{w})\)</span>.</p>
+<img alt="PosteriorRegression" class="align-center" src="../../_images/PosteriorRegression.png" />
+</section>
+<section id="credible-band-for-the-regression-function">
+<h2><span class="section-number">10.3. </span>Credible band for the regression function<a class="headerlink" href="#credible-band-for-the-regression-function" title="Permalink to this heading">#</a></h2>
+<p>Because <span class="math notranslate nohighlight">\(\mu\)</span> depends on the parameters, and those have a posterior distribution, then <span class="math notranslate nohighlight">\(\mu\)</span> has a posterior distribution as well. In particular, <strong>fixing a weight <span class="math notranslate nohighlight">\(w\)</span></strong>, and taking the posterior sample <span class="math notranslate nohighlight">\(\tilde\alpha_1,\ldots,\tilde\alpha_S,\tilde\beta_1,\ldots,\tilde\beta_S\)</span>, we get a posterior sasmple <span class="math notranslate nohighlight">\(\tilde\mu_1,\ldots,\tilde\mu_S\)</span> using the relation</p>
+<div class="math notranslate nohighlight">
+\[\tilde\mu_s=\tilde\alpha_s+\tilde\beta_s(w-\bar{w}).\]</div>
+<p>From this sample, we can create credible intervals for <span class="math notranslate nohighlight">\(\mu\)</span> given the fixed value of <span class="math notranslate nohighlight">\(w\)</span>. Varying <span class="math notranslate nohighlight">\(w\)</span> from its lowest value to its largest, we create a credible band for the regression function.</p>
+<img alt="PosteriorRegressionConfidenceBand" class="align-center" src="../../_images/PosteriorRegressionConfidenceBand.png" />
+</section>
+<section id="credible-band-for-the-observations">
+<h2><span class="section-number">10.4. </span>Credible band for the observations<a class="headerlink" href="#credible-band-for-the-observations" title="Permalink to this heading">#</a></h2>
+<p>Finally, to generate credible intervals for the height, remember that <span class="math notranslate nohighlight">\(h|\mu,\sigma^2\sim\textsf{Normal}(\mu,\sigma^2)\)</span>. Then, <strong>for a fixed weight <span class="math notranslate nohighlight">\(w\)</span></strong>, we can get a posterior sample for <span class="math notranslate nohighlight">\(\mu\)</span> as we explain before, <span class="math notranslate nohighlight">\(\tilde\mu_1,\ldots,\tilde\mu_S\)</span>. More over, we can simulate a sample from the posterior of <span class="math notranslate nohighlight">\(\sigma\)</span>, <span class="math notranslate nohighlight">\(\tilde\sigma_1,\ldots,\tilde\sigma_S\)</span>. Thus, to get a sample from the posterior of <span class="math notranslate nohighlight">\(h\)</span>, <span class="math notranslate nohighlight">\(\tilde{h}_1,\ldots,\tilde{h}_S\)</span>, we simulate <span class="math notranslate nohighlight">\(\tilde{h}_s\sim\textsf{Normal}(\tilde\mu_s,\tilde\sigma_s^2)\)</span>. From the sample <span class="math notranslate nohighlight">\(\tilde{h}_1,\ldots,\tilde{h}_S\)</span> we can get a credible interval for the fixed weight <span class="math notranslate nohighlight">\(w\)</span>. Varying <span class="math notranslate nohighlight">\(w\)</span> from its lowest value to its largest, we get a credible band for the height.</p>
+<img alt="PosteriorRegressionPredictionBand" class="align-center" src="../../_images/PosteriorRegressionPredictionBand.png" />
+</section>
 </section>
 
     <script type="text/x-thebe-config">
@@ -383,7 +442,7 @@ document.write(`
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title"><span class="section-number">11. </span>Computational approximations</p>
+        <p class="prev-next-title"><span class="section-number">11. </span>Other computational approximations</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -396,6 +455,23 @@ document.write(`
             </div>
             
             
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#specifying-the-priors-and-the-model">10.1. Specifying the priors and the model</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-best-fit-regression-function">10.2. The best fit regression function</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#credible-band-for-the-regression-function">10.3. Credible band for the regression function</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#credible-band-for-the-observations">10.4. Credible band for the observations</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
               
             
           </div>
