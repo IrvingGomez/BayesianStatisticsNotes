@@ -9,7 +9,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
-    <title>11. Other computational approximations &#8212; Bayesian Statistics</title>
+    <title>11. Quadratic approximation and MCMC &#8212; Bayesian Statistics</title>
   
   
   
@@ -61,6 +61,8 @@ const thebe_selector_input = "pre"
 const thebe_selector_output = ".output, .cell_output"
 </script>
     <script async="async" src="../../_static/sphinx-thebe.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'content/Part4/11_ComputationalApproximations';</script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
@@ -177,7 +179,7 @@ const thebe_selector_output = ".output, .cell_output"
 <li class="toctree-l1"><a class="reference internal" href="08_GridApproximation.html">8. Grid approximation and statistical inference</a></li>
 <li class="toctree-l1"><a class="reference internal" href="09_ModelChecking.html">9. Model checking</a></li>
 <li class="toctree-l1"><a class="reference internal" href="10_BayesianRegression.html">10. Bayesian regression (2)</a></li>
-<li class="toctree-l1 current active"><a class="current reference internal" href="#">11. Other computational approximations</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">11. Quadratic approximation and MCMC</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">V Advanced topics</span></p>
 <ul class="nav bd-sidenav">
@@ -309,7 +311,9 @@ document.write(`
   </button>
 `);
 </script>
-
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
 </div></div>
       
     </div>
@@ -320,11 +324,22 @@ document.write(`
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>Other computational approximations</h1>
+    <h1>Quadratic approximation and MCMC</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
             
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#quadratic-approximation">11.1. Quadratic approximation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#markov-chain-monte-carlo-mcmc">11.2. Markov chain Monte Carlo, MCMC</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#regression-for-all-the-kung-population">11.3. Regression for all the !Kung population</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#analysis-of-a-bioassay-experiment">11.4. Analysis of a bioassay experiment</a></li>
+</ul>
+            </nav>
         </div>
     </div>
 </div>
@@ -334,8 +349,115 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article" role="main">
                   
-  <section class="tex2jax_ignore mathjax_ignore" id="other-computational-approximations">
-<h1><span class="section-number">11. </span>Other computational approximations<a class="headerlink" href="#other-computational-approximations" title="Permalink to this heading">#</a></h1>
+  <section class="tex2jax_ignore mathjax_ignore" id="quadratic-approximation-and-mcmc">
+<h1><span class="section-number">11. </span>Quadratic approximation and MCMC<a class="headerlink" href="#quadratic-approximation-and-mcmc" title="Permalink to this heading">#</a></h1>
+<section id="quadratic-approximation">
+<h2><span class="section-number">11.1. </span>Quadratic approximation<a class="headerlink" href="#quadratic-approximation" title="Permalink to this heading">#</a></h2>
+<p>It is clear that the main limitation of the grid approximation is it’s poor performance when the number of parameters increases.</p>
+<p>As we proved in <a class="reference internal" href="../Part3/07_NormalApproximation.html"><span class="doc std std-doc">Chapter 7</span></a>, under regularity conditions the posterior distribution satisfies that</p>
+<div class="math notranslate nohighlight">
+\[\theta|\mathbf{Y}\overset{\cdot}{\sim}\textsf{Normal}\left(\hat{\theta},\left(I(\hat{\theta})\right)^{-1}\right).\]</div>
+<p>Thus, we can use this normal distribution to approximate the posterior distribution. This technique is know as <strong>quadratic approximation or Laplace approximation</strong>.</p>
+</section>
+<section id="markov-chain-monte-carlo-mcmc">
+<h2><span class="section-number">11.2. </span>Markov chain Monte Carlo, MCMC<a class="headerlink" href="#markov-chain-monte-carlo-mcmc" title="Permalink to this heading">#</a></h2>
+<p>There are many models, like the hierarchical models in which the grid approximation nor the quadratic approximation are satisfactory. The first one, because usually there are many parameters in a hierarchical model. The second one, because hyperparameters might not be well-approximated through a normal distribution. As a result, many non-intuitive techniques have been developed. Examples of these techniques include Markov chain Monte Carlo (MCMC) or variational inference, being MCMC the most popular one. In fact, it is widely recognize that, Bayesian statistics resurrected in the 1990s thanks to MCMC. Even while MCMC is older than 1990, the required computational power is not, thus the current success of Bayesin analysis is also a success of the computational engineer.</p>
+<p>The benefit of using advance techniques to approximate the posterior, like MCMC or variational inference, is that we scape from the odd assumption of a normal multivariate for the joint posterior. This is extremely useful for complex models like hierarchical models, in which the posterior is not well-approximated by a normal distribution. However, it exists a conceptual challenge since these techniques follow a non-obvious strategy. Simulation through Markov chains include many techniques. In these methods, the sample values for the parameters are obtained from distributions that approximate the posterior better at every step, which depend from the last sample (that is why they are Markov chains).</p>
+<p>The theoretical details about these methods correspond to a course of statistical computing and stochastic simulation. However, to gain some intuition, I like to think about these techniques as the Mexican piñatas. A piñata is a container, often made cardboard, that is decorated and filled with candies. In the Mexican tradition, each participant will have a turn at hitting the piñata, which is hung from above on a string. The participant is blindfolded, given a wooden stick, and then spun a number of times, which makes the participant to feel dizzy and disorianted, having erratic movements. As the participants works to hit the piñata, another moves it to make it harder to hit. Similarly, our Markov chains are dizzy and disoriented, making random walks while trying to hit the posterior distribution. As participants in a piñata are guided by the spectators who say where the piñata is, our Markov chain is guided by a transition distribution, the likelihood and the prior who say where the posterior is.</p>
+<p>Check the following codes in the <a class="reference external" href="https://github.com/IrvingGomez/BayesianStatistics">repository of the course</a> for examples on the use of MCMC.</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://github.com/IrvingGomez/BayesianStatistics/blob/main/Codes/14_GibbsSamplerMetropolisExamples.ipynb">14_GibbsSamplerMetropolisExamples.ipynb</a>. This example introduces Gibss sampling. It was taken from <span id="id1">[<a class="reference internal" href="../../References.html#id5" title="A. Gelman, J.B. Carlin, H.S. Stern, D.B. Dunson, A. Vehtari, and D.B. Rubin. Bayesian Data Analysis, Third Edition. Chapman &amp; Hall/CRC Texts in Statistical Science. Taylor &amp; Francis, 2013. ISBN 9781439840955. URL: https://books.google.co.th/books?id=ZXL6AQAAQBAJ.">GCS+13</a>]</span></p></li>
+<li><p><a class="reference external" href="https://github.com/IrvingGomez/BayesianStatistics/blob/main/Codes/15_WaterQuadraticAndMcmcApproximation.ipynb">15_WaterQuadraticAndMcmcApproximation.ipynb</a></p></li>
+<li><p><a class="reference external" href="https://github.com/IrvingGomez/BayesianStatistics/blob/main/Codes/16_HeightAdultsExampleQuadraticAndMcmcApproximation.ipynb">16_HeightAdultsExampleQuadraticAndMcmcApproximation.ipynb</a></p></li>
+<li><p><a class="reference external" href="https://github.com/IrvingGomez/BayesianStatistics/blob/main/Codes/17_HeightWeightAdultsMcmc.ipynb">17_HeightWeightAdultsMcmc.ipynb</a>. Regression example of the height of adults in the !Kung population.</p></li>
+</ul>
+</section>
+<section id="regression-for-all-the-kung-population">
+<h2><span class="section-number">11.3. </span>Regression for all the !Kung population<a class="headerlink" href="#regression-for-all-the-kung-population" title="Permalink to this heading">#</a></h2>
+<p>Consider again the problem of predicting the height of the !Kung population through their weight, but now consider all the individuals of the sample in <a class="reference external" href="https://github.com/IrvingGomez/BayesianStatistics/blob/main/Data/Howell1.csv">Howell1.csv</a>. The code with all the details is <a class="reference external" href="https://github.com/IrvingGomez/BayesianStatistics/blob/main/Codes/18_HeightWeightMcmc.ipynb">18_HeightWeightMcmc.ipynb</a> in the <a class="reference external" href="https://github.com/IrvingGomez/BayesianStatistics">repository of the course</a>.</p>
+<p>Because we are now considering both, children and adults, there should be more variability in the heights, so we change the prior distribution of <span class="math notranslate nohighlight">\(\sigma\)</span> to be <span class="math notranslate nohighlight">\(\sigma\sim\textsf{Uniform}(0,20)\)</span>. Moreover, before fitting the model, we standardize the height and weight (that is, we substract their average and divide by theit standard deviation), I will explain in a bit why we do this. We start by fitting our linear model:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{align*}
+h_i|\mu_i,\sigma^2 &amp;\sim \textsf{Normal}(\mu_i,\sigma^2) \\
+\mu_i &amp;= \alpha + \beta x_i \\
+\alpha &amp;\sim \textsf{Normal}(170,3^2) \\
+\beta &amp;\sim \textsf{Gamma}(5,5) \\
+\sigma &amp;\sim \textsf{Uniform}(0,20)
+\end{align*}
+\end{split}\]</div>
+<p>where <span class="math notranslate nohighlight">\(x_i = (w_i-\bar{w})/s_w\)</span>.</p>
+<p>The next image shows the simulations from the posterior predictive distribution for our <span class="math notranslate nohighlight">\(h_i\)</span>, <span class="math notranslate nohighlight">\(i=1,\ldots,n\)</span>. That is, replicas of our data are simmulated, for each replica its kernel density estimator is calculated, creating the “cloud” of blue lines in the figure, their mean is the dashed line in orange. That means, that we are using the kernel density estimator as the quantity test. Remember that these quantity tests should be compare with its counterpart with the observed data, in this case that means to compare them with the kernel density estimator of the observed hights, which is shown in black in the figure.</p>
+<img alt="PpcAllDataLinear" class="align-center" src="../../_images/PpcAllDataLinear.png" />
+<p>We can appreciate from the previous picture a poor fit to the data, to gain a some intuition on how we can solve this problem I show in the next figure the scatterplot of the data with the fitted model.</p>
+<img alt="AllDataLinearRegression" class="align-center" src="../../_images/AllDataLinearRegression.png" />
+<p>In the previous figure we observe that the relation between the weight and the height does not look like a straight line. To solve this problem, we can fit then a quadratic relation, given by the following model:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{align*}
+h_i|\mu_i,\sigma^2 &amp;\sim \textsf{Normal}(\mu_i,\sigma^2) \\
+\mu_i &amp;= \alpha + \beta_1 x_i + \beta_2 x_i^2 \\
+\alpha &amp;\sim \textsf{Normal}(170,3^2) \\
+\beta_1 &amp;\sim \textsf{Gamma}(5,5) \\
+\beta_2 &amp;\sim \textsf{Normal}(0,1) \\
+\sigma &amp;\sim \textsf{Uniform}(0,20)
+\end{align*}
+\end{split}\]</div>
+<p>Note that in this model, we are taking a power of the weight, the reason I previously standardized this variable was to avoid numerical problems when taking the power. The new parameter of the model, <span class="math notranslate nohighlight">\(\beta_2\)</span>, is difficult to be interpreted which would allow us to set a prior based on this interpretation. Fortunately, we can avoid this problem, set a prior for <span class="math notranslate nohighlight">\(\beta_2\)</span> and analyze the prior behavior to see if it shows reasonable regression functions, which are easier to interpret. The regression functions got with this prior are shown in the next figure.</p>
+<img alt="PriorCheckQuadratic" class="align-center" src="../../_images/PriorCheckQuadratic.png" />
+<p>Even while there are some functions that have a strange behavior, in general it generates reasonable regression functions. So we can continue with our model, and fit it to the data. The next two figures show the posterior predictive check and the scatterplot of this model. We observe in both of them that this quadratic model performs much better than the previous linear function.</p>
+<img alt="PpcAllDataQuadratic" class="align-center" src="../../_images/PpcAllDataQuadratic.png" />
+<img alt="AllDataQuadraticRegression" class="align-center" src="../../_images/AllDataQuadraticRegression.png" />
+</section>
+<section id="analysis-of-a-bioassay-experiment">
+<h2><span class="section-number">11.4. </span>Analysis of a bioassay experiment<a class="headerlink" href="#analysis-of-a-bioassay-experiment" title="Permalink to this heading">#</a></h2>
+<p>This example was taken from section 3.7 of <span id="id2">[<a class="reference internal" href="../../References.html#id5" title="A. Gelman, J.B. Carlin, H.S. Stern, D.B. Dunson, A. Vehtari, and D.B. Rubin. Bayesian Data Analysis, Third Edition. Chapman &amp; Hall/CRC Texts in Statistical Science. Taylor &amp; Francis, 2013. ISBN 9781439840955. URL: https://books.google.co.th/books?id=ZXL6AQAAQBAJ.">GCS+13</a>]</span>. The code with all the details is <a class="reference external" href="https://github.com/IrvingGomez/BayesianStatistics/blob/main/Codes/19_BioassayExample.ipynb">19_BioassayExample.ipynb</a> in the <a class="reference external" href="https://github.com/IrvingGomez/BayesianStatistics">repository of the course</a>.</p>
+<p>In the development of drugs and other chemical compounds, acute toxicity tests or bioassay experiments are commonly performed on animals. Such experiments proceed by administering various dose levels of the compound to batches of animals. The animals’ responses are typically characterized by a dichotomous outcome: for example, alive or dead, tumor or no tumor. An experiment of this kind gives rise to data of the form $<span class="math notranslate nohighlight">\((X_i,n_i,Y_i);\quad i=1,\ldots,k,\)</span><span class="math notranslate nohighlight">\( where \)</span>X_i<span class="math notranslate nohighlight">\( represents the \)</span>i<span class="math notranslate nohighlight">\( th of \)</span>k<span class="math notranslate nohighlight">\( dose levels (often measured on a logarithmic scale) given to \)</span>n_i<span class="math notranslate nohighlight">\( animals, of which \)</span>Y_i$ subsequently respond with positive outcome. An example of real data from such an experiment is shown in the next table, wherein twenty animals were tested, five at each of four dose levels.</p>
+<table class="table">
+<thead>
+<tr class="row-odd"><th class="head text-center"><p>Dose, <span class="math notranslate nohighlight">\(X_i\)</span> (log g/ml)</p></th>
+<th class="head text-center"><p>Number of animals, <span class="math notranslate nohighlight">\(n_i\)</span></p></th>
+<th class="head text-center"><p>Number of deaths, <span class="math notranslate nohighlight">\(Y_i\)</span></p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-center"><p>-0.86</p></td>
+<td class="text-center"><p>5</p></td>
+<td class="text-center"><p>0</p></td>
+</tr>
+<tr class="row-odd"><td class="text-center"><p>-0.3</p></td>
+<td class="text-center"><p>5</p></td>
+<td class="text-center"><p>1</p></td>
+</tr>
+<tr class="row-even"><td class="text-center"><p>-0.05</p></td>
+<td class="text-center"><p>5</p></td>
+<td class="text-center"><p>3</p></td>
+</tr>
+<tr class="row-odd"><td class="text-center"><p>0.73</p></td>
+<td class="text-center"><p>5</p></td>
+<td class="text-center"><p>5</p></td>
+</tr>
+</tbody>
+</table>
+<p>Data from <span id="id3">[<a class="reference internal" href="../../References.html#id11" title="A Racine-Poon, AP Grieve, H Fluhler, and AFM Smith. Bayesian methods in practice: experiences in the pharmaceutical industry (with discussion). Applied Statistics, 35:93–150, 1986.">RPGFS86</a>]</span>.</p>
+<p>For these data, we could consider the following model $<span class="math notranslate nohighlight">\(Y_i|\theta_i\sim\textsf{Binomial}(n_i,\theta_i),\)</span><span class="math notranslate nohighlight">\( where \)</span>\theta_i<span class="math notranslate nohighlight">\( is the probability of death for animals given dose \)</span>x_i<span class="math notranslate nohighlight">\(. The simplest model of the dose–response relation --that is, the relation of \)</span>\theta_i<span class="math notranslate nohighlight">\( to \)</span>X_i<span class="math notranslate nohighlight">\(-- is linear: \)</span>\theta_i = \alpha + \beta X_i<span class="math notranslate nohighlight">\(. Unfortunately, this model has the flaw that at low or high doses (recall that the dose is measured on the log scale), \)</span>\theta_i<span class="math notranslate nohighlight">\( approaches \)</span>\pm \infty<span class="math notranslate nohighlight">\(, whereas \)</span>\theta_i<span class="math notranslate nohighlight">\(, being a probability, must be constrained to lie between 0 and 1. The standard solution is to use a transformation of the \)</span>\theta<span class="math notranslate nohighlight">\(’s, such as the logistic, in the dose–response relation: \)</span><span class="math notranslate nohighlight">\(\text{logit}(\theta_i)=\alpha+\beta X_i,\)</span><span class="math notranslate nohighlight">\( where \)</span>\text{logit}(\theta_i)=\log(\theta_i/(1-\theta_i))$. This is called a logistic regression model.</p>
+<p>We can implement the following model for this data:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{align*}
+Y_i|\theta_i &amp;\sim \textsf{Binomial}(n_i,\theta_i) \\
+\text{logit}(\theta_i) &amp;= \alpha + \beta X_i \\
+p(\alpha) &amp;\propto 1_{\mathbb{R}}(\alpha) \\
+p(\beta) &amp;\propto 1_{\mathbb{R}}(\beta)
+\end{align*}
+\end{split}\]</div>
+<p>The next figure shows the joint posterior of <span class="math notranslate nohighlight">\(\alpha\)</span> and <span class="math notranslate nohighlight">\(\beta\)</span>, where we can observe how the joint posterior might be far from a gaussian distribution.</p>
+<img alt="PosteriorBioassay" class="align-center" src="../../_images/PosteriorBioassay.png" />
+<p>A parameter of common interest in bioassay studies is the LD50–the dose level at which the probability of death is 50%. In our logistic model, a 50% survival rate means $<span class="math notranslate nohighlight">\(\theta = \text{logit}^{-1}(\alpha+\beta \text{LD}_{50})=0.5;\)</span><span class="math notranslate nohighlight">\(
+thus, \)</span>\alpha + \beta \text{LD}<em>{50} = \text{logit}(0.5) = 0<span class="math notranslate nohighlight">\(, and the \)</span>\text{LD}</em>{50} = -\alpha/\beta$.</p>
+<p>The following image shows the posterior of the <span class="math notranslate nohighlight">\(\text{LD}_{50}\)</span>.</p>
+<img alt="PosteriorLd50" class="align-center" src="../../_images/PosteriorLd50.png" />
+</section>
 </section>
 
     <script type="text/x-thebe-config">
@@ -396,6 +518,23 @@ document.write(`
             </div>
             
             
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#quadratic-approximation">11.1. Quadratic approximation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#markov-chain-monte-carlo-mcmc">11.2. Markov chain Monte Carlo, MCMC</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#regression-for-all-the-kung-population">11.3. Regression for all the !Kung population</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#analysis-of-a-bioassay-experiment">11.4. Analysis of a bioassay experiment</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
               
             
           </div>

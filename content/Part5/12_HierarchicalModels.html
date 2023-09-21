@@ -61,11 +61,13 @@ const thebe_selector_input = "pre"
 const thebe_selector_output = ".output, .cell_output"
 </script>
     <script async="async" src="../../_static/sphinx-thebe.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'content/Part5/12_HierarchicalModels';</script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
     <link rel="next" title="13. Evaluating and comparing models" href="13_EvaluatingComparingModels.html" />
-    <link rel="prev" title="11. Other computational approximations" href="../Part4/11_ComputationalApproximations.html" />
+    <link rel="prev" title="11. Quadratic approximation and MCMC" href="../Part4/11_ComputationalApproximations.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -177,7 +179,7 @@ const thebe_selector_output = ".output, .cell_output"
 <li class="toctree-l1"><a class="reference internal" href="../Part4/08_GridApproximation.html">8. Grid approximation and statistical inference</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../Part4/09_ModelChecking.html">9. Model checking</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../Part4/10_BayesianRegression.html">10. Bayesian regression (2)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../Part4/11_ComputationalApproximations.html">11. Other computational approximations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Part4/11_ComputationalApproximations.html">11. Quadratic approximation and MCMC</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">V Advanced topics</span></p>
 <ul class="current nav bd-sidenav">
@@ -309,7 +311,9 @@ document.write(`
   </button>
 `);
 </script>
-
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
 </div></div>
       
     </div>
@@ -325,6 +329,23 @@ document.write(`
     <div id="print-main-content">
         <div id="jb-print-toc">
             
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#general-framework">12.1. General framework</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#posterior-conditional-distribution-of-theta-p-theta-phi-mathbf-y">12.1.1. Posterior conditional distribution of <span class="math notranslate nohighlight">\(\theta\)</span>, <span class="math notranslate nohighlight">\(p(\theta|\phi,\mathbf{Y})\)</span></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#posterior-distribution-of-phi-p-phi-mathbf-y">12.1.2. Posterior distribution of <span class="math notranslate nohighlight">\(\phi\)</span>, <span class="math notranslate nohighlight">\(p(\phi|\mathbf{Y})\)</span></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#rat-tumor">12.2. Rat tumor</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#empirical-bayes">12.2.1. Empirical Bayes</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#full-bayesian-approach">12.2.2. Full Bayesian approach</a></li>
+</ul>
+</li>
+</ul>
+            </nav>
         </div>
     </div>
 </div>
@@ -336,6 +357,111 @@ document.write(`
                   
   <section class="tex2jax_ignore mathjax_ignore" id="hierarchical-models">
 <h1><span class="section-number">12. </span>Hierarchical models<a class="headerlink" href="#hierarchical-models" title="Permalink to this heading">#</a></h1>
+<section id="general-framework">
+<h2><span class="section-number">12.1. </span>General framework<a class="headerlink" href="#general-framework" title="Permalink to this heading">#</a></h2>
+<p>In their simplest version, in hierarchical models the parameters <span class="math notranslate nohighlight">\(\theta_j\)</span> come from a random sample of the prior distribution, which is determined by a vector of hyperparamters <span class="math notranslate nohighlight">\(\phi\)</span>, that is</p>
+<div class="math notranslate nohighlight">
+\[p(\theta|\phi)=\prod_{j=1}^J p(\theta_j|\phi).\]</div>
+<p>In general <span class="math notranslate nohighlight">\(\phi\)</span> is unknown and, this, has its own (hyper)prior distribution <span class="math notranslate nohighlight">\(p(\phi)\)</span>.</p>
+<p>Thus, the joint prior distribution is</p>
+<div class="math notranslate nohighlight">
+\[p(\theta,\phi)=p(\theta|\phi)p(\phi),\]</div>
+<p>and the joint posterior distribution satisfies that</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{align*}
+p(\theta,\phi|\mathbf{Y}) &amp; \propto p(\theta,\phi) p(\mathbf{Y}|\theta,\phi) \\
+&amp; = p(\theta,\phi) p(\mathbf{Y}|\theta) \\
+&amp; = p(\theta|\phi) p(\phi) p(\mathbf{Y}|\theta).
+\end{align*}
+\end{split}\]</div>
+<p>When specifying a prior distribution for <span class="math notranslate nohighlight">\(\phi\)</span>, we have to take special care when an improper distribution is used and check that the posterior distribution exists, this usually requires a tremendous mathematical effort. We can avoid this problem if we restrict the hyperprior to be a proper distribution.</p>
+<section id="posterior-conditional-distribution-of-theta-p-theta-phi-mathbf-y">
+<h3><span class="section-number">12.1.1. </span>Posterior conditional distribution of <span class="math notranslate nohighlight">\(\theta\)</span>, <span class="math notranslate nohighlight">\(p(\theta|\phi,\mathbf{Y})\)</span><a class="headerlink" href="#posterior-conditional-distribution-of-theta-p-theta-phi-mathbf-y" title="Permalink to this heading">#</a></h3>
+<p>Note that the posterior conditional of <span class="math notranslate nohighlight">\(\theta\)</span> satisfies</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{align*}
+p(\theta|\phi,\mathbf{Y}) &amp;\propto p(\theta|\phi) p(\mathbf{Y}|\theta) \\
+&amp; = f(\phi,\mathbf{Y}) p(\theta|\phi) p(\mathbf{Y}|\theta).
+\end{align*}
+\end{split}\]</div>
+<p>where <span class="math notranslate nohighlight">\(f(\phi,\mathbf{Y})\)</span> is the “constant” of proportionality, which depens on <span class="math notranslate nohighlight">\(\phi\)</span> and <span class="math notranslate nohighlight">\(\mathbf{Y}\)</span>.</p>
+</section>
+<section id="posterior-distribution-of-phi-p-phi-mathbf-y">
+<h3><span class="section-number">12.1.2. </span>Posterior distribution of <span class="math notranslate nohighlight">\(\phi\)</span>, <span class="math notranslate nohighlight">\(p(\phi|\mathbf{Y})\)</span><a class="headerlink" href="#posterior-distribution-of-phi-p-phi-mathbf-y" title="Permalink to this heading">#</a></h3>
+<p>The posterior of <span class="math notranslate nohighlight">\(\phi\)</span> can be calculated marginalizing the joint posterior with respect to <span class="math notranslate nohighlight">\(\theta\)</span>, that is</p>
+<div class="math notranslate nohighlight">
+\[p(\phi|\mathbf{Y})=\int p(\theta,\phi|\mathbf{Y})d\theta.\]</div>
+<p>Or, using the formula of conditional probability:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{align*}
+p(\phi|\mathbf{Y}) &amp;= \frac{p(\theta,\phi|\mathbf{Y})}{p(\theta|\phi,\mathbf{Y})} \\\\
+&amp;\propto \frac{p(\theta|\phi) p(\phi) p(\mathbf{Y}|\theta)}{f(\phi,\mathbf{Y}) p(\theta|\phi) p(\mathbf{Y}|\theta)} \\\\
+&amp;\propto \frac{p(\phi)}{f(\phi,\mathbf{Y})}
+\end{align*}
+\end{split}\]</div>
+</section>
+</section>
+<section id="rat-tumor">
+<h2><span class="section-number">12.2. </span>Rat tumor<a class="headerlink" href="#rat-tumor" title="Permalink to this heading">#</a></h2>
+<p>This example was taken from section 3.7 of <span id="id1">[<a class="reference internal" href="../../References.html#id5" title="A. Gelman, J.B. Carlin, H.S. Stern, D.B. Dunson, A. Vehtari, and D.B. Rubin. Bayesian Data Analysis, Third Edition. Chapman &amp; Hall/CRC Texts in Statistical Science. Taylor &amp; Francis, 2013. ISBN 9781439840955. URL: https://books.google.co.th/books?id=ZXL6AQAAQBAJ.">GCS+13</a>]</span>. The data for the example was taken from <span id="id2">[<a class="reference internal" href="../../References.html#id12" title="Robert E Tarone. The use of historical control information in testing for a trend in proportions. Biometrics, pages 215–220, 1982.">Tar82</a>]</span>. The code with all the details is <a class="reference external" href="https://github.com/IrvingGomez/BayesianStatistics/blob/main/Codes/20_RatTumorEmpiricalFullBayes.ipynb">20_RatTumorEmpiricalFullBayes.ipynb</a> in the <a class="reference external" href="https://github.com/IrvingGomez/BayesianStatistics">repository of the course</a>.</p>
+<p>As commented previously, in the evaluation of drugs for possible clinical application, studies are routinely performed on rodents. For a particular study the immediate aim is to estimate <span class="math notranslate nohighlight">\(\theta\)</span>, the probability of tumor in a population of female laboratory rats that receive a zero dose of the drug (a control group). The data show that 4 out of 14 rats developed endometrial stromal polyps (a kind of tumor). It is natural to assume a binomial model for the number of tumors, given <span class="math notranslate nohighlight">\(\theta\)</span>. For convenience, we select a prior distribution for <span class="math notranslate nohighlight">\(\theta\)</span> from the conjugate family, <span class="math notranslate nohighlight">\(\theta\sim\textsf{Beta}(\alpha,\beta)\)</span>.</p>
+<section id="empirical-bayes">
+<h3><span class="section-number">12.2.1. </span>Empirical Bayes<a class="headerlink" href="#empirical-bayes" title="Permalink to this heading">#</a></h3>
+<p>Using the historical data and the method of moments we can set some values for <span class="math notranslate nohighlight">\(\alpha\)</span> and <span class="math notranslate nohighlight">\(\beta\)</span>. Since <span class="math notranslate nohighlight">\(\theta\sim\textsf{Beta}(\alpha,\beta)\)</span>, then $<span class="math notranslate nohighlight">\(\mathbb{E}(\theta)=\frac{\alpha}{\alpha+\beta}\text{ and }\mathbb{V}(\theta)=\frac{\alpha\beta}{(\alpha+\beta)^2(\alpha+\beta+1)}.\)</span><span class="math notranslate nohighlight">\( Let be \)</span>\bar{Y}<em>j=Y_j/n_j<span class="math notranslate nohighlight">\(, \)</span>\bar{\bar Y}<span class="math notranslate nohighlight">\( the mean of \)</span>\bar Y_1,\ldots,\bar Y_J<span class="math notranslate nohighlight">\(, and \)</span>s</em>{\bar{Y}}^2$ their variance.</p>
+<p>Then, we have to find the values of <span class="math notranslate nohighlight">\(\alpha\)</span> and <span class="math notranslate nohighlight">\(\beta\)</span> such that
+$<span class="math notranslate nohighlight">\(\bar{\bar Y}=\frac{\alpha}{\alpha+\beta} \text{ and }s_{\bar{Y}}^2=\frac{\alpha\beta}{(\alpha+\beta)^2(\alpha+\beta+1)}.\)</span>$</p>
+<p>Solving these equations, we find that $<span class="math notranslate nohighlight">\(\beta = \alpha\left(\frac{1-\bar{\bar Y}}{\bar{\bar Y}}\right)\text{ and }\alpha = \frac{\bar{\bar Y}^2(1-\bar{\bar Y})-\bar{\bar Y}s_{\bar{Y}}^2}{s_{\bar{Y}}^2}.\)</span>$</p>
+<p>Using this simple estimate of the historical population distribution as a prior distribution for the current experiment yields a Beta(<span class="math notranslate nohighlight">\(5.356,18.615\)</span>) posterior distribution for <span class="math notranslate nohighlight">\(\theta\)</span>.</p>
+<p>The next figure shows the posterior distribuion of <span class="math notranslate nohighlight">\(\theta\)</span>, with a vertical line is the observed proportion 4/14.</p>
+<img alt="PosteriorThetaEmpirical" class="align-center" src="../../_images/PosteriorThetaEmpirical.png" />
+<p>Note that the prior information has resulted in a posterior distribution substantially lower than the crude proportion 4/14.</p>
+</section>
+<section id="full-bayesian-approach">
+<h3><span class="section-number">12.2.2. </span>Full Bayesian approach<a class="headerlink" href="#full-bayesian-approach" title="Permalink to this heading">#</a></h3>
+<p>When we use the estimated values for <span class="math notranslate nohighlight">\(\alpha\)</span> and <span class="math notranslate nohighlight">\(\beta\)</span>, we act as if those values where the real ones, which eliminates all the uncertainty that we have on the hyperparameters. Instead of this empirical approach, we can choose for a full Bayesian approach and assign a hyperprior for <span class="math notranslate nohighlight">\(\alpha\)</span> and <span class="math notranslate nohighlight">\(\beta\)</span>. Assume that we have <span class="math notranslate nohighlight">\(J\)</span> historical data, and model</p>
+<div class="math notranslate nohighlight">
+\[Y_j|\theta_j\sim\textsf{Binomial}(n_j,\theta_j),\]</div>
+<p>with the number of rats, <span class="math notranslate nohighlight">\(n_j\)</span> known, and</p>
+<div class="math notranslate nohighlight">
+\[\theta_j\sim\textsf{Beta}(\alpha,\beta).\]</div>
+<p>We just need to specify a prior for <span class="math notranslate nohighlight">\((\alpha,\beta)\)</span>, but we have to check that the posterior exists.</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{align*}
+p(\theta,\alpha,\beta|\mathbf{Y}) &amp;\propto p(\alpha,\beta)p(\theta|\alpha,\beta)p(\mathbf{Y}|\theta) \\\\
+&amp;\propto p(\alpha,\beta)\prod_{j=1}^J \frac{\Gamma(\alpha+\beta)}{\Gamma(\alpha)\Gamma(\beta)}\theta_j^{\alpha-1}(1-\theta_j)^{\beta-1}\prod_{j=1}^J \theta_j^{Y_j}(1-\theta_j)^{1-Y_j}.
+\end{align*}
+\end{split}\]</div>
+<p>Thus,</p>
+<div class="math notranslate nohighlight">
+\[p(\theta|\alpha,\beta,\mathbf{Y}) \propto \prod_{j=1}^J \theta_j^{\alpha+Y_j-1}(1-\theta_j)^{\beta+n_j-Y_j-1}.\]</div>
+<p>That is, given <span class="math notranslate nohighlight">\(\alpha\)</span> and <span class="math notranslate nohighlight">\(\beta\)</span>, the elements of <span class="math notranslate nohighlight">\(\theta\)</span> are independent and follow a beta distribution</p>
+<div class="math notranslate nohighlight">
+\[\theta_j|\alpha,\beta,\mathbf{Y}\sim\textsf{Beta}(\alpha+Y_j,\beta+n_j-Y_j),\]</div>
+<p>so</p>
+<div class="math notranslate nohighlight">
+\[p(\theta|\alpha,\beta,\mathbf{Y}) = \prod_{j=1}^J \frac{\Gamma(\alpha+\beta+n_j)}{\Gamma(\alpha+Y_j)\Gamma(\beta+n_j-Y_j)}\theta_j^{\alpha+Y_j-1}(1-\theta_j)^{\beta+n_j-Y_j-1}.\]</div>
+<p>Expressing <span class="math notranslate nohighlight">\(p(\theta|\alpha,\beta,\mathbf{Y})\)</span> as:</p>
+<div class="math notranslate nohighlight">
+\[p(\theta|\alpha,\beta,\mathbf{Y}) = f(\alpha,\beta,\mathbf{Y})p(\theta|\alpha,\beta)p(\mathbf{Y}|\theta),\]</div>
+<p>we get that</p>
+<div class="math notranslate nohighlight">
+\[f(\alpha,\beta,\mathbf{Y}) = \prod_{j=1}^J \frac{\Gamma(\alpha)\Gamma(\beta)}{\Gamma(\alpha+\beta)}\frac{\Gamma(\alpha+\beta+n_j)}{\Gamma(\alpha+Y_j)\Gamma(\beta+n_j-Y_j)}\left[\binom {n_j}{Y_j}\right]^{-1}.\]</div>
+<p>Then,</p>
+<div class="math notranslate nohighlight">
+\[p(\alpha,\beta|\mathbf{Y})\propto p(\alpha,\beta)\prod_{j=1}^J\frac{\Gamma(\alpha+\beta)}{\Gamma(\alpha)\Gamma(\beta)}\frac{\Gamma(\alpha+Y_j)\Gamma(\beta+n_j-Y_j)}{\Gamma(\alpha+\beta+n_j)}.\]</div>
+<p>In <span id="id3">[<a class="reference internal" href="../../References.html#id5" title="A. Gelman, J.B. Carlin, H.S. Stern, D.B. Dunson, A. Vehtari, and D.B. Rubin. Bayesian Data Analysis, Third Edition. Chapman &amp; Hall/CRC Texts in Statistical Science. Taylor &amp; Francis, 2013. ISBN 9781439840955. URL: https://books.google.co.th/books?id=ZXL6AQAAQBAJ.">GCS+13</a>]</span>, the authors proposed the noninformative prior <span class="math notranslate nohighlight">\(p(\alpha,\beta)\propto(\alpha+\beta)^{-5/2}\)</span>, which yields a proper posterior distribution.</p>
+<p>The next figure shows the marginal posterior distributions of <span class="math notranslate nohighlight">\(\alpha\)</span> and <span class="math notranslate nohighlight">\(\beta\)</span>, the vertical lines represent their empirical estimators. Note that in both cases they understimate the possible values for <span class="math notranslate nohighlight">\(\alpha\)</span> and <span class="math notranslate nohighlight">\(\beta\)</span>.</p>
+<img alt="PosteriorThetaEmpirical" class="align-center" src="../../_images/PosteriorAlphaBetaMarginal.png" />
+<p>In the next figure I present the joint posterior of <span class="math notranslate nohighlight">\(\alpha\)</span> and <span class="math notranslate nohighlight">\(\beta\)</span>, note that the joint posterior is far from a gaussian distribution. This is a typical behavior for hyperparameters in hierarchical models.</p>
+<img alt="PosteriorThetaEmpirical" class="align-center" src="../../_images/PosteriorAlphaBetaJoint.png" />
+<p>Finally the nect image shows credible intervals for all the <span class="math notranslate nohighlight">\(\theta_j\)</span>, <span class="math notranslate nohighlight">\(j=1,\ldots,J\)</span> against their observed proportions. Note that cases where the proportion is low tend to be move upward, and viceversa, when the proportion is high the posterior estimator tends to move downward</p>
+<img alt="PosteriorThetaEmpirical" class="align-center" src="../../_images/PosteriorThetaFull.png" />
+</section>
+</section>
 </section>
 
     <script type="text/x-thebe-config">
@@ -375,7 +501,7 @@ document.write(`
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title"><span class="section-number">11. </span>Other computational approximations</p>
+        <p class="prev-next-title"><span class="section-number">11. </span>Quadratic approximation and MCMC</p>
       </div>
     </a>
     <a class="right-next"
@@ -396,6 +522,29 @@ document.write(`
             </div>
             
             
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#general-framework">12.1. General framework</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#posterior-conditional-distribution-of-theta-p-theta-phi-mathbf-y">12.1.1. Posterior conditional distribution of <span class="math notranslate nohighlight">\(\theta\)</span>, <span class="math notranslate nohighlight">\(p(\theta|\phi,\mathbf{Y})\)</span></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#posterior-distribution-of-phi-p-phi-mathbf-y">12.1.2. Posterior distribution of <span class="math notranslate nohighlight">\(\phi\)</span>, <span class="math notranslate nohighlight">\(p(\phi|\mathbf{Y})\)</span></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#rat-tumor">12.2. Rat tumor</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#empirical-bayes">12.2.1. Empirical Bayes</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#full-bayesian-approach">12.2.2. Full Bayesian approach</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
               
             
           </div>
