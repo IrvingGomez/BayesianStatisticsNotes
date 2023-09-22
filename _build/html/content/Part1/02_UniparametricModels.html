@@ -179,12 +179,18 @@ const thebe_selector_output = ".output, .cell_output"
 <li class="toctree-l1"><a class="reference internal" href="../Part4/08_GridApproximation.html">8. Grid approximation and statistical inference</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../Part4/09_ModelChecking.html">9. Model checking</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../Part4/10_BayesianRegression.html">10. Bayesian regression (2)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../Part4/11_ComputationalApproximations.html">11. Other computational approximations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Part4/11_ComputationalApproximations.html">11. Quadratic approximation and MCMC</a></li>
 </ul>
-<p aria-level="2" class="caption" role="heading"><span class="caption-text">V Advanced topics</span></p>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">V Causality</span></p>
 <ul class="nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="../Part5/12_HierarchicalModels.html">12. Hierarchical models</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../Part5/13_EvaluatingComparingModels.html">13. Evaluating and comparing models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Part5/12_Causality.html">12. Causality</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">VI Advanced topics</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../Part6/13_HierarchicalModels.html">13. Hierarchical models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Part6/14_EvaluatingComparingModels.html">14. Evaluating and comparing models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Part6/15_VariationalInference.html">15. Variational Inference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Part6/16_VariationalAutoencoders.html">16. Variational Autoencoders (VAES)</a></li>
 </ul>
 <ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="../../References.html">References</a></li>
@@ -550,7 +556,7 @@ Y|\theta &amp; \sim \textsf{Binomial}(n,\theta) \\\\
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/4ed3f376099483df5fbe726b014052c37cf06d93f3f99f1dfb7f04173ab1f353.png" src="../../_images/4ed3f376099483df5fbe726b014052c37cf06d93f3f99f1dfb7f04173ab1f353.png" />
+<img alt="../../_images/ad11e3d9e18ab82cc0649520580244a99d07a89cd446aa5f237fc9d3738fa65c.png" src="../../_images/ad11e3d9e18ab82cc0649520580244a99d07a89cd446aa5f237fc9d3738fa65c.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -560,7 +566,7 @@ Y|\theta &amp; \sim \textsf{Binomial}(n,\theta) \\\\
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([0.411, 0.474])
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([0.412, 0.473])
 </pre></div>
 </div>
 </div>
@@ -576,7 +582,7 @@ Y|\theta &amp; \sim \textsf{Binomial}(n,\theta) \\\\
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/5ceb3c59e788ed93496602ba2882e9778247a66455e210a1833c30f7734a0bb1.png" src="../../_images/5ceb3c59e788ed93496602ba2882e9778247a66455e210a1833c30f7734a0bb1.png" />
+<img alt="../../_images/141670e84597aa41a586bbd7df9835f56ffd20b1c95a32973e49b6351cd701ad.png" src="../../_images/141670e84597aa41a586bbd7df9835f56ffd20b1c95a32973e49b6351cd701ad.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -589,7 +595,7 @@ Y|\theta &amp; \sim \textsf{Binomial}(n,\theta) \\\\
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(0.412, 0.475)
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(0.411, 0.474)
 </pre></div>
 </div>
 </div>

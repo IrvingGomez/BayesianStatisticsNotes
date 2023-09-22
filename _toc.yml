@@ -27,11 +27,17 @@ parts:
     - file: content/Part4/09_ModelChecking
     - file: content/Part4/10_BayesianRegression
     - file: content/Part4/11_ComputationalApproximations
-  - caption: V Advanced topics
+  - caption: V Causality
     numbered: True
     chapters:
-    - file: content/Part5/12_HierarchicalModels
-    - file: content/Part5/13_EvaluatingComparingModels
+    - file: content/Part5/12_Causality
+  - caption: VI Advanced topics
+    numbered: True
+    chapters:
+    - file: content/Part6/13_HierarchicalModels
+    - file: content/Part6/14_EvaluatingComparingModels
+    - file: content/Part6/15_VariationalInference
+    - file: content/Part6/16_VariationalAutoencoders
   - caption:
     chapters:
     - file: References

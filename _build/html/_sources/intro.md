@@ -6,5 +6,15 @@ These are the notes for the course of Bayesian statistics.
 
 The codes are available in this [Github repository](https://github.com/IrvingGomez/BayesianStatistics).
 
+```{note}
+These notes is a WORK IN PROGRESS.
+
+Write me at
+
+gomendez (dot) irving (at) gmail (dot) com
+
+if you notice anything broken or any mistake.
+```
+
 ```{tableofcontents}
 ```
