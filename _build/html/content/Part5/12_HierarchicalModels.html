@@ -335,8 +335,8 @@ document.write(`
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#general-framework">12.1. General framework</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#posterior-conditional-distribution-of-theta-p-theta-phi-mathbf-y">12.1.1. Posterior conditional distribution of <span class="math notranslate nohighlight">\(\theta\)</span>, <span class="math notranslate nohighlight">\(p(\theta|\phi,\mathbf{Y})\)</span></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#posterior-distribution-of-phi-p-phi-mathbf-y">12.1.2. Posterior distribution of <span class="math notranslate nohighlight">\(\phi\)</span>, <span class="math notranslate nohighlight">\(p(\phi|\mathbf{Y})\)</span></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#posterior-conditional-distribution-of-parameters-p-theta-phi-mathbf-y">12.1.1. Posterior conditional distribution of parameters, <span class="math notranslate nohighlight">\(p(\theta|\phi,\mathbf{Y})\)</span></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#posterior-distribution-of-hyperparameters-p-phi-mathbf-y">12.1.2. Posterior distribution of hyperparameters, <span class="math notranslate nohighlight">\(p(\phi|\mathbf{Y})\)</span></a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#rat-tumor">12.2. Rat tumor</a><ul class="nav section-nav flex-column">
@@ -344,6 +344,16 @@ document.write(`
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#full-bayesian-approach">12.2.2. Full Bayesian approach</a></li>
 </ul>
 </li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#normal-hierarchical-model">12.3. Normal hierarchical model</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#parallel-experiments-in-eight-schools">12.3.1. Parallel experiments in eight schools</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#separate-estimates">12.3.1.1. Separate Estimates</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#complete-pooled-estimate">12.3.1.2. Complete pooled estimate</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#hierarchical-model">12.3.1.3. Hierarchical model</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#meta-analysis">12.4. Meta-analysis</a></li>
 </ul>
             </nav>
         </div>
@@ -376,8 +386,8 @@ p(\theta,\phi|\mathbf{Y}) &amp; \propto p(\theta,\phi) p(\mathbf{Y}|\theta,\phi)
 \end{align*}
 \end{split}\]</div>
 <p>When specifying a prior distribution for <span class="math notranslate nohighlight">\(\phi\)</span>, we have to take special care when an improper distribution is used and check that the posterior distribution exists, this usually requires a tremendous mathematical effort. We can avoid this problem if we restrict the hyperprior to be a proper distribution.</p>
-<section id="posterior-conditional-distribution-of-theta-p-theta-phi-mathbf-y">
-<h3><span class="section-number">12.1.1. </span>Posterior conditional distribution of <span class="math notranslate nohighlight">\(\theta\)</span>, <span class="math notranslate nohighlight">\(p(\theta|\phi,\mathbf{Y})\)</span><a class="headerlink" href="#posterior-conditional-distribution-of-theta-p-theta-phi-mathbf-y" title="Permalink to this heading">#</a></h3>
+<section id="posterior-conditional-distribution-of-parameters-p-theta-phi-mathbf-y">
+<h3><span class="section-number">12.1.1. </span>Posterior conditional distribution of parameters, <span class="math notranslate nohighlight">\(p(\theta|\phi,\mathbf{Y})\)</span><a class="headerlink" href="#posterior-conditional-distribution-of-parameters-p-theta-phi-mathbf-y" title="Permalink to this heading">#</a></h3>
 <p>Note that the posterior conditional of <span class="math notranslate nohighlight">\(\theta\)</span> satisfies</p>
 <div class="math notranslate nohighlight">
 \[\begin{split}
@@ -388,8 +398,8 @@ p(\theta|\phi,\mathbf{Y}) &amp;\propto p(\theta|\phi) p(\mathbf{Y}|\theta) \\
 \end{split}\]</div>
 <p>where <span class="math notranslate nohighlight">\(f(\phi,\mathbf{Y})\)</span> is the “constant” of proportionality, which depens on <span class="math notranslate nohighlight">\(\phi\)</span> and <span class="math notranslate nohighlight">\(\mathbf{Y}\)</span>.</p>
 </section>
-<section id="posterior-distribution-of-phi-p-phi-mathbf-y">
-<h3><span class="section-number">12.1.2. </span>Posterior distribution of <span class="math notranslate nohighlight">\(\phi\)</span>, <span class="math notranslate nohighlight">\(p(\phi|\mathbf{Y})\)</span><a class="headerlink" href="#posterior-distribution-of-phi-p-phi-mathbf-y" title="Permalink to this heading">#</a></h3>
+<section id="posterior-distribution-of-hyperparameters-p-phi-mathbf-y">
+<h3><span class="section-number">12.1.2. </span>Posterior distribution of hyperparameters, <span class="math notranslate nohighlight">\(p(\phi|\mathbf{Y})\)</span><a class="headerlink" href="#posterior-distribution-of-hyperparameters-p-phi-mathbf-y" title="Permalink to this heading">#</a></h3>
 <p>The posterior of <span class="math notranslate nohighlight">\(\phi\)</span> can be calculated marginalizing the joint posterior with respect to <span class="math notranslate nohighlight">\(\theta\)</span>, that is</p>
 <div class="math notranslate nohighlight">
 \[p(\phi|\mathbf{Y})=\int p(\theta,\phi|\mathbf{Y})d\theta.\]</div>
@@ -410,10 +420,16 @@ p(\phi|\mathbf{Y}) &amp;= \frac{p(\theta,\phi|\mathbf{Y})}{p(\theta|\phi,\mathbf
 <p>As commented previously, in the evaluation of drugs for possible clinical application, studies are routinely performed on rodents. For a particular study the immediate aim is to estimate <span class="math notranslate nohighlight">\(\theta\)</span>, the probability of tumor in a population of female laboratory rats that receive a zero dose of the drug (a control group). The data show that 4 out of 14 rats developed endometrial stromal polyps (a kind of tumor). It is natural to assume a binomial model for the number of tumors, given <span class="math notranslate nohighlight">\(\theta\)</span>. For convenience, we select a prior distribution for <span class="math notranslate nohighlight">\(\theta\)</span> from the conjugate family, <span class="math notranslate nohighlight">\(\theta\sim\textsf{Beta}(\alpha,\beta)\)</span>.</p>
 <section id="empirical-bayes">
 <h3><span class="section-number">12.2.1. </span>Empirical Bayes<a class="headerlink" href="#empirical-bayes" title="Permalink to this heading">#</a></h3>
-<p>Using the historical data and the method of moments we can set some values for <span class="math notranslate nohighlight">\(\alpha\)</span> and <span class="math notranslate nohighlight">\(\beta\)</span>. Since <span class="math notranslate nohighlight">\(\theta\sim\textsf{Beta}(\alpha,\beta)\)</span>, then $<span class="math notranslate nohighlight">\(\mathbb{E}(\theta)=\frac{\alpha}{\alpha+\beta}\text{ and }\mathbb{V}(\theta)=\frac{\alpha\beta}{(\alpha+\beta)^2(\alpha+\beta+1)}.\)</span><span class="math notranslate nohighlight">\( Let be \)</span>\bar{Y}<em>j=Y_j/n_j<span class="math notranslate nohighlight">\(, \)</span>\bar{\bar Y}<span class="math notranslate nohighlight">\( the mean of \)</span>\bar Y_1,\ldots,\bar Y_J<span class="math notranslate nohighlight">\(, and \)</span>s</em>{\bar{Y}}^2$ their variance.</p>
-<p>Then, we have to find the values of <span class="math notranslate nohighlight">\(\alpha\)</span> and <span class="math notranslate nohighlight">\(\beta\)</span> such that
-$<span class="math notranslate nohighlight">\(\bar{\bar Y}=\frac{\alpha}{\alpha+\beta} \text{ and }s_{\bar{Y}}^2=\frac{\alpha\beta}{(\alpha+\beta)^2(\alpha+\beta+1)}.\)</span>$</p>
-<p>Solving these equations, we find that $<span class="math notranslate nohighlight">\(\beta = \alpha\left(\frac{1-\bar{\bar Y}}{\bar{\bar Y}}\right)\text{ and }\alpha = \frac{\bar{\bar Y}^2(1-\bar{\bar Y})-\bar{\bar Y}s_{\bar{Y}}^2}{s_{\bar{Y}}^2}.\)</span>$</p>
+<p>Using the historical data and the method of moments we can set some values for <span class="math notranslate nohighlight">\(\alpha\)</span> and <span class="math notranslate nohighlight">\(\beta\)</span>. Since <span class="math notranslate nohighlight">\(\theta\sim\textsf{Beta}(\alpha,\beta)\)</span>, then</p>
+<div class="math notranslate nohighlight">
+\[\mathbb{E}(\theta)=\frac{\alpha}{\alpha+\beta}\text{ and }\mathbb{V}(\theta)=\frac{\alpha\beta}{(\alpha+\beta)^2(\alpha+\beta+1)}.\]</div>
+<p>Let be <span class="math notranslate nohighlight">\(\bar{Y}_j=Y_j/n_j\)</span>, <span class="math notranslate nohighlight">\(\bar{\bar Y}\)</span> the mean of <span class="math notranslate nohighlight">\(\bar Y_1,\ldots,\bar Y_J\)</span>, and <span class="math notranslate nohighlight">\(s_{\bar{Y}}^2\)</span> their variance.</p>
+<p>Then, we have to find the values of <span class="math notranslate nohighlight">\(\alpha\)</span> and <span class="math notranslate nohighlight">\(\beta\)</span> such that</p>
+<div class="math notranslate nohighlight">
+\[\bar{\bar Y}=\frac{\alpha}{\alpha+\beta} \text{ and }s_{\bar{Y}}^2=\frac{\alpha\beta}{(\alpha+\beta)^2(\alpha+\beta+1)}.\]</div>
+<p>Solving these equations, we find that</p>
+<div class="math notranslate nohighlight">
+\[\beta = \alpha\left(\frac{1-\bar{\bar Y}}{\bar{\bar Y}}\right)\text{ and }\alpha = \frac{\bar{\bar Y}^2(1-\bar{\bar Y})-\bar{\bar Y}s_{\bar{Y}}^2}{s_{\bar{Y}}^2}.\]</div>
 <p>Using this simple estimate of the historical population distribution as a prior distribution for the current experiment yields a Beta(<span class="math notranslate nohighlight">\(5.356,18.615\)</span>) posterior distribution for <span class="math notranslate nohighlight">\(\theta\)</span>.</p>
 <p>The next figure shows the posterior distribuion of <span class="math notranslate nohighlight">\(\theta\)</span>, with a vertical line is the observed proportion 4/14.</p>
 <img alt="PosteriorThetaEmpirical" class="align-center" src="../../_images/PosteriorThetaEmpirical.png" />
@@ -461,6 +477,465 @@ p(\theta,\alpha,\beta|\mathbf{Y}) &amp;\propto p(\alpha,\beta)p(\theta|\alpha,\b
 <p>Finally the nect image shows credible intervals for all the <span class="math notranslate nohighlight">\(\theta_j\)</span>, <span class="math notranslate nohighlight">\(j=1,\ldots,J\)</span> against their observed proportions. Note that cases where the proportion is low tend to be move upward, and viceversa, when the proportion is high the posterior estimator tends to move downward</p>
 <img alt="PosteriorThetaEmpirical" class="align-center" src="../../_images/PosteriorThetaFull.png" />
 </section>
+</section>
+<section id="normal-hierarchical-model">
+<h2><span class="section-number">12.3. </span>Normal hierarchical model<a class="headerlink" href="#normal-hierarchical-model" title="Permalink to this heading">#</a></h2>
+<p>For this section I recommend to check:</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://irvinggomez.com/courses/bayesian/HierarchicalNormalModel.pdf">My notes about the hierarchical normal model.</a></p></li>
+<li><p>The article <span id="id4">[<a class="reference internal" href="../../References.html#id14" title="Irving Gómez-Méndez and Chainarong Amornbunchornvej. Income, education, and other poverty-related variables: a journey through bayesian hierarchical models. arXiv preprint arXiv:2308.16578, 2023.">GomezMendezA23</a>]</span>.</p></li>
+</ul>
+<section id="parallel-experiments-in-eight-schools">
+<h3><span class="section-number">12.3.1. </span>Parallel experiments in eight schools<a class="headerlink" href="#parallel-experiments-in-eight-schools" title="Permalink to this heading">#</a></h3>
+<p>This example was taken from section 5.5 of <span id="id5">[<a class="reference internal" href="../../References.html#id5" title="A. Gelman, J.B. Carlin, H.S. Stern, D.B. Dunson, A. Vehtari, and D.B. Rubin. Bayesian Data Analysis, Third Edition. Chapman &amp; Hall/CRC Texts in Statistical Science. Taylor &amp; Francis, 2013. ISBN 9781439840955. URL: https://books.google.co.th/books?id=ZXL6AQAAQBAJ.">GCS+13</a>]</span>. The code with all the details is <a class="reference external" href="https://github.com/IrvingGomez/BayesianStatistics/blob/main/Codes/21_EducationalTestingExample.ipynb">21_EducationalTestingExample.ipynb</a> in the <a class="reference external" href="https://github.com/IrvingGomez/BayesianStatistics">repository of the course</a>.</p>
+<p>A study was performed for the Educational Testing Service to analyze the effects of special coaching programs on test scores. Separate randomized experiments were performed to estimate the effects of coaching programs for the SAT-V (Scholastic Aptitude Test-Verbal) in each of eight high schools. We consider the sampling variances known, for all practical purposes, because the sample sizes in all the eight experiments were relatively large.</p>
+<section id="separate-estimates">
+<h4><span class="section-number">12.3.1.1. </span>Separate Estimates<a class="headerlink" href="#separate-estimates" title="Permalink to this heading">#</a></h4>
+<p>We can consider each experiment separately with the following model:</p>
+<div class="math notranslate nohighlight">
+\[Y_j|\theta_j\sim\textsf{Normal}(\theta_j,\sigma_j^2)\]</div>
+<p>and</p>
+<div class="math notranslate nohighlight">
+\[p(\theta_j)\propto 1_{\mathbb{R}}(\theta_j),\]</div>
+<p>so the posterior would be</p>
+<div class="math notranslate nohighlight">
+\[\theta_j|Y_j\sim\textsf{Normal}(Y_j,\sigma_j^2).\]</div>
+<img alt="SeparateModel" class="align-center" src="../../_images/SeparateModel.png" />
+<p>Treatening each experiment separately yields 95% posterior intervals which overlap substantially.</p>
+</section>
+<section id="complete-pooled-estimate">
+<h4><span class="section-number">12.3.1.2. </span>Complete pooled estimate<a class="headerlink" href="#complete-pooled-estimate" title="Permalink to this heading">#</a></h4>
+<p>The general overlap in the posterior intervals based on independent analyses suggests that all experiments might be estimating the same quantity. Under the hypothesis that all experiments have the same effect and produce independent estimates of this common effect, we could treat the data as eight normally distributed observations:</p>
+<div class="math notranslate nohighlight">
+\[Y_j\sim\textsf{Normal}(\theta,\sigma_j^2).\]</div>
+<p>If we model <span class="math notranslate nohighlight">\(p(\theta)\propto 1_{\mathbb{R}}(\theta)\)</span> then <span class="math notranslate nohighlight">\(\theta|\mathbf{Y}\sim\textsf{Normal}(\bar{Y}_{\cdot\cdot}, \varphi^2)\)</span>, where</p>
+<div class="math notranslate nohighlight">
+\[\bar{Y}_{\cdot\cdot}=\frac{\sum_{j=1}^J \frac{1}{\sigma_j^2}Y_j}{\sum_{j=1}^J \frac{1}{\sigma_j^2}}\]</div>
+<p>and</p>
+<div class="math notranslate nohighlight">
+\[\varphi^2=\frac{1}{\sum_{j=1}^J\frac{1}{\sigma_j^2}}.\]</div>
+<p>To know the goodness-of-fit of the model we can consider the posterior predictive, which would be given by $<span class="math notranslate nohighlight">\(Y_j|\mathbf{Y}\sim\textsf{Normal}(\bar{Y}_{\cdot\cdot}, \sigma_j^2+\varphi^2)\)</span>$</p>
+<img alt="PooledModel" class="align-center" src="../../_images/PooledModel.png" />
+<p>From the previous figure we can see that the complete pooling might be a good model to explain the data.</p>
+</section>
+<section id="hierarchical-model">
+<h4><span class="section-number">12.3.1.3. </span>Hierarchical model<a class="headerlink" href="#hierarchical-model" title="Permalink to this heading">#</a></h4>
+<p>We get the MAP for <span class="math notranslate nohighlight">\(\tau\)</span> and calculate an approximate credible interval of 0.95 of posterior probability using the asymptotic behavior of the posterior distribution. In the enxt figure we show the posterior distribution of <span class="math notranslate nohighlight">\(\tau\)</span>, where we can observe that the MAP estimator correspond with <span class="math notranslate nohighlight">\(\tau=0\)</span>, that is, with the complete pooling model.</p>
+<img alt="PosteriorTau" class="align-center" src="../../_images/PosteriorTau.png" />
+<p>We get a full Bayesian estimate for <span class="math notranslate nohighlight">\(\mu\)</span> using <span class="math notranslate nohighlight">\(\hat{\mu}\)</span> evaluated in the MAP of <span class="math notranslate nohighlight">\(\tau\)</span>. In the next figure I present its conditional posterior distribution setting <span class="math notranslate nohighlight">\(\tau=\tau^{\text{MAP}}\)</span>.</p>
+<img alt="ConditionalPosteriorMu" class="align-center" src="../../_images/ConditionalPosteriorMu.png" />
+<p>The next plots show the effect of <span class="math notranslate nohighlight">\(\tau\)</span> in the posterior means of treatment effects, <span class="math notranslate nohighlight">\(E(\theta_j|\sigma,\tau,\mathbf{Y})\)</span> and the posterior standard deviation of treatment effects, <span class="math notranslate nohighlight">\(\textsf{Std}(\theta_j|\sigma,\tau,\mathbf{Y})\)</span></p>
+<img alt="PosteriorMean" class="align-center" src="../../_images/PosteriorMean.png" />
+<img alt="PosteriorStd" class="align-center" src="../../_images/PosteriorStd.png" />
+</section>
+</section>
+</section>
+<section id="meta-analysis">
+<h2><span class="section-number">12.4. </span>Meta-analysis<a class="headerlink" href="#meta-analysis" title="Permalink to this heading">#</a></h2>
+<p>Example taken from section 5.6 of <span id="id6">[<a class="reference internal" href="../../References.html#id5" title="A. Gelman, J.B. Carlin, H.S. Stern, D.B. Dunson, A. Vehtari, and D.B. Rubin. Bayesian Data Analysis, Third Edition. Chapman &amp; Hall/CRC Texts in Statistical Science. Taylor &amp; Francis, 2013. ISBN 9781439840955. URL: https://books.google.co.th/books?id=ZXL6AQAAQBAJ.">GCS+13</a>]</span>. The original data for the example are from <span id="id7">[<a class="reference internal" href="../../References.html#id13" title="Salim Yusuf, Richard Peto, John Lewis, Rory Collins, and Peter Sleight. Beta blockade during and after myocardial infarction: an overview of the randomized trials. Progress in cardiovascular diseases, 27(5):335–371, 1985.">YPL+85</a>]</span>. The code with all the details is <a class="reference external" href="https://github.com/IrvingGomez/BayesianStatistics/blob/main/Codes/22_MetaAnalysisCombiningStudies.ipynb">22_MetaAnalysisCombiningStudies.ipynb</a> in the <a class="reference external" href="https://github.com/IrvingGomez/BayesianStatistics">repository of the course</a>.</p>
+<p>Meta-analysis is a process of summarizing and integrating the findings of research studies in a particular area.</p>
+<p>The data in the example summarize mortality after myocardial infarction in 22 clinical trials, each consisting of
+two groups of heart attack patients randomly allocated to receive or not receive beta-blockers (a family of drugs that affect the central nervous system and can relax the heart muscles). The aim of a meta-analysis is to provide a combined analysis of the studies that indicates the overall strength of the evidence for a beneficial effect of the treatment under study.</p>
+<p>If clinical trial <span class="math notranslate nohighlight">\(j\)</span> involves the use of <span class="math notranslate nohighlight">\(n_{0j}\)</span> subjects in the control group and <span class="math notranslate nohighlight">\(n_{1j}\)</span> in the treatment group, giving rise to <span class="math notranslate nohighlight">\(y_{0j}\)</span> and <span class="math notranslate nohighlight">\(y_{1j}\)</span> deaths in control and treatment groups, respectively, then the usual sampling model involves two independent binomial distributions with probabilities <span class="math notranslate nohighlight">\(p_{0j}\)</span> and <span class="math notranslate nohighlight">\(p_{1j}\)</span>, respectively. Estimands of interest include the odds ratio</p>
+<div class="math notranslate nohighlight">
+\[\rho_j=\frac{\frac{p_{1j}}{1-p_{1j}}}{\frac{p_{0j}}{1-p_{0j}}}.\]</div>
+<p>However, for a number of reasons, including interpretability and the fact that its posterior distribution is close to normality, we concentrate on inference for the logarithm of the odds ratio, which we label <span class="math notranslate nohighlight">\(\theta_j=\log\rho_j\)</span>.</p>
+<p>We calculate the logarithms of the odds:</p>
+<div class="math notranslate nohighlight">
+\[y_j=\log\left(\frac{y_{1j}}{n_{1j}-y_{1j}}\right)-\log\left(\frac{y_{0j}}{n_{0j}-y_{0j}}\right),\]</div>
+<p>with approximate variance</p>
+<div class="math notranslate nohighlight">
+\[\sigma_j^2=\frac{1}{y_{1j}}+\frac{1}{n_{1j}-y_{1j}}+\frac{1}{y_{0j}}+\frac{1}{n_{0j}-y_{0j}}.\]</div>
+<p>For this data we are not considering the uncertainty in the variance. That is, we will act as if the variance is known and given by the observed one. Thus, we use the model:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{align*}
+y_j|\theta_j,\sigma_j^2 &amp;\sim \textsf{Normal}(\theta_j,\sigma_j^2) \\
+\theta_j &amp;\sim \textsf{Normal}(\mu,\tau^2) \\
+p(\mu) &amp;\propto 1_{\mathbb{R}}(\mu) \\
+p(\tau) &amp;\propto 1_{(0,\infty)}(\tau)
+\end{align*}
+\end{split}\]</div>
+<p>The next table presents the data, the posterior median for each <span class="math notranslate nohighlight">\(\theta\)</span> and its corresponding ETI.</p>
+<div class="cell tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Study</th>
+      <th>ControlDeaths</th>
+      <th>ControlTotal</th>
+      <th>TreatedDeaths</th>
+      <th>TreatedTotal</th>
+      <th>LogOdds</th>
+      <th>Sigma</th>
+      <th>ETI 2.5%</th>
+      <th>Median</th>
+      <th>ETI 97.5%</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>1</td>
+      <td>3</td>
+      <td>39</td>
+      <td>3</td>
+      <td>38</td>
+      <td>0.028</td>
+      <td>0.850</td>
+      <td>-0.596</td>
+      <td>-0.244</td>
+      <td>0.149</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>2</td>
+      <td>14</td>
+      <td>116</td>
+      <td>7</td>
+      <td>114</td>
+      <td>-0.741</td>
+      <td>0.483</td>
+      <td>-0.668</td>
+      <td>-0.286</td>
+      <td>0.014</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>3</td>
+      <td>11</td>
+      <td>93</td>
+      <td>5</td>
+      <td>69</td>
+      <td>-0.541</td>
+      <td>0.565</td>
+      <td>-0.623</td>
+      <td>-0.270</td>
+      <td>0.034</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>4</td>
+      <td>127</td>
+      <td>1520</td>
+      <td>102</td>
+      <td>1533</td>
+      <td>-0.246</td>
+      <td>0.138</td>
+      <td>-0.438</td>
+      <td>-0.248</td>
+      <td>-0.043</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>5</td>
+      <td>27</td>
+      <td>365</td>
+      <td>28</td>
+      <td>355</td>
+      <td>0.069</td>
+      <td>0.281</td>
+      <td>-0.448</td>
+      <td>-0.193</td>
+      <td>0.155</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>6</td>
+      <td>6</td>
+      <td>52</td>
+      <td>4</td>
+      <td>59</td>
+      <td>-0.584</td>
+      <td>0.676</td>
+      <td>-0.605</td>
+      <td>-0.261</td>
+      <td>0.074</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>7</td>
+      <td>152</td>
+      <td>939</td>
+      <td>98</td>
+      <td>945</td>
+      <td>-0.512</td>
+      <td>0.139</td>
+      <td>-0.619</td>
+      <td>-0.367</td>
+      <td>-0.168</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>8</td>
+      <td>48</td>
+      <td>471</td>
+      <td>60</td>
+      <td>632</td>
+      <td>-0.079</td>
+      <td>0.204</td>
+      <td>-0.418</td>
+      <td>-0.201</td>
+      <td>0.067</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>9</td>
+      <td>37</td>
+      <td>282</td>
+      <td>25</td>
+      <td>278</td>
+      <td>-0.424</td>
+      <td>0.274</td>
+      <td>-0.606</td>
+      <td>-0.287</td>
+      <td>-0.017</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>10</td>
+      <td>188</td>
+      <td>1921</td>
+      <td>138</td>
+      <td>1916</td>
+      <td>-0.335</td>
+      <td>0.117</td>
+      <td>-0.485</td>
+      <td>-0.297</td>
+      <td>-0.123</td>
+    </tr>
+    <tr>
+      <th>10</th>
+      <td>11</td>
+      <td>52</td>
+      <td>583</td>
+      <td>64</td>
+      <td>873</td>
+      <td>-0.213</td>
+      <td>0.195</td>
+      <td>-0.483</td>
+      <td>-0.241</td>
+      <td>0.027</td>
+    </tr>
+    <tr>
+      <th>11</th>
+      <td>12</td>
+      <td>47</td>
+      <td>266</td>
+      <td>45</td>
+      <td>263</td>
+      <td>-0.039</td>
+      <td>0.229</td>
+      <td>-0.434</td>
+      <td>-0.201</td>
+      <td>0.098</td>
+    </tr>
+    <tr>
+      <th>12</th>
+      <td>13</td>
+      <td>16</td>
+      <td>293</td>
+      <td>9</td>
+      <td>291</td>
+      <td>-0.593</td>
+      <td>0.425</td>
+      <td>-0.661</td>
+      <td>-0.282</td>
+      <td>0.020</td>
+    </tr>
+    <tr>
+      <th>13</th>
+      <td>14</td>
+      <td>45</td>
+      <td>883</td>
+      <td>57</td>
+      <td>858</td>
+      <td>0.282</td>
+      <td>0.205</td>
+      <td>-0.339</td>
+      <td>-0.095</td>
+      <td>0.276</td>
+    </tr>
+    <tr>
+      <th>14</th>
+      <td>15</td>
+      <td>31</td>
+      <td>147</td>
+      <td>25</td>
+      <td>154</td>
+      <td>-0.321</td>
+      <td>0.298</td>
+      <td>-0.547</td>
+      <td>-0.264</td>
+      <td>0.025</td>
+    </tr>
+    <tr>
+      <th>15</th>
+      <td>16</td>
+      <td>38</td>
+      <td>213</td>
+      <td>33</td>
+      <td>207</td>
+      <td>-0.135</td>
+      <td>0.261</td>
+      <td>-0.475</td>
+      <td>-0.231</td>
+      <td>0.066</td>
+    </tr>
+    <tr>
+      <th>16</th>
+      <td>17</td>
+      <td>12</td>
+      <td>122</td>
+      <td>28</td>
+      <td>251</td>
+      <td>0.141</td>
+      <td>0.364</td>
+      <td>-0.464</td>
+      <td>-0.203</td>
+      <td>0.165</td>
+    </tr>
+    <tr>
+      <th>17</th>
+      <td>18</td>
+      <td>6</td>
+      <td>154</td>
+      <td>8</td>
+      <td>151</td>
+      <td>0.322</td>
+      <td>0.553</td>
+      <td>-0.523</td>
+      <td>-0.217</td>
+      <td>0.182</td>
+    </tr>
+    <tr>
+      <th>18</th>
+      <td>19</td>
+      <td>3</td>
+      <td>134</td>
+      <td>6</td>
+      <td>174</td>
+      <td>0.444</td>
+      <td>0.717</td>
+      <td>-0.544</td>
+      <td>-0.225</td>
+      <td>0.151</td>
+    </tr>
+    <tr>
+      <th>19</th>
+      <td>20</td>
+      <td>40</td>
+      <td>218</td>
+      <td>32</td>
+      <td>209</td>
+      <td>-0.218</td>
+      <td>0.260</td>
+      <td>-0.510</td>
+      <td>-0.240</td>
+      <td>0.044</td>
+    </tr>
+    <tr>
+      <th>20</th>
+      <td>21</td>
+      <td>43</td>
+      <td>364</td>
+      <td>27</td>
+      <td>391</td>
+      <td>-0.591</td>
+      <td>0.257</td>
+      <td>-0.669</td>
+      <td>-0.322</td>
+      <td>-0.087</td>
+    </tr>
+    <tr>
+      <th>21</th>
+      <td>22</td>
+      <td>39</td>
+      <td>674</td>
+      <td>22</td>
+      <td>680</td>
+      <td>-0.608</td>
+      <td>0.272</td>
+      <td>-0.662</td>
+      <td>-0.317</td>
+      <td>-0.063</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>The next table shows the posterior median and ETI for <span class="math notranslate nohighlight">\(\theta,\mu,\exp\{\mu\}\)</span> and <span class="math notranslate nohighlight">\(\tau\)</span>.</p>
+<table class="table">
+<thead>
+<tr class="row-odd"><th class="head text-center"><p>Parameter</p></th>
+<th class="head text-center"><p>ETI 2.5%</p></th>
+<th class="head text-center"><p>Median</p></th>
+<th class="head text-center"><p>ETI 97.5%</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-center"><p><span class="math notranslate nohighlight">\(\theta\)</span></p></td>
+<td class="text-center"><p>-0.626</p></td>
+<td class="text-center"><p>-0.249</p></td>
+<td class="text-center"><p>0.135</p></td>
+</tr>
+<tr class="row-odd"><td class="text-center"><p><span class="math notranslate nohighlight">\(\mu\)</span></p></td>
+<td class="text-center"><p>-0.376</p></td>
+<td class="text-center"><p>-0.248</p></td>
+<td class="text-center"><p>-0.115</p></td>
+</tr>
+<tr class="row-even"><td class="text-center"><p><span class="math notranslate nohighlight">\(\exp\{\mu\}\)</span></p></td>
+<td class="text-center"><p>0.687</p></td>
+<td class="text-center"><p>0.78</p></td>
+<td class="text-center"><p>0.892</p></td>
+</tr>
+<tr class="row-odd"><td class="text-center"><p><span class="math notranslate nohighlight">\(\tau\)</span></p></td>
+<td class="text-center"><p>0.047</p></td>
+<td class="text-center"><p>0.139</p></td>
+<td class="text-center"><p>0.308</p></td>
+</tr>
+</tbody>
+</table>
+<p>In the original published discussion of these data, it was remarked that it seems and ‘unusually narrow range of uncertainty’. The Bayesian analysis suggests that this was due to the use of an inappropriate model that had the effect of claiming all the studies were identical. In mathematical terms, complete pooling makes the assumption that the parameter <span class="math notranslate nohighlight">\(\tau\)</span> is exactly zero, whereas the data supply evidence that <span class="math notranslate nohighlight">\(\tau\)</span> might be close to zero, but might also plausibly be as high as 0.3. The next table shows the posterior median and ETI of <span class="math notranslate nohighlight">\(\mu\)</span> when <span class="math notranslate nohighlight">\(\tau=0\)</span>.</p>
+<table class="table">
+<thead>
+<tr class="row-odd"><th class="head text-center"><p>Parameter</p></th>
+<th class="head text-center"><p>ETI 2.5%</p></th>
+<th class="head text-center"><p>Median</p></th>
+<th class="head text-center"><p>ETI 97.5%</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-center"><p><span class="math notranslate nohighlight">\(\mu\vert\tau=0\)</span></p></td>
+<td class="text-center"><p>-0.359</p></td>
+<td class="text-center"><p>-0.26</p></td>
+<td class="text-center"><p>-0.161</p></td>
+</tr>
+<tr class="row-odd"><td class="text-center"><p><span class="math notranslate nohighlight">\(\exp\{\mu\}\vert\tau=0\)</span></p></td>
+<td class="text-center"><p>0.699</p></td>
+<td class="text-center"><p>0.771</p></td>
+<td class="text-center"><p>0.851</p></td>
+</tr>
+</tbody>
+</table>
+<p>We make a scatterplot of the crude effect estimates versus the posterior median effect estimates for the 22 studies, the color of each point depends on the size of the population in the study. We observe that the studies with the smallest sample sizes are partially pooled the most toward the mean <span class="math notranslate nohighlight">\(\mu\)</span>.</p>
+<img alt="MetaAnalysis" class="align-center" src="../../_images/MetaAnalysis.png" />
 </section>
 </section>
 
@@ -532,8 +1007,8 @@ p(\theta,\alpha,\beta|\mathbf{Y}) &amp;\propto p(\alpha,\beta)p(\theta|\alpha,\b
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#general-framework">12.1. General framework</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#posterior-conditional-distribution-of-theta-p-theta-phi-mathbf-y">12.1.1. Posterior conditional distribution of <span class="math notranslate nohighlight">\(\theta\)</span>, <span class="math notranslate nohighlight">\(p(\theta|\phi,\mathbf{Y})\)</span></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#posterior-distribution-of-phi-p-phi-mathbf-y">12.1.2. Posterior distribution of <span class="math notranslate nohighlight">\(\phi\)</span>, <span class="math notranslate nohighlight">\(p(\phi|\mathbf{Y})\)</span></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#posterior-conditional-distribution-of-parameters-p-theta-phi-mathbf-y">12.1.1. Posterior conditional distribution of parameters, <span class="math notranslate nohighlight">\(p(\theta|\phi,\mathbf{Y})\)</span></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#posterior-distribution-of-hyperparameters-p-phi-mathbf-y">12.1.2. Posterior distribution of hyperparameters, <span class="math notranslate nohighlight">\(p(\phi|\mathbf{Y})\)</span></a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#rat-tumor">12.2. Rat tumor</a><ul class="nav section-nav flex-column">
@@ -541,6 +1016,16 @@ p(\theta,\alpha,\beta|\mathbf{Y}) &amp;\propto p(\alpha,\beta)p(\theta|\alpha,\b
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#full-bayesian-approach">12.2.2. Full Bayesian approach</a></li>
 </ul>
 </li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#normal-hierarchical-model">12.3. Normal hierarchical model</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#parallel-experiments-in-eight-schools">12.3.1. Parallel experiments in eight schools</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#separate-estimates">12.3.1.1. Separate Estimates</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#complete-pooled-estimate">12.3.1.2. Complete pooled estimate</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#hierarchical-model">12.3.1.3. Hierarchical model</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#meta-analysis">12.4. Meta-analysis</a></li>
 </ul>
   </nav></div>
 

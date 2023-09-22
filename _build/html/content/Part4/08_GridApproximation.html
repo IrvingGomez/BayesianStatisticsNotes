@@ -179,7 +179,7 @@ const thebe_selector_output = ".output, .cell_output"
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">8. Grid approximation and statistical inference</a></li>
 <li class="toctree-l1"><a class="reference internal" href="09_ModelChecking.html">9. Model checking</a></li>
 <li class="toctree-l1"><a class="reference internal" href="10_BayesianRegression.html">10. Bayesian regression (2)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="11_ComputationalApproximations.html">11. Other computational approximations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="11_ComputationalApproximations.html">11. Quadratic approximation and MCMC</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">V Advanced topics</span></p>
 <ul class="nav bd-sidenav">
@@ -401,6 +401,7 @@ document.write(`
 \[\frac{1}{S}\sum_{s=1}^S 1_{\tilde\theta_s\in\Theta_1},\]</div>
 <p>where <span class="math notranslate nohighlight">\(\Theta_1\)</span> is (in principle) any arbitrary region in the parametric space.</p>
 <p>In this way, it becomes particularly easy to estimate intervals <span class="math notranslate nohighlight">\((\theta_1, \theta_2)\)</span> such that <span class="math notranslate nohighlight">\(\mathbb{P}(\theta\in(\theta_1,\theta_2))=1-\alpha\)</span>. This intervals are known as <strong>credible intervals</strong>. The shorter intervals of posterior probability of <span class="math notranslate nohighlight">\(1-\alpha\)</span> are of particular interests, such intervals are known as <strong>highest posterior density interval</strong>, HPDI.</p>
+<p>Sometimes is also reported the <strong>equal-tailed interval</strong> (ETI) as a robust alternative. This interval exclude <span class="math notranslate nohighlight">\(\alpha/2\)</span> probability from each tail of the distribution and always include the median.</p>
 </section>
 <section id="simulate-from-the-posterior-predictive-distribution">
 <h2><span class="section-number">8.5. </span>Simulate from the posterior predictive distribution<a class="headerlink" href="#simulate-from-the-posterior-predictive-distribution" title="Permalink to this heading">#</a></h2>
