@@ -9,7 +9,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
-    <title>13. Evaluating and comparing models &#8212; Bayesian Statistics</title>
+    <title>14. Evaluating and comparing models &#8212; Bayesian Statistics</title>
   
   
   
@@ -61,11 +61,11 @@ const thebe_selector_input = "pre"
 const thebe_selector_output = ".output, .cell_output"
 </script>
     <script async="async" src="../../_static/sphinx-thebe.js"></script>
-    <script>DOCUMENTATION_OPTIONS.pagename = 'content/Part5/13_EvaluatingComparingModels';</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'content/Part6/14_EvaluatingComparingModels';</script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="next" title="References" href="../../References.html" />
-    <link rel="prev" title="12. Hierarchical models" href="12_HierarchicalModels.html" />
+    <link rel="next" title="15. Variational Inference" href="15_VariationalInference.html" />
+    <link rel="prev" title="13. Hierarchical models" href="13_HierarchicalModels.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -177,12 +177,18 @@ const thebe_selector_output = ".output, .cell_output"
 <li class="toctree-l1"><a class="reference internal" href="../Part4/08_GridApproximation.html">8. Grid approximation and statistical inference</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../Part4/09_ModelChecking.html">9. Model checking</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../Part4/10_BayesianRegression.html">10. Bayesian regression (2)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../Part4/11_ComputationalApproximations.html">11. Other computational approximations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Part4/11_ComputationalApproximations.html">11. Quadratic approximation and MCMC</a></li>
 </ul>
-<p aria-level="2" class="caption" role="heading"><span class="caption-text">V Advanced topics</span></p>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">V Causality</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../Part5/12_Causality.html">12. Causality</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">VI Advanced topics</span></p>
 <ul class="current nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="12_HierarchicalModels.html">12. Hierarchical models</a></li>
-<li class="toctree-l1 current active"><a class="current reference internal" href="#">13. Evaluating and comparing models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="13_HierarchicalModels.html">13. Hierarchical models</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">14. Evaluating and comparing models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="15_VariationalInference.html">15. Variational Inference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="16_VariationalAutoencoders.html">16. Variational Autoencoders (VAES)</a></li>
 </ul>
 <ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="../../References.html">References</a></li>
@@ -240,7 +246,7 @@ const thebe_selector_output = ".output, .cell_output"
       
       
       
-      <li><a href="../../_sources/content/Part5/13_EvaluatingComparingModels.ipynb" target="_blank"
+      <li><a href="../../_sources/content/Part6/14_EvaluatingComparingModels.ipynb" target="_blank"
    class="btn btn-sm btn-download-source-button dropdown-item"
    title="Download source file"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -335,9 +341,8 @@ document.write(`
                 <article class="bd-article" role="main">
                   
   <section class="tex2jax_ignore mathjax_ignore" id="evaluating-and-comparing-models">
-<h1><span class="section-number">13. </span>Evaluating and comparing models<a class="headerlink" href="#evaluating-and-comparing-models" title="Permalink to this heading">#</a></h1>
-<p>For further interests in entropy and the Kullback-Leibler divergence, I recommend the following video.</p>
-<iframe width="560" height="315" src="https://www.youtube.com/embed/YtebGVx-Fxw?si=T8m9VQFd6esm2P6d" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe></section>
+<h1><span class="section-number">14. </span>Evaluating and comparing models<a class="headerlink" href="#evaluating-and-comparing-models" title="Permalink to this heading">#</a></h1>
+</section>
 
     <script type="text/x-thebe-config">
     {
@@ -352,7 +357,7 @@ document.write(`
         },
         kernelOptions: {
             name: "python3",
-            path: "./content/Part5"
+            path: "./content/Part6"
         },
         predefinedOutput: true
     }
@@ -371,20 +376,20 @@ document.write(`
     <div class="footer-article-item"><!-- Previous / next buttons -->
 <div class="prev-next-area">
     <a class="left-prev"
-       href="12_HierarchicalModels.html"
+       href="13_HierarchicalModels.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title"><span class="section-number">12. </span>Hierarchical models</p>
+        <p class="prev-next-title"><span class="section-number">13. </span>Hierarchical models</p>
       </div>
     </a>
     <a class="right-next"
-       href="../../References.html"
+       href="15_VariationalInference.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">References</p>
+        <p class="prev-next-title"><span class="section-number">15. </span>Variational Inference</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>

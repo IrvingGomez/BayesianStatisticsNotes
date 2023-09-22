@@ -9,7 +9,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
-    <title>12. Hierarchical models &#8212; Bayesian Statistics</title>
+    <title>13. Hierarchical models &#8212; Bayesian Statistics</title>
   
   
   
@@ -63,11 +63,11 @@ const thebe_selector_output = ".output, .cell_output"
     <script async="async" src="../../_static/sphinx-thebe.js"></script>
     <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
     <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
-    <script>DOCUMENTATION_OPTIONS.pagename = 'content/Part5/12_HierarchicalModels';</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'content/Part6/13_HierarchicalModels';</script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="next" title="13. Evaluating and comparing models" href="13_EvaluatingComparingModels.html" />
-    <link rel="prev" title="11. Quadratic approximation and MCMC" href="../Part4/11_ComputationalApproximations.html" />
+    <link rel="next" title="14. Evaluating and comparing models" href="14_EvaluatingComparingModels.html" />
+    <link rel="prev" title="12. Causality" href="../Part5/12_Causality.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -181,10 +181,16 @@ const thebe_selector_output = ".output, .cell_output"
 <li class="toctree-l1"><a class="reference internal" href="../Part4/10_BayesianRegression.html">10. Bayesian regression (2)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../Part4/11_ComputationalApproximations.html">11. Quadratic approximation and MCMC</a></li>
 </ul>
-<p aria-level="2" class="caption" role="heading"><span class="caption-text">V Advanced topics</span></p>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">V Causality</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../Part5/12_Causality.html">12. Causality</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">VI Advanced topics</span></p>
 <ul class="current nav bd-sidenav">
-<li class="toctree-l1 current active"><a class="current reference internal" href="#">12. Hierarchical models</a></li>
-<li class="toctree-l1"><a class="reference internal" href="13_EvaluatingComparingModels.html">13. Evaluating and comparing models</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">13. Hierarchical models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="14_EvaluatingComparingModels.html">14. Evaluating and comparing models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="15_VariationalInference.html">15. Variational Inference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="16_VariationalAutoencoders.html">16. Variational Autoencoders (VAES)</a></li>
 </ul>
 <ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="../../References.html">References</a></li>
@@ -242,7 +248,7 @@ const thebe_selector_output = ".output, .cell_output"
       
       
       
-      <li><a href="../../_sources/content/Part5/12_HierarchicalModels.ipynb" target="_blank"
+      <li><a href="../../_sources/content/Part6/13_HierarchicalModels.ipynb" target="_blank"
    class="btn btn-sm btn-download-source-button dropdown-item"
    title="Download source file"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -334,26 +340,26 @@ document.write(`
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#general-framework">12.1. General framework</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#posterior-conditional-distribution-of-parameters-p-theta-phi-mathbf-y">12.1.1. Posterior conditional distribution of parameters, <span class="math notranslate nohighlight">\(p(\theta|\phi,\mathbf{Y})\)</span></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#posterior-distribution-of-hyperparameters-p-phi-mathbf-y">12.1.2. Posterior distribution of hyperparameters, <span class="math notranslate nohighlight">\(p(\phi|\mathbf{Y})\)</span></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#general-framework">13.1. General framework</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#posterior-conditional-distribution-of-parameters-p-theta-phi-mathbf-y">13.1.1. Posterior conditional distribution of parameters, <span class="math notranslate nohighlight">\(p(\theta|\phi,\mathbf{Y})\)</span></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#posterior-distribution-of-hyperparameters-p-phi-mathbf-y">13.1.2. Posterior distribution of hyperparameters, <span class="math notranslate nohighlight">\(p(\phi|\mathbf{Y})\)</span></a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#rat-tumor">12.2. Rat tumor</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#empirical-bayes">12.2.1. Empirical Bayes</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#full-bayesian-approach">12.2.2. Full Bayesian approach</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#rat-tumor">13.2. Rat tumor</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#empirical-bayes">13.2.1. Empirical Bayes</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#full-bayesian-approach">13.2.2. Full Bayesian approach</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#normal-hierarchical-model">12.3. Normal hierarchical model</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#parallel-experiments-in-eight-schools">12.3.1. Parallel experiments in eight schools</a><ul class="nav section-nav flex-column">
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#separate-estimates">12.3.1.1. Separate Estimates</a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#complete-pooled-estimate">12.3.1.2. Complete pooled estimate</a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#hierarchical-model">12.3.1.3. Hierarchical model</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#normal-hierarchical-model">13.3. Normal hierarchical model</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#parallel-experiments-in-eight-schools">13.3.1. Parallel experiments in eight schools</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#separate-estimates">13.3.1.1. Separate Estimates</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#complete-pooled-estimate">13.3.1.2. Complete pooled estimate</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#hierarchical-model">13.3.1.3. Hierarchical model</a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#meta-analysis">12.4. Meta-analysis</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#meta-analysis">13.4. Meta-analysis</a></li>
 </ul>
             </nav>
         </div>
@@ -366,9 +372,9 @@ document.write(`
                 <article class="bd-article" role="main">
                   
   <section class="tex2jax_ignore mathjax_ignore" id="hierarchical-models">
-<h1><span class="section-number">12. </span>Hierarchical models<a class="headerlink" href="#hierarchical-models" title="Permalink to this heading">#</a></h1>
+<h1><span class="section-number">13. </span>Hierarchical models<a class="headerlink" href="#hierarchical-models" title="Permalink to this heading">#</a></h1>
 <section id="general-framework">
-<h2><span class="section-number">12.1. </span>General framework<a class="headerlink" href="#general-framework" title="Permalink to this heading">#</a></h2>
+<h2><span class="section-number">13.1. </span>General framework<a class="headerlink" href="#general-framework" title="Permalink to this heading">#</a></h2>
 <p>In their simplest version, in hierarchical models the parameters <span class="math notranslate nohighlight">\(\theta_j\)</span> come from a random sample of the prior distribution, which is determined by a vector of hyperparamters <span class="math notranslate nohighlight">\(\phi\)</span>, that is</p>
 <div class="math notranslate nohighlight">
 \[p(\theta|\phi)=\prod_{j=1}^J p(\theta_j|\phi).\]</div>
@@ -387,7 +393,7 @@ p(\theta,\phi|\mathbf{Y}) &amp; \propto p(\theta,\phi) p(\mathbf{Y}|\theta,\phi)
 \end{split}\]</div>
 <p>When specifying a prior distribution for <span class="math notranslate nohighlight">\(\phi\)</span>, we have to take special care when an improper distribution is used and check that the posterior distribution exists, this usually requires a tremendous mathematical effort. We can avoid this problem if we restrict the hyperprior to be a proper distribution.</p>
 <section id="posterior-conditional-distribution-of-parameters-p-theta-phi-mathbf-y">
-<h3><span class="section-number">12.1.1. </span>Posterior conditional distribution of parameters, <span class="math notranslate nohighlight">\(p(\theta|\phi,\mathbf{Y})\)</span><a class="headerlink" href="#posterior-conditional-distribution-of-parameters-p-theta-phi-mathbf-y" title="Permalink to this heading">#</a></h3>
+<h3><span class="section-number">13.1.1. </span>Posterior conditional distribution of parameters, <span class="math notranslate nohighlight">\(p(\theta|\phi,\mathbf{Y})\)</span><a class="headerlink" href="#posterior-conditional-distribution-of-parameters-p-theta-phi-mathbf-y" title="Permalink to this heading">#</a></h3>
 <p>Note that the posterior conditional of <span class="math notranslate nohighlight">\(\theta\)</span> satisfies</p>
 <div class="math notranslate nohighlight">
 \[\begin{split}
@@ -399,7 +405,7 @@ p(\theta|\phi,\mathbf{Y}) &amp;\propto p(\theta|\phi) p(\mathbf{Y}|\theta) \\
 <p>where <span class="math notranslate nohighlight">\(f(\phi,\mathbf{Y})\)</span> is the “constant” of proportionality, which depens on <span class="math notranslate nohighlight">\(\phi\)</span> and <span class="math notranslate nohighlight">\(\mathbf{Y}\)</span>.</p>
 </section>
 <section id="posterior-distribution-of-hyperparameters-p-phi-mathbf-y">
-<h3><span class="section-number">12.1.2. </span>Posterior distribution of hyperparameters, <span class="math notranslate nohighlight">\(p(\phi|\mathbf{Y})\)</span><a class="headerlink" href="#posterior-distribution-of-hyperparameters-p-phi-mathbf-y" title="Permalink to this heading">#</a></h3>
+<h3><span class="section-number">13.1.2. </span>Posterior distribution of hyperparameters, <span class="math notranslate nohighlight">\(p(\phi|\mathbf{Y})\)</span><a class="headerlink" href="#posterior-distribution-of-hyperparameters-p-phi-mathbf-y" title="Permalink to this heading">#</a></h3>
 <p>The posterior of <span class="math notranslate nohighlight">\(\phi\)</span> can be calculated marginalizing the joint posterior with respect to <span class="math notranslate nohighlight">\(\theta\)</span>, that is</p>
 <div class="math notranslate nohighlight">
 \[p(\phi|\mathbf{Y})=\int p(\theta,\phi|\mathbf{Y})d\theta.\]</div>
@@ -415,11 +421,11 @@ p(\phi|\mathbf{Y}) &amp;= \frac{p(\theta,\phi|\mathbf{Y})}{p(\theta|\phi,\mathbf
 </section>
 </section>
 <section id="rat-tumor">
-<h2><span class="section-number">12.2. </span>Rat tumor<a class="headerlink" href="#rat-tumor" title="Permalink to this heading">#</a></h2>
+<h2><span class="section-number">13.2. </span>Rat tumor<a class="headerlink" href="#rat-tumor" title="Permalink to this heading">#</a></h2>
 <p>This example was taken from section 3.7 of <span id="id1">[<a class="reference internal" href="../../References.html#id5" title="A. Gelman, J.B. Carlin, H.S. Stern, D.B. Dunson, A. Vehtari, and D.B. Rubin. Bayesian Data Analysis, Third Edition. Chapman &amp; Hall/CRC Texts in Statistical Science. Taylor &amp; Francis, 2013. ISBN 9781439840955. URL: https://books.google.co.th/books?id=ZXL6AQAAQBAJ.">GCS+13</a>]</span>. The data for the example was taken from <span id="id2">[<a class="reference internal" href="../../References.html#id12" title="Robert E Tarone. The use of historical control information in testing for a trend in proportions. Biometrics, pages 215–220, 1982.">Tar82</a>]</span>. The code with all the details is <a class="reference external" href="https://github.com/IrvingGomez/BayesianStatistics/blob/main/Codes/20_RatTumorEmpiricalFullBayes.ipynb">20_RatTumorEmpiricalFullBayes.ipynb</a> in the <a class="reference external" href="https://github.com/IrvingGomez/BayesianStatistics">repository of the course</a>.</p>
 <p>As commented previously, in the evaluation of drugs for possible clinical application, studies are routinely performed on rodents. For a particular study the immediate aim is to estimate <span class="math notranslate nohighlight">\(\theta\)</span>, the probability of tumor in a population of female laboratory rats that receive a zero dose of the drug (a control group). The data show that 4 out of 14 rats developed endometrial stromal polyps (a kind of tumor). It is natural to assume a binomial model for the number of tumors, given <span class="math notranslate nohighlight">\(\theta\)</span>. For convenience, we select a prior distribution for <span class="math notranslate nohighlight">\(\theta\)</span> from the conjugate family, <span class="math notranslate nohighlight">\(\theta\sim\textsf{Beta}(\alpha,\beta)\)</span>.</p>
 <section id="empirical-bayes">
-<h3><span class="section-number">12.2.1. </span>Empirical Bayes<a class="headerlink" href="#empirical-bayes" title="Permalink to this heading">#</a></h3>
+<h3><span class="section-number">13.2.1. </span>Empirical Bayes<a class="headerlink" href="#empirical-bayes" title="Permalink to this heading">#</a></h3>
 <p>Using the historical data and the method of moments we can set some values for <span class="math notranslate nohighlight">\(\alpha\)</span> and <span class="math notranslate nohighlight">\(\beta\)</span>. Since <span class="math notranslate nohighlight">\(\theta\sim\textsf{Beta}(\alpha,\beta)\)</span>, then</p>
 <div class="math notranslate nohighlight">
 \[\mathbb{E}(\theta)=\frac{\alpha}{\alpha+\beta}\text{ and }\mathbb{V}(\theta)=\frac{\alpha\beta}{(\alpha+\beta)^2(\alpha+\beta+1)}.\]</div>
@@ -436,7 +442,7 @@ p(\phi|\mathbf{Y}) &amp;= \frac{p(\theta,\phi|\mathbf{Y})}{p(\theta|\phi,\mathbf
 <p>Note that the prior information has resulted in a posterior distribution substantially lower than the crude proportion 4/14.</p>
 </section>
 <section id="full-bayesian-approach">
-<h3><span class="section-number">12.2.2. </span>Full Bayesian approach<a class="headerlink" href="#full-bayesian-approach" title="Permalink to this heading">#</a></h3>
+<h3><span class="section-number">13.2.2. </span>Full Bayesian approach<a class="headerlink" href="#full-bayesian-approach" title="Permalink to this heading">#</a></h3>
 <p>When we use the estimated values for <span class="math notranslate nohighlight">\(\alpha\)</span> and <span class="math notranslate nohighlight">\(\beta\)</span>, we act as if those values where the real ones, which eliminates all the uncertainty that we have on the hyperparameters. Instead of this empirical approach, we can choose for a full Bayesian approach and assign a hyperprior for <span class="math notranslate nohighlight">\(\alpha\)</span> and <span class="math notranslate nohighlight">\(\beta\)</span>. Assume that we have <span class="math notranslate nohighlight">\(J\)</span> historical data, and model</p>
 <div class="math notranslate nohighlight">
 \[Y_j|\theta_j\sim\textsf{Binomial}(n_j,\theta_j),\]</div>
@@ -479,18 +485,18 @@ p(\theta,\alpha,\beta|\mathbf{Y}) &amp;\propto p(\alpha,\beta)p(\theta|\alpha,\b
 </section>
 </section>
 <section id="normal-hierarchical-model">
-<h2><span class="section-number">12.3. </span>Normal hierarchical model<a class="headerlink" href="#normal-hierarchical-model" title="Permalink to this heading">#</a></h2>
+<h2><span class="section-number">13.3. </span>Normal hierarchical model<a class="headerlink" href="#normal-hierarchical-model" title="Permalink to this heading">#</a></h2>
 <p>For this section I recommend to check:</p>
 <ul class="simple">
 <li><p><a class="reference external" href="https://irvinggomez.com/courses/bayesian/HierarchicalNormalModel.pdf">My notes about the hierarchical normal model.</a></p></li>
 <li><p>The article <span id="id4">[<a class="reference internal" href="../../References.html#id14" title="Irving Gómez-Méndez and Chainarong Amornbunchornvej. Income, education, and other poverty-related variables: a journey through bayesian hierarchical models. arXiv preprint arXiv:2308.16578, 2023.">GomezMendezA23</a>]</span>.</p></li>
 </ul>
 <section id="parallel-experiments-in-eight-schools">
-<h3><span class="section-number">12.3.1. </span>Parallel experiments in eight schools<a class="headerlink" href="#parallel-experiments-in-eight-schools" title="Permalink to this heading">#</a></h3>
+<h3><span class="section-number">13.3.1. </span>Parallel experiments in eight schools<a class="headerlink" href="#parallel-experiments-in-eight-schools" title="Permalink to this heading">#</a></h3>
 <p>This example was taken from section 5.5 of <span id="id5">[<a class="reference internal" href="../../References.html#id5" title="A. Gelman, J.B. Carlin, H.S. Stern, D.B. Dunson, A. Vehtari, and D.B. Rubin. Bayesian Data Analysis, Third Edition. Chapman &amp; Hall/CRC Texts in Statistical Science. Taylor &amp; Francis, 2013. ISBN 9781439840955. URL: https://books.google.co.th/books?id=ZXL6AQAAQBAJ.">GCS+13</a>]</span>. The code with all the details is <a class="reference external" href="https://github.com/IrvingGomez/BayesianStatistics/blob/main/Codes/21_EducationalTestingExample.ipynb">21_EducationalTestingExample.ipynb</a> in the <a class="reference external" href="https://github.com/IrvingGomez/BayesianStatistics">repository of the course</a>.</p>
 <p>A study was performed for the Educational Testing Service to analyze the effects of special coaching programs on test scores. Separate randomized experiments were performed to estimate the effects of coaching programs for the SAT-V (Scholastic Aptitude Test-Verbal) in each of eight high schools. We consider the sampling variances known, for all practical purposes, because the sample sizes in all the eight experiments were relatively large.</p>
 <section id="separate-estimates">
-<h4><span class="section-number">12.3.1.1. </span>Separate Estimates<a class="headerlink" href="#separate-estimates" title="Permalink to this heading">#</a></h4>
+<h4><span class="section-number">13.3.1.1. </span>Separate Estimates<a class="headerlink" href="#separate-estimates" title="Permalink to this heading">#</a></h4>
 <p>We can consider each experiment separately with the following model:</p>
 <div class="math notranslate nohighlight">
 \[Y_j|\theta_j\sim\textsf{Normal}(\theta_j,\sigma_j^2)\]</div>
@@ -504,7 +510,7 @@ p(\theta,\alpha,\beta|\mathbf{Y}) &amp;\propto p(\alpha,\beta)p(\theta|\alpha,\b
 <p>Treatening each experiment separately yields 95% posterior intervals which overlap substantially.</p>
 </section>
 <section id="complete-pooled-estimate">
-<h4><span class="section-number">12.3.1.2. </span>Complete pooled estimate<a class="headerlink" href="#complete-pooled-estimate" title="Permalink to this heading">#</a></h4>
+<h4><span class="section-number">13.3.1.2. </span>Complete pooled estimate<a class="headerlink" href="#complete-pooled-estimate" title="Permalink to this heading">#</a></h4>
 <p>The general overlap in the posterior intervals based on independent analyses suggests that all experiments might be estimating the same quantity. Under the hypothesis that all experiments have the same effect and produce independent estimates of this common effect, we could treat the data as eight normally distributed observations:</p>
 <div class="math notranslate nohighlight">
 \[Y_j\sim\textsf{Normal}(\theta,\sigma_j^2).\]</div>
@@ -519,7 +525,7 @@ p(\theta,\alpha,\beta|\mathbf{Y}) &amp;\propto p(\alpha,\beta)p(\theta|\alpha,\b
 <p>From the previous figure we can see that the complete pooling might be a good model to explain the data.</p>
 </section>
 <section id="hierarchical-model">
-<h4><span class="section-number">12.3.1.3. </span>Hierarchical model<a class="headerlink" href="#hierarchical-model" title="Permalink to this heading">#</a></h4>
+<h4><span class="section-number">13.3.1.3. </span>Hierarchical model<a class="headerlink" href="#hierarchical-model" title="Permalink to this heading">#</a></h4>
 <p>We get the MAP for <span class="math notranslate nohighlight">\(\tau\)</span> and calculate an approximate credible interval of 0.95 of posterior probability using the asymptotic behavior of the posterior distribution. In the enxt figure we show the posterior distribution of <span class="math notranslate nohighlight">\(\tau\)</span>, where we can observe that the MAP estimator correspond with <span class="math notranslate nohighlight">\(\tau=0\)</span>, that is, with the complete pooling model.</p>
 <img alt="PosteriorTau" class="align-center" src="../../_images/PosteriorTau.png" />
 <p>We get a full Bayesian estimate for <span class="math notranslate nohighlight">\(\mu\)</span> using <span class="math notranslate nohighlight">\(\hat{\mu}\)</span> evaluated in the MAP of <span class="math notranslate nohighlight">\(\tau\)</span>. In the next figure I present its conditional posterior distribution setting <span class="math notranslate nohighlight">\(\tau=\tau^{\text{MAP}}\)</span>.</p>
@@ -531,7 +537,7 @@ p(\theta,\alpha,\beta|\mathbf{Y}) &amp;\propto p(\alpha,\beta)p(\theta|\alpha,\b
 </section>
 </section>
 <section id="meta-analysis">
-<h2><span class="section-number">12.4. </span>Meta-analysis<a class="headerlink" href="#meta-analysis" title="Permalink to this heading">#</a></h2>
+<h2><span class="section-number">13.4. </span>Meta-analysis<a class="headerlink" href="#meta-analysis" title="Permalink to this heading">#</a></h2>
 <p>Example taken from section 5.6 of <span id="id6">[<a class="reference internal" href="../../References.html#id5" title="A. Gelman, J.B. Carlin, H.S. Stern, D.B. Dunson, A. Vehtari, and D.B. Rubin. Bayesian Data Analysis, Third Edition. Chapman &amp; Hall/CRC Texts in Statistical Science. Taylor &amp; Francis, 2013. ISBN 9781439840955. URL: https://books.google.co.th/books?id=ZXL6AQAAQBAJ.">GCS+13</a>]</span>. The original data for the example are from <span id="id7">[<a class="reference internal" href="../../References.html#id13" title="Salim Yusuf, Richard Peto, John Lewis, Rory Collins, and Peter Sleight. Beta blockade during and after myocardial infarction: an overview of the randomized trials. Progress in cardiovascular diseases, 27(5):335–371, 1985.">YPL+85</a>]</span>. The code with all the details is <a class="reference external" href="https://github.com/IrvingGomez/BayesianStatistics/blob/main/Codes/22_MetaAnalysisCombiningStudies.ipynb">22_MetaAnalysisCombiningStudies.ipynb</a> in the <a class="reference external" href="https://github.com/IrvingGomez/BayesianStatistics">repository of the course</a>.</p>
 <p>Meta-analysis is a process of summarizing and integrating the findings of research studies in a particular area.</p>
 <p>The data in the example summarize mortality after myocardial infarction in 22 clinical trials, each consisting of
@@ -952,7 +958,7 @@ p(\tau) &amp;\propto 1_{(0,\infty)}(\tau)
         },
         kernelOptions: {
             name: "python3",
-            path: "./content/Part5"
+            path: "./content/Part6"
         },
         predefinedOutput: true
     }
@@ -971,20 +977,20 @@ p(\tau) &amp;\propto 1_{(0,\infty)}(\tau)
     <div class="footer-article-item"><!-- Previous / next buttons -->
 <div class="prev-next-area">
     <a class="left-prev"
-       href="../Part4/11_ComputationalApproximations.html"
+       href="../Part5/12_Causality.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title"><span class="section-number">11. </span>Quadratic approximation and MCMC</p>
+        <p class="prev-next-title"><span class="section-number">12. </span>Causality</p>
       </div>
     </a>
     <a class="right-next"
-       href="13_EvaluatingComparingModels.html"
+       href="14_EvaluatingComparingModels.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title"><span class="section-number">13. </span>Evaluating and comparing models</p>
+        <p class="prev-next-title"><span class="section-number">14. </span>Evaluating and comparing models</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -1006,26 +1012,26 @@ p(\tau) &amp;\propto 1_{(0,\infty)}(\tau)
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#general-framework">12.1. General framework</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#posterior-conditional-distribution-of-parameters-p-theta-phi-mathbf-y">12.1.1. Posterior conditional distribution of parameters, <span class="math notranslate nohighlight">\(p(\theta|\phi,\mathbf{Y})\)</span></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#posterior-distribution-of-hyperparameters-p-phi-mathbf-y">12.1.2. Posterior distribution of hyperparameters, <span class="math notranslate nohighlight">\(p(\phi|\mathbf{Y})\)</span></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#general-framework">13.1. General framework</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#posterior-conditional-distribution-of-parameters-p-theta-phi-mathbf-y">13.1.1. Posterior conditional distribution of parameters, <span class="math notranslate nohighlight">\(p(\theta|\phi,\mathbf{Y})\)</span></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#posterior-distribution-of-hyperparameters-p-phi-mathbf-y">13.1.2. Posterior distribution of hyperparameters, <span class="math notranslate nohighlight">\(p(\phi|\mathbf{Y})\)</span></a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#rat-tumor">12.2. Rat tumor</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#empirical-bayes">12.2.1. Empirical Bayes</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#full-bayesian-approach">12.2.2. Full Bayesian approach</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#rat-tumor">13.2. Rat tumor</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#empirical-bayes">13.2.1. Empirical Bayes</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#full-bayesian-approach">13.2.2. Full Bayesian approach</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#normal-hierarchical-model">12.3. Normal hierarchical model</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#parallel-experiments-in-eight-schools">12.3.1. Parallel experiments in eight schools</a><ul class="nav section-nav flex-column">
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#separate-estimates">12.3.1.1. Separate Estimates</a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#complete-pooled-estimate">12.3.1.2. Complete pooled estimate</a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#hierarchical-model">12.3.1.3. Hierarchical model</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#normal-hierarchical-model">13.3. Normal hierarchical model</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#parallel-experiments-in-eight-schools">13.3.1. Parallel experiments in eight schools</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#separate-estimates">13.3.1.1. Separate Estimates</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#complete-pooled-estimate">13.3.1.2. Complete pooled estimate</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#hierarchical-model">13.3.1.3. Hierarchical model</a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#meta-analysis">12.4. Meta-analysis</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#meta-analysis">13.4. Meta-analysis</a></li>
 </ul>
   </nav></div>
 
