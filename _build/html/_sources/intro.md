@@ -7,9 +7,9 @@ These are the notes for the course of Bayesian statistics.
 The codes are available in this [Github repository](https://github.com/IrvingGomez/BayesianStatistics).
 
 ```{note}
-These notes is a WORK IN PROGRESS.
+These notes is a **work in progress**.
 
-Write me at
+Write me to
 
 gomendez (dot) irving (at) gmail (dot) com
 

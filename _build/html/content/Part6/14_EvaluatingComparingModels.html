@@ -61,6 +61,8 @@ const thebe_selector_input = "pre"
 const thebe_selector_output = ".output, .cell_output"
 </script>
     <script async="async" src="../../_static/sphinx-thebe.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'content/Part6/14_EvaluatingComparingModels';</script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
@@ -181,7 +183,7 @@ const thebe_selector_output = ".output, .cell_output"
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">V Causality</span></p>
 <ul class="nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="../Part5/12_Causality.html">12. Causality</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Part5/12_Causality.html">12. Introduction to causality</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">VI Advanced topics</span></p>
 <ul class="current nav bd-sidenav">
@@ -315,7 +317,9 @@ document.write(`
   </button>
 `);
 </script>
-
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
 </div></div>
       
     </div>
@@ -331,6 +335,25 @@ document.write(`
     <div id="print-main-content">
         <div id="jb-print-toc">
             
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#log-pointwise-predictive-density-lppd">14.1. Log pointwise predictive density (lppd)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#computed-lppd">14.2. Computed lppd</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#information-criteria">14.3. Information criteria</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#deviance">14.3.1. Deviance</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#akaike-information-criterion-aic">14.3.2. Akaike information criterion (AIC)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#deviance-information-criterion-dic">14.3.3. Deviance information criterion (DIC)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#widely-applicable-information-criterion-or-watanabe-akaike-information-criterion-waic">14.3.4. Widely applicable information criterion or Watanabe-Akaike information criterion (WAIC)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#cross-validation">14.3.5. Cross validation</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pareto-smoothed-importance-sampling-cross-validation-psis">14.3.6. Pareto-smoothed importance sampling cross-validation (PSIS)</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#parallel-experiments-in-eight-schools">14.4. Parallel experiments in eight schools</a></li>
+</ul>
+            </nav>
         </div>
     </div>
 </div>
@@ -342,6 +365,142 @@ document.write(`
                   
   <section class="tex2jax_ignore mathjax_ignore" id="evaluating-and-comparing-models">
 <h1><span class="section-number">14. </span>Evaluating and comparing models<a class="headerlink" href="#evaluating-and-comparing-models" title="Permalink to this heading">#</a></h1>
+<section id="log-pointwise-predictive-density-lppd">
+<h2><span class="section-number">14.1. </span>Log pointwise predictive density (lppd)<a class="headerlink" href="#log-pointwise-predictive-density-lppd" title="Permalink to this heading">#</a></h2>
+<p>Let be <span class="math notranslate nohighlight">\(p\)</span> and <span class="math notranslate nohighlight">\(q\)</span> the posteriori predictive distributions under two different models <span class="math notranslate nohighlight">\(\mathcal{P}\)</span> and <span class="math notranslate nohighlight">\(\mathcal{Q}\)</span>, and assume that the distribution of our data is <span class="math notranslate nohighlight">\(f\)</span>. We prefer model <span class="math notranslate nohighlight">\(\mathcal{P}\)</span> over model <span class="math notranslate nohighlight">\(\mathcal{Q}\)</span> if the Kullback-Leibler divergence (KL divergence) between <span class="math notranslate nohighlight">\(f\)</span> and <span class="math notranslate nohighlight">\(p\)</span> is smaller that the KL divergence between <span class="math notranslate nohighlight">\(f\)</span> and <span class="math notranslate nohighlight">\(q\)</span>. That is, we prefer <span class="math notranslate nohighlight">\(\mathcal{P}\)</span> over <span class="math notranslate nohighlight">\(\mathcal{Q}\)</span> if</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{align*}
+ KL(f||p) &amp;&lt; KL(f||q) \\\\
+\Leftrightarrow \mathbb{E}_{Y\sim f}[\log f(Y)] - \mathbb{E}_{Y\sim f}[\log p(Y|\mathbf{Y})] &amp;&lt; \mathbb{E}_{Y\sim f}[\log f(Y)]-\mathbb{E}_{Y\sim f}[\log q(Y|\mathbf{Y})] \\\\
+\Leftrightarrow \mathbb{E}_{Y\sim f}[\log p(Y|\mathbf{Y})] &amp;&gt; \mathbb{E}_{Y\sim f}[\log q(Y|\mathbf{Y})]
+\end{align*}
+\end{split}\]</div>
+<p>In the previous expression we have the problem of calculating an expected value with respect to the real distribution <span class="math notranslate nohighlight">\(f\)</span>. To fix this problem we can use once again the data <span class="math notranslate nohighlight">\(Y_1,\ldots, Y_n\)</span>, which we know that has density <span class="math notranslate nohighlight">\(f\)</span>. Then, we prefer model <span class="math notranslate nohighlight">\(\mathcal{P}\)</span> over model <span class="math notranslate nohighlight">\(\mathcal{Q}\)</span> if</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{align*}
+\frac{1}{n}\sum_{i=1}^n \log p(Y_i|\mathbf{Y}) &amp;&gt; \frac{1}{n}\sum_{i=1}^n \log q(Y_i|\mathbf{Y}) \\
+\Leftrightarrow \sum_{i=1}^n \log p(Y_i|\mathbf{Y}) &amp;&gt; \sum_{i=1}^n \log q(Y_i|\mathbf{Y}).
+\end{align*}
+\end{split}\]</div>
+<p>On the other hand, remember that the posterior predictive distribution can be expressed as</p>
+<div class="math notranslate nohighlight">
+\[p(Y|\mathbf{Y}) = \int_\Theta p(Y|\theta) p(\theta|\mathbf{Y})d\theta,\]</div>
+<p>thus, we prefer model <span class="math notranslate nohighlight">\(\mathcal{P}\)</span> over model <span class="math notranslate nohighlight">\(\mathcal{Q}\)</span> if</p>
+<div class="math notranslate nohighlight">
+\[\sum_{i=1}^n \log \int_\Theta p(Y_i|\theta) p(\theta|\mathbf{Y})d\theta &gt; \sum_{i=1}^n \log \int_\Theta q(Y_i|\theta) q(\theta|\mathbf{Y})d\theta.\]</div>
+<p>The quantity</p>
+<div class="math notranslate nohighlight">
+\[\sum_{i=1}^n \log \int_\Theta p(Y_i|\theta) p(\theta|\mathbf{Y})d\theta\]</div>
+<p>is called <strong>log pointwise predictive density</strong> (lppd).</p>
+</section>
+<section id="computed-lppd">
+<h2><span class="section-number">14.2. </span>Computed lppd<a class="headerlink" href="#computed-lppd" title="Permalink to this heading">#</a></h2>
+<p>If we have a sample <span class="math notranslate nohighlight">\(\tilde\theta_1,\ldots,\tilde\theta_S\)</span> from the posterior distribution, we can approximate</p>
+<div class="math notranslate nohighlight">
+\[\int_\Theta p(Y|\theta) p(\theta|\mathbf{Y})d\theta\approx \frac{1}{S}\sum_{s=1}^S p(Y|\tilde\theta_s).\]</div>
+<p>Therefore, we prefer model <span class="math notranslate nohighlight">\(\mathcal{P}\)</span> over model <span class="math notranslate nohighlight">\(\mathcal{Q}\)</span> if</p>
+<div class="math notranslate nohighlight">
+\[\sum_{i=1}^n \log\left[\frac{1}{S}\sum_{s=1}^S p(Y_i|\tilde\theta_s)\right] &gt; \sum_{i=1}^n \log\left[\frac{1}{S}\sum_{s=1}^S q(Y|\tilde\theta_s)\right].\]</div>
+<p>I will called the quantity</p>
+<div class="math notranslate nohighlight">
+\[\sum_{i=1}^n \log\left[\frac{1}{S}\sum_{s=1}^S p(Y_i|\tilde\theta_s)\right]\]</div>
+<p>as the <strong>computed log pointwise predictive density</strong> (computed lppd).</p>
+<p>Note that if <span class="math notranslate nohighlight">\(S\)</span> is sufficiently large, the computed lppd will approximate pretty well the lppd. For this reason, many authors define the lppd as this second expression.</p>
+<p>In principle, we need to calculate the density of each observation <span class="math notranslate nohighlight">\(Y_i\)</span> in each samplled parameter <span class="math notranslate nohighlight">\(\tilde\theta_s\)</span>, in practice we can face numerical problems, for this reason is convenient to express the computed lppd as</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{align*}
+\textsf{computed lppd} &amp; = \sum_{i=1}^n \log\left[\frac{1}{S}\sum_{s=1}^S p(Y_i|\tilde\theta_s)\right] \\\\
+&amp; = \sum_{i=1}^n \left[\log\sum_{s=1}^S p(Y_i|\tilde\theta_s) - \log(S)\right] \\\\
+&amp; = \sum_{i=1}^n \left[\log\sum_{s=1}^S \exp\left\{\log p(Y_i|\tilde\theta_s)\right\} - \log(S)\right].
+\end{align*}
+\end{split}\]</div>
+<p>The function <span class="math notranslate nohighlight">\(\log\sum\exp\{\cdot\}\)</span> is usually available in many languages, keeping the numeric precision while being programmed efficiently, it is usually called <code class="docutils literal notranslate"><span class="pre">logsumexp</span></code>. Thus, we can compute the computed lppd as</p>
+<div class="math notranslate nohighlight">
+\[\textsf{computed lppd}=\sum_{i=1}^n \left[\textsf{logsumexp} (\log p(Y_i|\tilde\theta_s)) - \log(S)\right]\]</div>
+<p>The ideal case to evaluate a model is when we have access to a traininig dataset, which is used to fit the model, and a testing dataset, which is used to calculate the performance metrics of the model. That is, assume that we count not only with our training data <span class="math notranslate nohighlight">\(Y_1,\ldots,Y_n\)</span>, but also that we have the testing data <span class="math notranslate nohighlight">\(\tilde{Y}_1,\ldots,\tilde{Y}_m\)</span>[^Note that while I’ve been using the notetation <span class="math notranslate nohighlight">\(\tilde{Y}\)</span> to refer to simulations of the variable <span class="math notranslate nohighlight">\(Y\)</span>, in this context it means an observation from the testing data.], which is used to calculate our performance metric:</p>
+<div class="math notranslate nohighlight">
+\[\textsf{computed lppd} = \sum_{i=1}^m \left[\textsf{logsumexp} (\log p(\tilde{Y}_i|\tilde\theta_s)) - \log(S)\right].\]</div>
+<p>However, when we do not have a testing dataset, we must take into account that we are using twice our training dataset. Once to adjust the model, and again to evaluate the model. This makes the performance metric more optimistic for the moddel. Thus, the plan is to calculate the lppd and then add some penalization temr that fix the estimation and avoid the preference for overfit models. The metrics obtained with this procedure are known as information criteria.</p>
+</section>
+<section id="information-criteria">
+<h2><span class="section-number">14.3. </span>Information criteria<a class="headerlink" href="#information-criteria" title="Permalink to this heading">#</a></h2>
+<p>For historical reasons the metrics of the prediction of the model are called information criteria, and are typically defined in terms of the deviance. It is important to clarify that there is not a unique cocensus on how to define these information criteria, thus, their definitions present small variations in the literature. This is especially true for criteria that were developed and adapted from non-Bayesian frameworks.</p>
+<section id="deviance">
+<h3><span class="section-number">14.3.1. </span>Deviance<a class="headerlink" href="#deviance" title="Permalink to this heading">#</a></h3>
+<p>Typically, the devaince is defined as -2 times the log-likelihood of the data with the parameters fixed in some value, that is <span class="math notranslate nohighlight">\(-2\log p(\mathbf{Y}|\hat{\theta})\)</span>. However, from a Bayesian framework, some authors redefine it as -2 times the lppd. The -2 is there for historical reasons.</p>
+</section>
+<section id="akaike-information-criterion-aic">
+<h3><span class="section-number">14.3.2. </span>Akaike information criterion (AIC)<a class="headerlink" href="#akaike-information-criterion-aic" title="Permalink to this heading">#</a></h3>
+<p>The most well-known information criterion is the Akaike information criterion (AIC). The simplest correction to the lppd is based on the asymptotical behavior of the posterior distribution. Let be <span class="math notranslate nohighlight">\(k\)</span> the number of parameters estimated in the model. In the asymptotic case (or special cases when the normal linear model with known variance), we can correct the overestimation of the predictive power of the model by substracting <span class="math notranslate nohighlight">\(k\)</span> from the log-likelihood given the maximum likelihood estimator,</p>
+<div class="math notranslate nohighlight">
+\[\log p(\mathbf{Y}|\hat\theta_{\text{mle}})-k.\]</div>
+<p>The AIC is defined as the previous expression multiplied by -2</p>
+<div class="math notranslate nohighlight">
+\[\text{AIC}=-2\log p(\mathbf{Y}|\hat\theta_{\text{mle}})+2k.\]</div>
+<p>From a Bayesian perspective, some authors redefine the AIC as</p>
+<div class="math notranslate nohighlight">
+\[\text{AIC}=-2\textsf{lppd}+2k.\]</div>
+<p>When our model is beyond a linear model with uniform previous. It is inappropriate to simply substract the number of parameters. For models with informative priors or with a hierarchical structure, the effective number of parameters depend on the variance of the parameters at the group’s level.</p>
+</section>
+<section id="deviance-information-criterion-dic">
+<h3><span class="section-number">14.3.3. </span>Deviance information criterion (DIC)<a class="headerlink" href="#deviance-information-criterion-dic" title="Permalink to this heading">#</a></h3>
+<p>The deviance information criterion (DIC) is kind of a Bayesian version of the AIC, making two chanages. The first one is that the maximum likelihood estimator is replace by the posterior mean <span class="math notranslate nohighlight">\(\hat{\theta}_{\text{Bayes}}=\mathbb{E}(\theta|\mathbf{Y})\)</span>, the second one is by replacing <span class="math notranslate nohighlight">\(k\)</span> by the effective number of parameters <span class="math notranslate nohighlight">\(p_{\text{DIC}}\)</span>.</p>
+<p>The DIC is then defined as</p>
+<div class="math notranslate nohighlight">
+\[\text{DIC}=2\log p(\mathbf{Y}|\hat{\theta}_{\text{Bayes}})+2p_{\text{DIC}}.\]</div>
+<p>There are at least two different approaches to define the effective number of parameters:</p>
+<div class="math notranslate nohighlight">
+\[p_{\text{DIC}}=2\left(\log p(y|\hat{\theta}_{\text{Bayes}})-\mathbb{E}_{\theta\sim p(\theta|\mathbf{Y})} (\log p(\mathbf{Y}|\theta))\right),\]</div>
+<p>using a posterior sample <span class="math notranslate nohighlight">\(\tilde\theta_1,\ldots,\tilde\theta_S\)</span>, the previous expression can be approximated by</p>
+<div class="math notranslate nohighlight">
+\[\textsf{computed } p_{\text{DIC}}=2\left(\log p(y|\hat{\theta}_{\text{Bayes}})-\frac{1}{S}\sum_{s=1}^S \log p(\mathbf{Y}|\tilde\theta_s)\right).\]</div>
+<p>If the posterior mean is far from the posterior mode, there exists the problem that <span class="math notranslate nohighlight">\(p_{\text{DIC}}\)</span> might be negative.</p>
+<p>An alternative approach for the effective number of parameters is given by</p>
+<div class="math notranslate nohighlight">
+\[p_{\text{DIC alt}} = 2\mathbb{V}_{\theta\sim p(\theta|\mathbf{Y})}\left(\log p(\mathbf{Y}|\theta)\right),\]</div>
+<p>which can be approximated by</p>
+<div class="math notranslate nohighlight">
+\[\textsf{computed } p_{\text{DIC alt}}=2 \mathbb{V}_{s=1}^S \log p(\mathbf{Y}|\tilde\theta_s),\]</div>
+<p>wher <span class="math notranslate nohighlight">\(\mathbb{V}_{s=1}^S\)</span> represents the sample variance</p>
+<div class="math notranslate nohighlight">
+\[\mathbb{V}_{s=1}^S a_s = \frac{1}{S-1}\sum_{s=1}^S (a_s-\bar{a})^2.\]</div>
+</section>
+<section id="widely-applicable-information-criterion-or-watanabe-akaike-information-criterion-waic">
+<h3><span class="section-number">14.3.4. </span>Widely applicable information criterion or Watanabe-Akaike information criterion (WAIC)<a class="headerlink" href="#widely-applicable-information-criterion-or-watanabe-akaike-information-criterion-waic" title="Permalink to this heading">#</a></h3>
+<p>The widely applicable information criterion or the Watanabe-Akaike information criterion (WAIC) is defined as</p>
+<div class="math notranslate nohighlight">
+\[\text{WAIC}=-2\textsf{lppd} + 2 p_{\text{WAIC}}.\]</div>
+<p>This information criterion also accepts at least two different approaches to define the effective number of parameters.</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{align*}
+p_{\text{WAIC 1}} &amp;= 2\sum_{i=1}^n\left(\log(\mathbb{E}_{\theta\sim p(\theta|\mathbf{Y})} p(Y_i|\theta)) - \mathbb{E}_{\theta\sim p(\theta|\mathbf{Y})}(\log p(Y_i|\theta))\right) \\\\
+\textsf{computed }p_{\text{WAIC 1}} &amp;= 2\sum_{i=1}^n\left(\log\left[\frac{1}{S}\sum_{s=1}^S p(Y_i|\tilde\theta_s)\right] - \frac{1}{S}\sum_{s=1}^S \log p(Y_i|\tilde\theta_s)\right) \\
+&amp; = 2 \textsf{ computed lppd} - \frac{2}{S}\sum_{i=1}^n\sum_{s=1}^S \log p(Y_i|\tilde\theta_s).
+\end{align*}
+\end{split}\]</div>
+<p>The second approach to define the effective number of parameters is given by</p>
+<div class="math notranslate nohighlight">
+\[p_{\text{WAIC 2}}=\sum_{i=1}^n\mathbb{V}_{\theta\sim p(\theta|\mathbf{Y})} \log p(Y_i|\tilde\theta_s),\]</div>
+<div class="math notranslate nohighlight">
+\[\textsf{computed }p_{\text{WAIC 2}}=\sum_{i=1}^n\mathbb{V}_{s=1}^S \log p(Y_i|\tilde\theta_s).\]</div>
+</section>
+<section id="cross-validation">
+<h3><span class="section-number">14.3.5. </span>Cross validation<a class="headerlink" href="#cross-validation" title="Permalink to this heading">#</a></h3>
+<p>We can fix the optimism created by using twice the data through cross validation. However, cross validation demands too much computational resources, because it requieres to shatter the data and fit the model for each piece. The extreme case of leave-one-out-cross-validation (LOO-CV) requieres to shatter the data into <span class="math notranslate nohighlight">\(n\)</span> pieces.</p>
+</section>
+<section id="pareto-smoothed-importance-sampling-cross-validation-psis">
+<h3><span class="section-number">14.3.6. </span>Pareto-smoothed importance sampling cross-validation (PSIS)<a class="headerlink" href="#pareto-smoothed-importance-sampling-cross-validation-psis" title="Permalink to this heading">#</a></h3>
+<p>There exists cleversolutions to approximate cross validation without fitting the model several times. One solution is using the “importance” of each observation in the posterior distribution. Such “importance” means a higher impact in the posterior, if we remove an important observation, the posterior changes more. This method is known as Pareto-smoothed importance sampling cross-validation (PSIS).</p>
+</section>
+</section>
+<section id="parallel-experiments-in-eight-schools">
+<h2><span class="section-number">14.4. </span>Parallel experiments in eight schools<a class="headerlink" href="#parallel-experiments-in-eight-schools" title="Permalink to this heading">#</a></h2>
+<p>In <a class="reference internal" href="13_HierarchicalModels.html"><span class="doc std std-doc">Chapter 13</span></a> we analyse the case of a parallel experiment in eitgh school. In the second part of the code <a class="reference external" href="https://github.com/IrvingGomez/BayesianStatistics/blob/main/Codes/21_EducationalTestingExample.ipynb">21_EducationalTestingExample.ipynb</a>, you can find the computation of different information criteria for the fitted models.</p>
+</section>
 </section>
 
     <script type="text/x-thebe-config">
@@ -402,6 +561,31 @@ document.write(`
             </div>
             
             
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#log-pointwise-predictive-density-lppd">14.1. Log pointwise predictive density (lppd)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#computed-lppd">14.2. Computed lppd</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#information-criteria">14.3. Information criteria</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#deviance">14.3.1. Deviance</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#akaike-information-criterion-aic">14.3.2. Akaike information criterion (AIC)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#deviance-information-criterion-dic">14.3.3. Deviance information criterion (DIC)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#widely-applicable-information-criterion-or-watanabe-akaike-information-criterion-waic">14.3.4. Widely applicable information criterion or Watanabe-Akaike information criterion (WAIC)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#cross-validation">14.3.5. Cross validation</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pareto-smoothed-importance-sampling-cross-validation-psis">14.3.6. Pareto-smoothed importance sampling cross-validation (PSIS)</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#parallel-experiments-in-eight-schools">14.4. Parallel experiments in eight schools</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
               
             
           </div>
