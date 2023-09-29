@@ -31,13 +31,15 @@ parts:
     numbered: True
     chapters:
     - file: content/Part5/12_Causality
-  - caption: VI Advanced topics
+  - caption: VI Hierarchical models, and evaluation and comparison of models
     numbered: True
     chapters:
     - file: content/Part6/13_HierarchicalModels
     - file: content/Part6/14_EvaluatingComparingModels
-    - file: content/Part6/15_VariationalInference
-    - file: content/Part6/16_VariationalAutoencoders
+  - caption: VII Variational autoencoders
+    numbered: True
+    chapters:
+    - file: content/Part7/15_VariationalAutoencoders
   - caption:
     chapters:
     - file: References
