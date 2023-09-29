@@ -61,6 +61,8 @@ const thebe_selector_input = "pre"
 const thebe_selector_output = ".output, .cell_output"
 </script>
     <script async="async" src="../../_static/sphinx-thebe.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'content/Part5/12_Causality';</script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
@@ -183,12 +185,14 @@ const thebe_selector_output = ".output, .cell_output"
 <ul class="current nav bd-sidenav">
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">12. Introduction to causality</a></li>
 </ul>
-<p aria-level="2" class="caption" role="heading"><span class="caption-text">VI Advanced topics</span></p>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">VI Hierarchical models, and evaluation and comparison of models</span></p>
 <ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="../Part6/13_HierarchicalModels.html">13. Hierarchical models</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../Part6/14_EvaluatingComparingModels.html">14. Evaluating and comparing models</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../Part6/15_VariationalInference.html">15. Variational Inference</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../Part6/16_VariationalAutoencoders.html">16. Variational Autoencoders (VAES)</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">VII Variational autoencoders</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../Part7/15_VariationalAutoencoders.html">15. Variational autoencoders (VAEs)</a></li>
 </ul>
 <ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="../../References.html">References</a></li>
@@ -315,7 +319,9 @@ document.write(`
   </button>
 `);
 </script>
-
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
 </div></div>
       
     </div>
@@ -331,6 +337,54 @@ document.write(`
     <div id="print-main-content">
         <div id="jb-print-toc">
             
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#predicting-the-divorce-rate">12.1. Predicting the divorce rate</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#predicting-divorce-rate-given-age-at-marriage">12.1.1. Predicting divorce rate given age at marriage</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#predicting-divorce-rate-given-marriage-rate">12.1.2. Predicting divorce rate given marriage rate</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#bayesian-networks">12.2. Bayesian networks</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#graphical-notation-and-terminology">12.2.1. Graphical notation and terminology</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">12.2.2. Bayesian networks</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#causal-bayesian-networks">12.2.3. Causal Bayesian networks</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#causality-while-predicting-the-divorce-rate">12.3. Causality while predicting the divorce rate</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#predicting-marriage-rate-given-age-at-marriage">12.3.1. Predicting marriage rate given age at marriage</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#predicting-divorce-rate-given-age-at-marriage-and-marriage-rate">12.3.2. Predicting divorce rate given age at marriage and marriage rate</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#residual-plots">12.4. Residual plots</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#prediction-plot">12.5. Prediction plot</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#counterfactual">12.6. Counterfactual</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#bc-malian-gulf-tsunami">12.6.1. 426 BC Malian Gulf Tsunami</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-ladder-of-causation">12.7. The ladder of causation</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#do-calculus">12.7.1. Do-calculus</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#counterfactual-plot">12.8. Counterfactual plot</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#intervening-the-age-at-marriage">12.8.1. Intervening the age at marriage</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#intervening-the-marriage-rate">12.8.2. Intervening the marriage rate</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#milk-and-neocortex-in-primates">12.9. Milk and neocortex in primates</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#predicting-energy-given-neocortex-percentage">12.9.1. Predicting energy given neocortex percentage</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#predicting-energy-given-body-mass">12.9.2. Predicting energy given body mass</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#predicting-energy-given-neocortex-percentage-and-body-mass">12.9.3. Predicting energy given neocortex percentage and body mass</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id6">12.9.4. Prediction plot</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#residual-plot">12.9.5. Residual plot</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#causal-bayesian-network">12.9.6. Causal Bayesian network</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#counterfactual-plots">12.9.7. Counterfactual plots</a></li>
+</ul>
+</li>
+</ul>
+            </nav>
         </div>
     </div>
 </div>
@@ -343,6 +397,615 @@ document.write(`
   <section class="tex2jax_ignore mathjax_ignore" id="introduction-to-causality">
 <h1><span class="section-number">12. </span>Introduction to causality<a class="headerlink" href="#introduction-to-causality" title="Permalink to this heading">#</a></h1>
 <a class="reference internal image-reference" href="../../_images/CausalityImage"><img alt="CausalityImage" class="align-center" src="../../_images/CausalityImage" style="width: 451.5px; height: 906.0px;" /></a>
+<section id="predicting-the-divorce-rate">
+<h2><span class="section-number">12.1. </span>Predicting the divorce rate<a class="headerlink" href="#predicting-the-divorce-rate" title="Permalink to this heading">#</a></h2>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This example was taken from <span id="id1">[<a class="reference internal" href="../../References.html#id2" title="Richard McElreath. Statistical rethinking: A Bayesian course with examples in R and Stan. Chapman and Hall/CRC, 2018.">McE18</a>]</span>.</p>
+</div>
+<p>We are going to use the data about the divorce rate, marriage rate and median age of marriege in the different states of the USA. This data is called <a class="reference external" href="https://github.com/IrvingGomez/BayesianStatistics/blob/main/Data/WaffleDivorce.csv">WaffleDivorce.csv</a> available in the <a class="reference external" href="https://github.com/IrvingGomez/BayesianStatistics">repository of the course</a>. The code with all the details is <a class="reference external" href="https://github.com/IrvingGomez/BayesianStatistics/blob/main/Codes/20_MarriageDivorceRegression.ipynb">20_MarriageDivorceRegression.ipynb</a> in the <a class="reference external" href="https://github.com/IrvingGomez/BayesianStatistics">repository of the course</a>. We will attempt to predict and understand the causes of the divorce rate using the marriage rate and the median age of marriage.</p>
+<section id="predicting-divorce-rate-given-age-at-marriage">
+<h3><span class="section-number">12.1.1. </span>Predicting divorce rate given age at marriage<a class="headerlink" href="#predicting-divorce-rate-given-age-at-marriage" title="Permalink to this heading">#</a></h3>
+<p>Let be <span class="math notranslate nohighlight">\(D\)</span> and <span class="math notranslate nohighlight">\(A\)</span> the divorce rate and the median age, both of them standardize, so they have zero mean and unit variance. Standardize the data has two main reasons:</p>
+<ol class="arabic simple">
+<li><p>When the variables are standardized, the scope of the a linear regression model corresponds with the coefficient of linear correlation between the variables.</p></li>
+<li><p>Standardize the data will help us to propose prior distributions for the parameters and verify how reasonable they are.</p></li>
+</ol>
+<p>We start proposing the following model to predict <span class="math notranslate nohighlight">\(D\)</span> in function of <span class="math notranslate nohighlight">\(A\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{align*}\
+D_i &amp;\sim \textsf{Normal}(\mu_i,\sigma^2) \\
+\mu_i &amp;= \alpha + \beta_A A_i\\
+\alpha &amp;\sim \text{To be specified} \\
+\beta_A &amp;\sim \text{To be specified} \\
+\sigma &amp;\sim \text{To be specified}.
+\end{align*}
+\end{split}\]</div>
+<p>How do we assign prior distributions in this case? As we have seen, one way to elicitate the prior is to propose some distribution for the parameters of the distribution and observe if we get reasonable values for <span class="math notranslate nohighlight">\(\mu_i\)</span>. Just that in this case, we don’t know which values for <span class="math notranslate nohighlight">\(\mu_i\)</span> are reasonable. Here is where comes into play the fact that we do not model directly the divorce rate not the standardized rate. We model such rate thorugh a normal distribution, since it is standardized, theyr values should be between -3 and 3 with high probability.</p>
+<p>Consider the next model:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{align*}
+&amp; \text{Model 1} \\
+D_i &amp;\sim \textsf{Normal}(\mu_i,\sigma^2) \\
+\mu_i &amp;= \alpha+\beta_A A_i\\
+\alpha &amp;\sim \textsf{Normal}(0,0.2) \\
+\beta_A &amp;\sim \textsf{Normal}(0,0.5) \\
+\sigma &amp;\sim \text{Exp}(1).
+\end{align*}
+\end{split}\]</div>
+<p>The next figure shows the prior distribution of <span class="math notranslate nohighlight">\(\mu\)</span>, where we can conclude that we have reasonable priors.</p>
+<img alt="1_check_prior_D_given_A" class="align-center" src="../../_images/1_check_prior_D_given_A.png" />
+<p>The next figure shows the scatterplot of the data with the model fitted.</p>
+<img alt="1_D_given_A" class="align-center" src="../../_images/1_D_given_A.png" />
+<p>In the next table I present the posterior mode for <span class="math notranslate nohighlight">\(\beta_A\)</span> and its credible interval of 0.89 posterior probability</p>
+<table class="table">
+<thead>
+<tr class="row-odd"><th class="head text-center"><p>Model</p></th>
+<th class="head text-center"><p><span class="math notranslate nohighlight">\(\hat\beta_A\)</span></p></th>
+<th class="head text-center"><p>Interval 89%</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-center"><p>Model 1</p></td>
+<td class="text-center"><p>-0.56</p></td>
+<td class="text-center"><p>(-0.73, -0.37)</p></td>
+</tr>
+</tbody>
+</table>
+<p>We called <span class="math notranslate nohighlight">\(\beta_A\)</span> the <strong>total effect</strong> of the age on the divorce rate.</p>
+</section>
+<section id="predicting-divorce-rate-given-marriage-rate">
+<h3><span class="section-number">12.1.2. </span>Predicting divorce rate given marriage rate<a class="headerlink" href="#predicting-divorce-rate-given-marriage-rate" title="Permalink to this heading">#</a></h3>
+<p>Similarly, we can look for the effect of the marriage rate on the divorce rate. Let be <span class="math notranslate nohighlight">\(M\)</span> the marriage date for each state, standardized. Thus, analogously to the previous case, we fit the regression model of <span class="math notranslate nohighlight">\(D\)</span> given <span class="math notranslate nohighlight">\(M\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{align*}
+&amp; \text{Model 2} \\
+D_i &amp;\sim \textsf{Normal}(\mu_i,\sigma^2) \\
+\mu_i &amp;= \alpha + \beta_M M_i\\
+\alpha &amp;\sim \textsf{Normal}(0,0.2) \\
+\beta_M &amp;\sim \textsf{Normal}(0,0.5) \\
+\sigma &amp;\sim \text{Exp}(1).
+\end{align*}
+\end{split}\]</div>
+<p>The next figure and table show analogous results to the previous model.</p>
+<img alt="1_D_given_M" class="align-center" src="../../_images/1_D_given_M.png" />
+<table class="table">
+<thead>
+<tr class="row-odd"><th class="head text-center"><p>Model</p></th>
+<th class="head text-center"><p><span class="math notranslate nohighlight">\(\hat\beta_M\)</span></p></th>
+<th class="head text-center"><p>Interval 89%</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-center"><p>Model 2</p></td>
+<td class="text-center"><p>0.35</p></td>
+<td class="text-center"><p>(0.14, 0.56)</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+</section>
+<section id="bayesian-networks">
+<h2><span class="section-number">12.2. </span>Bayesian networks<a class="headerlink" href="#bayesian-networks" title="Permalink to this heading">#</a></h2>
+<p>Before moving forward with the example, it is convenient to start thinking about causality. One of the fundamental tools in the field of causality are the directed acyclic graphs (DAGs). For which we need some graphical notation and terminology.</p>
+<section id="graphical-notation-and-terminology">
+<h3><span class="section-number">12.2.1. </span>Graphical notation and terminology<a class="headerlink" href="#graphical-notation-and-terminology" title="Permalink to this heading">#</a></h3>
+<p>A graph consists of a set <span class="math notranslate nohighlight">\(V\)</span> of vertices (or nodes) and a set <span class="math notranslate nohighlight">\(E\)</span> of edges (or links) that connect some pairs of vertices. The vertices in our graphs will correspond to variables, and the edges will denote certain relationship that holds in pairs of variables.</p>
+<p>Each edge in the graph can be either directed (marked by a single arrowhead on the egde) or undirected (unmarked links). If all edges are directed, we then have a directed graph. Directed graphs may include directed cycles (e.g. <span class="math notranslate nohighlight">\(X\rightarrow Y\)</span>, <span class="math notranslate nohighlight">\(Y\rightarrow X\)</span>).</p>
+<p>A graph that contains no directed cycles is called acyclic. A graph that is both directed and acyclic is called <strong>directed acyclic graph</strong> (DAG), and such graphs will occupy much of our discussion of causality.</p>
+</section>
+<section id="id2">
+<h3><span class="section-number">12.2.2. </span>Bayesian networks<a class="headerlink" href="#id2" title="Permalink to this heading">#</a></h3>
+<p>According to <span id="id3">[<a class="reference internal" href="../../References.html#id15" title="Judea Pearl. Causality. Cambridge university press, 2009.">Pea09</a>]</span>. The role of graphs in probabilistic and statistical modeling is threefold:</p>
+<ol class="arabic simple">
+<li><p>to provide convenient means if expressing substantive assumptions;</p></li>
+<li><p>to facilitate economical representation of joint probability functions; and</p></li>
+<li><p>to facilitate efficient inference from observations.</p></li>
+</ol>
+<p>A necessary condition for a DAG <span class="math notranslate nohighlight">\(G\)</span> to be a Bayesian network of probability distribution <span class="math notranslate nohighlight">\(p\)</span> is for <span class="math notranslate nohighlight">\(p\)</span> to admit the product decomposition dictated by <span class="math notranslate nohighlight">\(G\)</span>, as given by</p>
+<div class="math notranslate nohighlight">
+\[p(X_1,\ldots,X_n)=\prod_{i}p(X_i|PA_i),\]</div>
+<p>where <span class="math notranslate nohighlight">\(PA_i\)</span> are the parents of <span class="math notranslate nohighlight">\(X_i\)</span>.</p>
+<p>In such case we say that <span class="math notranslate nohighlight">\(G\)</span> represents <span class="math notranslate nohighlight">\(p\)</span>, that <span class="math notranslate nohighlight">\(G\)</span> and <span class="math notranslate nohighlight">\(P\)</span> are compatible, or that <span class="math notranslate nohighlight">\(p\)</span> is Markov relative to <span class="math notranslate nohighlight">\(G\)</span>.</p>
+</section>
+<section id="causal-bayesian-networks">
+<h3><span class="section-number">12.2.3. </span>Causal Bayesian networks<a class="headerlink" href="#causal-bayesian-networks" title="Permalink to this heading">#</a></h3>
+<p>The interpretation of DAGs as carriers of independence assumptions does not necessarily imply causation. However, DAG models in statiscal and AI applications stems primarily from their causal interpretation. In these graphs the arrows indicate causal direction between the variables.</p>
+</section>
+</section>
+<section id="causality-while-predicting-the-divorce-rate">
+<h2><span class="section-number">12.3. </span>Causality while predicting the divorce rate<a class="headerlink" href="#causality-while-predicting-the-divorce-rate" title="Permalink to this heading">#</a></h2>
+<p>For example, in our example about the divorce rate, we can make few interesting assumptions (or rather deductions):</p>
+<ul class="simple">
+<li><p>a) Age has a direct impact on divorce rate as people may grow incompatible with the parter.</p></li>
+<li><p>b) Marriage rate has a direct impact on divorce rate for obvious reasons (more marriages =&gt; more divorce).</p></li>
+<li><p>c) Finally, age has an indirect effect. If people get married earlier, then the marriage rate may increase, because there are more young people.</p></li>
+</ul>
+<p>The next graph represents the possible causal model for this phenomenon.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># The next libraries are to plot DAGs</span>
+<span class="kn">import</span> <span class="nn">collections.abc</span>
+<span class="n">collections</span><span class="o">.</span><span class="n">Iterable</span> <span class="o">=</span> <span class="n">collections</span><span class="o">.</span><span class="n">abc</span><span class="o">.</span><span class="n">Iterable</span>
+<span class="kn">from</span> <span class="nn">causalgraphicalmodels</span> <span class="kn">import</span> <span class="n">CausalGraphicalModel</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">Dag</span> <span class="o">=</span> <span class="n">CausalGraphicalModel</span><span class="p">(</span><span class="n">nodes</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;A&quot;</span><span class="p">,</span> <span class="s2">&quot;D&quot;</span><span class="p">,</span> <span class="s2">&quot;M&quot;</span><span class="p">],</span> <span class="n">edges</span><span class="o">=</span><span class="p">[(</span><span class="s2">&quot;A&quot;</span><span class="p">,</span> <span class="s2">&quot;D&quot;</span><span class="p">),</span> <span class="p">(</span><span class="s2">&quot;A&quot;</span><span class="p">,</span> <span class="s2">&quot;M&quot;</span><span class="p">),</span> <span class="p">(</span><span class="s2">&quot;M&quot;</span><span class="p">,</span> <span class="s2">&quot;D&quot;</span><span class="p">)])</span>
+<span class="n">Dag</span><span class="o">.</span><span class="n">draw</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/5966fb6bda138ef81f806bf5e157f9ddc97d765558e9bfc1a273376442d93092.svg" src="../../_images/5966fb6bda138ef81f806bf5e157f9ddc97d765558e9bfc1a273376442d93092.svg" /></div>
+</div>
+<p>In this case <span class="math notranslate nohighlight">\(A\)</span> has two effects in <span class="math notranslate nohighlight">\(D\)</span>. First it has a first direct effect <span class="math notranslate nohighlight">\(A\rightarrow D\)</span>, which arises because younger people change faster than older people and are therefore more likely to grow incompatible with a partner. Second, it has an indirect effect, <span class="math notranslate nohighlight">\(A\rightarrow M\rightarrow D\)</span>, by influencing the marriage rate, which then influences divorce. If people get married earlier, then the marriage rate may rise, because there are more young people.</p>
+<p>The next cell shows the product decomposition induced by the previous DAG.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">Dag</span><span class="o">.</span><span class="n">get_distribution</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>P(A)P(M|A)P(D|A,M)
+</pre></div>
+</div>
+</div>
+</div>
+<p>To infer the strength of the causal relation we need more than one statistical model. Up to now, our models just estimate the total effect of <span class="math notranslate nohighlight">\(A\)</span> in <span class="math notranslate nohighlight">\(D\)</span> and the total effect of <span class="math notranslate nohighlight">\(M\)</span> in <span class="math notranslate nohighlight">\(D\)</span>. Accordingly to this decomposition, there are still two more regression analyses to perform.</p>
+<ol class="arabic simple">
+<li><p>A regression model to fit the marriage rate given the age of marriage <span class="math notranslate nohighlight">\(p(M|A)\)</span>. To estimate the causal effect <span class="math notranslate nohighlight">\(A\rightarrow M\)</span>.</p></li>
+<li><p>A regression model to fit the divorce rate given both the age at marriage and the rate of marriage <span class="math notranslate nohighlight">\(p(D|A,M)\)</span>. To estimate the direct effects of <span class="math notranslate nohighlight">\(A\)</span> and <span class="math notranslate nohighlight">\(M\)</span> in <span class="math notranslate nohighlight">\(D\)</span>, <span class="math notranslate nohighlight">\(A\rightarrow D \leftarrow M\)</span>.</p></li>
+</ol>
+<section id="predicting-marriage-rate-given-age-at-marriage">
+<h3><span class="section-number">12.3.1. </span>Predicting marriage rate given age at marriage<a class="headerlink" href="#predicting-marriage-rate-given-age-at-marriage" title="Permalink to this heading">#</a></h3>
+<p>To estimate the causal effect of the age at marriage on the marriage rate, we adjust our usual model:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{align*}
+&amp; \text{Model 3} \\
+M_i &amp;\sim \textsf{Normal}(\mu_i,\sigma^2) \\
+\mu_i &amp;= \alpha+\beta_{AM} A_i\\
+\alpha &amp;\sim \textsf{Normal}(0,0.2) \\
+\beta_{AM} &amp;\sim \textsf{Normal}(0,0.5) \\
+\sigma &amp;\sim \text{Exp}(1).
+\end{align*}
+\end{split}\]</div>
+<img alt="1_M_given_A" class="align-center" src="../../_images/1_M_given_A.png" />
+<table class="table">
+<thead>
+<tr class="row-odd"><th class="head text-center"><p>Model</p></th>
+<th class="head text-center"><p><span class="math notranslate nohighlight">\(\hat\beta_{AM}\)</span></p></th>
+<th class="head text-center"><p>Interval 89%</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-center"><p>Model 3</p></td>
+<td class="text-center"><p>-0.69</p></td>
+<td class="text-center"><p>(-0.85, -0.54)</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="predicting-divorce-rate-given-age-at-marriage-and-marriage-rate">
+<h3><span class="section-number">12.3.2. </span>Predicting divorce rate given age at marriage and marriage rate<a class="headerlink" href="#predicting-divorce-rate-given-age-at-marriage-and-marriage-rate" title="Permalink to this heading">#</a></h3>
+<p>Finally, we adjust the next regression model:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{align*}
+&amp; \text{Model 4} \\
+D_i &amp;\sim \textsf{Normal}(\mu_i,\sigma^2) \\
+\mu_i &amp;= \alpha+\beta_M M_i+\beta_A A_i\\
+\alpha &amp;\sim \textsf{Normal}(0,0.2) \\
+\beta_M &amp;\sim \textsf{Normal}(0,0.5) \\
+\beta_A &amp;\sim \textsf{Normal}(0,0.5) \\
+\sigma &amp;\sim \text{Exp}(1).
+\end{align*}
+\end{split}\]</div>
+<p>The next table and figure summarize the estimation of the correlation parameters in the different models.</p>
+<table class="table">
+<thead>
+<tr class="row-odd"><th class="head text-center"><p>Model</p></th>
+<th class="head text-center"><p><span class="math notranslate nohighlight">\(\hat\beta_A\)</span></p></th>
+<th class="head text-center"><p>Interval 89%</p></th>
+<th class="head text-center"><p><span class="math notranslate nohighlight">\(\hat\beta_M\)</span></p></th>
+<th class="head text-center"><p>Interval 89%</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-center"><p>Model 1</p></td>
+<td class="text-center"><p>-0.69</p></td>
+<td class="text-center"><p>(-0.85, -0.54)</p></td>
+<td class="text-center"><p>-</p></td>
+<td class="text-center"><p>-</p></td>
+</tr>
+<tr class="row-odd"><td class="text-center"><p>Model 2</p></td>
+<td class="text-center"><p>-</p></td>
+<td class="text-center"><p>-</p></td>
+<td class="text-center"><p>0.35</p></td>
+<td class="text-center"><p>(0.14, 0.56)</p></td>
+</tr>
+<tr class="row-even"><td class="text-center"><p>Model 4</p></td>
+<td class="text-center"><p>-0.61</p></td>
+<td class="text-center"><p>(-0.89, -0.36)</p></td>
+<td class="text-center"><p>-0.06</p></td>
+<td class="text-center"><p>(-0.33, 0.18)</p></td>
+</tr>
+</tbody>
+</table>
+<img alt="2_DivorcePlotForest" class="align-center" src="../../_images/2_DivorcePlotForest.png" />
+<p>From these observations we can infer the next causal Bayesian network.</p>
+<img alt="DagDivorce" class="align-center" src="../../_images/DagDivorce.png" />
+<p>Note that, the estimated weights of the causal Bayesian network imply that given <span class="math notranslate nohighlight">\(A\)</span>, <span class="math notranslate nohighlight">\(M\)</span> is (almost) irrelevant for <span class="math notranslate nohighlight">\(D\)</span> el DAG propuesta implica que dado <span class="math notranslate nohighlight">\(A\)</span>, that is (almost) <span class="math notranslate nohighlight">\(D\perp\!\!\!\perp M | A\)</span>. Furthermore, note that the total effect of <span class="math notranslate nohighlight">\(A\)</span> in <span class="math notranslate nohighlight">\(D\)</span> can be estimated as</p>
+<div class="math notranslate nohighlight">
+\[-0.61 + (-0.69)(-0.06) = -0.57,\]</div>
+<p>and the estimated total effect of <span class="math notranslate nohighlight">\(M\)</span> in <span class="math notranslate nohighlight">\(D\)</span> is</p>
+<div class="math notranslate nohighlight">
+\[-0.06 + (-0.69)(-0.61) = 0.36,\]</div>
+<p>which correspond with the values that we obtained in the first two models of this chapter.</p>
+</section>
+</section>
+<section id="residual-plots">
+<h2><span class="section-number">12.4. </span>Residual plots<a class="headerlink" href="#residual-plots" title="Permalink to this heading">#</a></h2>
+<p>Consider the residuals of the marriage rate given the age at marriage. These residuals is the variation of marriage rate that is left over, after knowing the age at marriage. Thus, we can plot the divorce rate against these residuals. This plot would display the linear relationship between divorce and marriage rates, having conditioned already on median age of marriage.</p>
+<img alt="2_D_given_resid_M" class="align-center" src="../../_images/2_D_given_resid_M.png" />
+<p>We observe that once conditioned on the age at marriage, the effect of the marriage rate on the divorce rate almost vanished completely.</p>
+<p>Similarly, we can fit a regression model of the age given the marriage rate, and then plot the residuals of this model against the divorce rate. This plot would display the linear relationship between divorce and age at marriage, having conditioned already on marriage rate.</p>
+<img alt="2_D_given_resid_A" class="align-center" src="../../_images/2_D_given_resid_A.png" />
+<p>We observe that even after conditioned on the marriage rate, age at marriage still has an effect on the divorce rate.</p>
+</section>
+<section id="prediction-plot">
+<h2><span class="section-number">12.5. </span>Prediction plot<a class="headerlink" href="#prediction-plot" title="Permalink to this heading">#</a></h2>
+<p>As we discuss in <a class="reference internal" href="../Part4/11_ComputationalApproximations.html"><span class="doc std std-doc">Chapter 11</span></a>, it is impoprtant to check our model. One way to do it is to plot the observed data against the values predicted by the model, this plot is sometimes referred as the prediction plot.</p>
+<p>The next figure shows the prediction plot for the regression model of the divorce rate given the age at marriage and the marriage rate.</p>
+<img alt="PredictionPlot" class="align-center" src="../../_images/PredictionPlot.png" />
+</section>
+<section id="counterfactual">
+<h2><span class="section-number">12.6. </span>Counterfactual<a class="headerlink" href="#counterfactual" title="Permalink to this heading">#</a></h2>
+<p>Most of the philosophycal discussion presented in this section was taken from <span id="id4">[<a class="reference internal" href="../../References.html#id16" title="Judea Pearl and Dana Mackenzie. The book of why: the new science of cause and effect. Basic books, 2018.">PM18</a>]</span>.</p>
+<p>We think of a cause as something that makes a difference, and the difference it makes must be a difference from what would have happened without it.</p>
+<p>Counterfactual reasoning, which <strong>deals with what-ifs</strong>, might strike some readers as unscientific. Indeed, empirical observation can never confirm or refute the answers to such questions since, <strong>per definition, we cannot observe counterfactuals</strong>. Yet our minds make very reliable and reproducible judgments all the time about what might be or might have been. We all understand, for instance, that had the rooster been silent this morning, the sun would have risen just as well.</p>
+<section id="bc-malian-gulf-tsunami">
+<h3><span class="section-number">12.6.1. </span>426 BC Malian Gulf Tsunami<a class="headerlink" href="#bc-malian-gulf-tsunami" title="Permalink to this heading">#</a></h3>
+<p>The 426 BC Malian Gulf tsunami was caused by one of a series of earthquakes which affected the course of the Peloponnesian War. It devastated the coasts of the Malian and Euboean Gulfs, Greece, in the summer of 426 BC. Thucydides inquired into its causes, and concluded that the tsunami must have been caused by an earthquake. He was thus historically the first known to correctly interpret the cause of a tsunami as a preceding geological event.</p>
+<blockquote class="epigraph">
+<div><p>About the same time that these earthquakes were so common, the sea at Orobiae, in Euboea, retiring from the then line of coast, returned in a huge wave and invaded a great part of the town, and retreated leaving some of it still under water; so that what was once land is now sea; such of the inhabitants perishing as could not run up to the higher ground in time…. The cause, in my opinion, of this phenomenon must be sought in the earthquake. At the point where its shock has been the most violent the sea is driven back, and suddenly recoiling with redoubled force, causes the inundation. <strong>Without an earthquake I do not see how such an accident could happen</strong>.</p>
+</div></blockquote>
+<p>Herodotus, in contrast, had attributed the Potidaea tsunami to the divine wrath of Poseidon.</p>
+</section>
+</section>
+<section id="the-ladder-of-causation">
+<h2><span class="section-number">12.7. </span>The ladder of causation<a class="headerlink" href="#the-ladder-of-causation" title="Permalink to this heading">#</a></h2>
+<p>We can distinguish three “levels” of causal inference.</p>
+<ol class="arabic simple">
+<li><p>At the most basic level is <strong>association</strong>, which corresponds to the activity of <strong>seeing</strong>. Seeing or observing, entails detection of regularities in our environment and is shared by many animals as well as early humans before the Cognitive Revolution. At this level, we merely observe that a set of variables are statistically related.</p></li>
+<li><p>The second is the <strong>intervention</strong> level. The activity of <strong>doing</strong> corresponds to this level. Doing, entails predicting the effect(s) of deliberate alterations of the environment and choosing among these alterations to produce a desired outcome. Only a small handful of species have demonstrated elements of this skill.</p></li>
+<li><p>At the highest level are <strong>counterfactuals</strong>, which correspond to the activity of <strong>imaginig</strong>. Imagining and causal relations is almost self-evident. It is useless to ask for the causes of things unless you can imagine their consequences.</p></li>
+</ol>
+<a class="reference internal image-reference" href="../../_images/SpongeBobImagination.jpg"><img alt="SpongeBobImagination" class="align-center" src="../../_images/SpongeBobImagination.jpg" style="width: 407.0px; height: 450.0px;" /></a>
+<section id="do-calculus">
+<h3><span class="section-number">12.7.1. </span>Do-calculus<a class="headerlink" href="#do-calculus" title="Permalink to this heading">#</a></h3>
+<p>The idea of causes and effects is much more fundamental than the idea of probability. We begin learning causes and effects before we understand language and before we know any mathematics.</p>
+<p>Understanding the meaning of “cause” has been the focus of a long tradition of philosophers, they have tried to define causation in terms of probability, using the notion of “probability raising”: <span class="math notranslate nohighlight">\(X\)</span> causes <span class="math notranslate nohighlight">\(Y\)</span> if <span class="math notranslate nohighlight">\(X\)</span> raises the probability of <span class="math notranslate nohighlight">\(Y\)</span>. But this increase may come about for other reasons, including <span class="math notranslate nohighlight">\(Y\)</span> being a cause of <span class="math notranslate nohighlight">\(X\)</span> or some other variable, <span class="math notranslate nohighlight">\(Z\)</span>, being the cause of both of them. That’s the catch!</p>
+<p>The proper way to rescue the probability-raising idea is with the do-operator. While <span class="math notranslate nohighlight">\(\mathbb{P}(Y|X=x)\)</span> denotes the observational distribution, which corresponds of seeing, <span class="math notranslate nohighlight">\(\mathbb{P}(Y|\text{do}(X=x))\)</span> corresponds to the interventional distribution, which corresponds to the process of doing. Thus <span class="math notranslate nohighlight">\(\mathbb{P}(Y|\text{do}(X=x))\)</span> describes the causal effect of <span class="math notranslate nohighlight">\(X\)</span> on <span class="math notranslate nohighlight">\(Y\)</span>, which can be calculated using causal Bayesian networks.</p>
+<p>Making an event happen means that you emancipate it from all other influences. Thus we erase all the arrows leading into the intervened variable, set that variable manually to its prescribed value and continue the analysis by ordinary logic. This is because after <em>doing</em> the intervention all that is left for us to do is to <em>see</em> its effect.</p>
+<p>Answering a counterfactual question requires us to compare the real world with a fictitious and contradictory world where we intervene some variables, setting them to their counterfactual values, leaving its past history the same as it was in the real world.</p>
+</section>
+</section>
+<section id="counterfactual-plot">
+<h2><span class="section-number">12.8. </span>Counterfactual plot<a class="headerlink" href="#counterfactual-plot" title="Permalink to this heading">#</a></h2>
+<section id="intervening-the-age-at-marriage">
+<h3><span class="section-number">12.8.1. </span>Intervening the age at marriage<a class="headerlink" href="#intervening-the-age-at-marriage" title="Permalink to this heading">#</a></h3>
+<p>To exemplify the previous concepts, consider the phenomenon of predicting the divorce rate. The next figure shows the representation of our causal model in <code class="docutils literal notranslate"><span class="pre">PyMC</span></code>. Because we want to ask counterfactual questions, it implies to manipulate the data, setting the variables to the intervene values. To indicate to <code class="docutils literal notranslate"><span class="pre">PyMC</span></code> that we are going to perform these interventions, we specify our data as <code class="docutils literal notranslate"><span class="pre">MutableData</span></code>.</p>
+<img alt="CausalModelDivorce" class="align-center" src="../../_images/CausalModelDivorce.png" />
+<p>We start by analyzing the counterfactual effect of the age at marriage in the divorce rate and the marriage rate. The next cell shows the DAG associated with the action of intervening the age at marriage.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">Dag</span><span class="o">.</span><span class="n">do</span><span class="p">(</span><span class="s1">&#39;A&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">draw</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/84eaf9f8ff9ce1847ad3ec4185493e53612c1c4daccc3d00f58ea0335dc07a21.svg" src="../../_images/84eaf9f8ff9ce1847ad3ec4185493e53612c1c4daccc3d00f58ea0335dc07a21.svg" /></div>
+</div>
+<p>The next figures show the counterfactual effect of the age in the divorce rate, and the marriage rate, respectively. These graphs answer the question <em>what will happen with the state X, if the median age of marriage would be…?</em></p>
+<img alt="Counter_D_given_A" class="align-center" src="../../_images/Counter_D_given_A.png" />
+<img alt="Counter_M_given_A" class="align-center" src="../../_images/Counter_M_given_A.png" />
+<p>Thus, we can ask counterfactual questions like: What is the expected causal effect if the median age at marriage is decreased from 30 to 20?</p>
+<table class="table">
+<thead>
+<tr class="row-odd"><th class="head text-center"><p>Variable</p></th>
+<th class="head text-center"><p><span class="math notranslate nohighlight">\(\text{do}(A=20)\)</span></p></th>
+<th class="head text-center"><p><span class="math notranslate nohighlight">\(\text{do}(A=30)\)</span></p></th>
+<th class="head text-center"><p>Difference</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-center"><p>Marriage rate</p></td>
+<td class="text-center"><p>32.87%</p></td>
+<td class="text-center"><p>11.76%</p></td>
+<td class="text-center"><p>21.11%</p></td>
+</tr>
+<tr class="row-odd"><td class="text-center"><p>Divorce rate</p></td>
+<td class="text-center"><p>15.09%</p></td>
+<td class="text-center"><p>5.84%</p></td>
+<td class="text-center"><p>9.25%</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="intervening-the-marriage-rate">
+<h3><span class="section-number">12.8.2. </span>Intervening the marriage rate<a class="headerlink" href="#intervening-the-marriage-rate" title="Permalink to this heading">#</a></h3>
+<p>Now, let us suppose that we can manupulate the marriage rate to set it at any value that we wish. The next cell shows the induced DAG for such intervention, note that we erase the arrow going from <span class="math notranslate nohighlight">\(A\)</span> into <span class="math notranslate nohighlight">\(M\)</span>. Since we are manipulating the marriage rate, the age of marriage does not have anymore impact on the marriage rate.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">Dag</span><span class="o">.</span><span class="n">do</span><span class="p">(</span><span class="s1">&#39;M&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">draw</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/727bb85119eeb3836aeded556dc4cb9e113358808d4ff9ba01b2d3da3ca34640.svg" src="../../_images/727bb85119eeb3836aeded556dc4cb9e113358808d4ff9ba01b2d3da3ca34640.svg" /></div>
+</div>
+<p>The next figure shows the counterfactual effect for a state whose median age at marriage corresponds with the national average, manipulating the marriage rate at different values.</p>
+<img alt="Counter_D_given_M" class="align-center" src="../../_images/Counter_D_given_M.png" />
+</section>
+</section>
+<section id="milk-and-neocortex-in-primates">
+<h2><span class="section-number">12.9. </span>Milk and neocortex in primates<a class="headerlink" href="#milk-and-neocortex-in-primates" title="Permalink to this heading">#</a></h2>
+<p>Let’s take a second example where we analyze the concepts described in this chapter.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This example was taken from <span id="id5">[<a class="reference internal" href="../../References.html#id2" title="Richard McElreath. Statistical rethinking: A Bayesian course with examples in R and Stan. Chapman and Hall/CRC, 2018.">McE18</a>]</span>.</p>
+</div>
+<p>The data for the example is in the file <a class="reference external" href="https://github.com/IrvingGomez/BayesianStatistics/blob/main/Data/milk.csv.csv">milk.csv.csv</a> available in the <a class="reference external" href="https://github.com/IrvingGomez/BayesianStatistics">repository of the course</a>. The code with all the details is <a class="reference external" href="https://github.com/IrvingGomez/BayesianStatistics/blob/main/Codes/21_MilkNeocortexRegression.ipynb">21_MilkNeocortexRegression.ipynb</a> in the <a class="reference external" href="https://github.com/IrvingGomez/BayesianStatistics">repository of the course</a>.</p>
+<p>The neocortex, also called the neopallium, isocortex, or the six-layered cortex, is a set of layers of the mammalian cerebral cortex involved in higher-order brain functions such as sensory perception, cognition, generation of motor commands, spatial reasoning and language. It is developed in primates and highly developed in the genus Homo. A popular hypothesis has it that primates with larger brains produce more energetic milk, so that brains can grow quickly. The question here is to what extent energy content of milk, measured here by kilocalories, is related to the percentage of brain mass that is neocortex. We’ll end up needing female body mass as well. As in previous example, we start by standardizing the variables. For the mass, we take its logarithm before standardizing it.</p>
+<section id="predicting-energy-given-neocortex-percentage">
+<h3><span class="section-number">12.9.1. </span>Predicting energy given neocortex percentage<a class="headerlink" href="#predicting-energy-given-neocortex-percentage" title="Permalink to this heading">#</a></h3>
+<p>Once we have standardized the variables, we start by predicting the energy using the neocortex percentage,</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{align*}
+&amp; \text{Model 1} \\
+E_i &amp;\sim \textsf{Normal}(\mu_i,\sigma^2) \\
+\mu_i &amp;= \alpha + \beta_N N_i\\
+\alpha &amp;\sim \textsf{Normal}(0,0.2) \\
+\beta_N &amp;\sim \textsf{Normal}(0,0.5) \\
+\sigma &amp;\sim \text{Exp}(1).
+\end{align*}
+\end{split}\]</div>
+<p>The next figure and table show the scatterplot of the data with the model fitted, and the total effect of the neocortex percentage in the energy.</p>
+<img alt="3_E_given_N" class="align-center" src="../../_images/3_E_given_N.png" />
+<table class="table">
+<thead>
+<tr class="row-odd"><th class="head text-center"><p>Model</p></th>
+<th class="head text-center"><p><span class="math notranslate nohighlight">\(\hat\beta_N\)</span></p></th>
+<th class="head text-center"><p>Interval 89%</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-center"><p>Model 1</p></td>
+<td class="text-center"><p>0.12</p></td>
+<td class="text-center"><p>(-0.23, 0.5)</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="predicting-energy-given-body-mass">
+<h3><span class="section-number">12.9.2. </span>Predicting energy given body mass<a class="headerlink" href="#predicting-energy-given-body-mass" title="Permalink to this heading">#</a></h3>
+<p>Similarly, we predict the energy using the logarithm of the mass (standardized),</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{align*}
+&amp; \text{Model 2} \\
+E_i &amp;\sim \textsf{Normal}(\mu_i,\sigma^2) \\
+\mu_i &amp;= \alpha + \beta_M M_i\\
+\alpha &amp;\sim \textsf{Normal}(0,0.2) \\
+\beta_M &amp;\sim \textsf{Normal}(0,0.5) \\
+\sigma &amp;\sim \text{Exp}(1).
+\end{align*}
+\end{split}\]</div>
+<p>The next figure and table show the scatterplot of the data with the model fitted, and the total effect of the (logarithm) of the mass in the energy.</p>
+<img alt="3_E_given_M" class="align-center" src="../../_images/3_E_given_M.png" />
+<table class="table">
+<thead>
+<tr class="row-odd"><th class="head text-center"><p>Model</p></th>
+<th class="head text-center"><p><span class="math notranslate nohighlight">\(\hat\beta_M\)</span></p></th>
+<th class="head text-center"><p>Interval 89%</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-center"><p>Model 2</p></td>
+<td class="text-center"><p>-0.28</p></td>
+<td class="text-center"><p>(-0.63, 0.06)</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="predicting-energy-given-neocortex-percentage-and-body-mass">
+<h3><span class="section-number">12.9.3. </span>Predicting energy given neocortex percentage and body mass<a class="headerlink" href="#predicting-energy-given-neocortex-percentage-and-body-mass" title="Permalink to this heading">#</a></h3>
+<p>We fit a third model using the newcortex percentage and the body mass as predictors to predict the energy, this model will give us the direct effect of these variables in the energy.</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{align*}
+&amp; \text{Model 3} \\
+E_i &amp;\sim \textsf{Normal}(\mu_i,\sigma^2) \\
+\mu_i &amp;= \alpha + \beta_N N_i + \beta_M M_i\\
+\alpha &amp;\sim \textsf{Normal}(0,0.2) \\
+\beta_N &amp;\sim \textsf{Normal}(0,0.5) \\
+\beta_M &amp;\sim \textsf{Normal}(0,0.5) \\
+\sigma &amp;\sim \text{Exp}(1).
+\end{align*}
+\end{split}\]</div>
+<p>The next table and figure summarize the estimation of the correlation parameters in the different models.</p>
+<table class="table">
+<thead>
+<tr class="row-odd"><th class="head text-center"><p>Model</p></th>
+<th class="head text-center"><p><span class="math notranslate nohighlight">\(\hat\beta_N\)</span></p></th>
+<th class="head text-center"><p>Interval 89%</p></th>
+<th class="head text-center"><p><span class="math notranslate nohighlight">\(\hat\beta_M\)</span></p></th>
+<th class="head text-center"><p>Interval 89%</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-center"><p>Model 1</p></td>
+<td class="text-center"><p>0.12</p></td>
+<td class="text-center"><p>(-0.23, -0.5)</p></td>
+<td class="text-center"><p>-</p></td>
+<td class="text-center"><p>-</p></td>
+</tr>
+<tr class="row-odd"><td class="text-center"><p>Model 2</p></td>
+<td class="text-center"><p>-</p></td>
+<td class="text-center"><p>-</p></td>
+<td class="text-center"><p>-0.28</p></td>
+<td class="text-center"><p>(-0.63, 0.06)</p></td>
+</tr>
+<tr class="row-even"><td class="text-center"><p>Model 3</p></td>
+<td class="text-center"><p>0.58</p></td>
+<td class="text-center"><p>(0.18, 0.98)</p></td>
+<td class="text-center"><p>-0.68</p></td>
+<td class="text-center"><p>(-1.07, -0.25)</p></td>
+</tr>
+</tbody>
+</table>
+<img alt="EnergyPlotForest" class="align-center" src="../../_images/EnergyPlotForest.png" />
+<p>In the previous example we observed how including both variables revealed that one of them has little direct impact in the response variable, being most of its impact indirect. Now, in this example, we observe how including both variables revealed that both variables have an important direct impact in the response. Meanwhile, when we only include one of the variables it had little impact on the response. This phenomenon might happen when one of the variable has a positive effect, while the other has a negative effect.</p>
+</section>
+<section id="id6">
+<h3><span class="section-number">12.9.4. </span>Prediction plot<a class="headerlink" href="#id6" title="Permalink to this heading">#</a></h3>
+<p>In the next figure I present the prediction plot for the energy considering the multivariate regression model.</p>
+<img alt="PredictionPlotEnergy" class="align-center" src="../../_images/PredictionPlotEnergy.png" />
+</section>
+<section id="residual-plot">
+<h3><span class="section-number">12.9.5. </span>Residual plot<a class="headerlink" href="#residual-plot" title="Permalink to this heading">#</a></h3>
+<p>For the residual plot, remember that we still need two more regression models.</p>
+<p>We start with the model to predict body mass given newcortex percentage,</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{align*}
+&amp; \text{Model 4} \\
+M_i &amp;\sim \textsf{Normal}(\mu_i,\sigma^2) \\
+\mu_i &amp;= \alpha + \beta_M|N N_i\\
+\alpha &amp;\sim \textsf{Normal}(0,0.2) \\
+\beta_{M|N} &amp;\sim \textsf{Normal}(0,0.5) \\
+\sigma &amp;\sim \text{Exp}(1).
+\end{align*}
+\end{split}\]</div>
+<p>We then take the residuals of this model, and plot them agains the energy,</p>
+<img alt="3_E_given_resid_M" class="align-center" src="../../_images/3_E_given_resid_M.png" />
+<p>Similarly, for the second residual plot, we fit the next model,</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{align*}
+&amp; \text{Model 5} \\
+N_i &amp;\sim \textsf{Normal}(\mu_i,\sigma^2) \\
+\mu_i &amp;= \alpha + \beta_N|M M_i\\
+\alpha &amp;\sim \textsf{Normal}(0,0.2) \\
+\beta_{N|M} &amp;\sim \textsf{Normal}(0,0.5) \\
+\sigma &amp;\sim \text{Exp}(1).
+\end{align*}
+\end{split}\]</div>
+<p>We then take the residuals of this model, and plot them agains the energy,</p>
+<img alt="3_E_given_resid_N" class="align-center" src="../../_images/3_E_given_resid_N.png" />
+<p>The next table shows the estimated correlation between neocortex percentage and body mass.</p>
+<table class="table">
+<thead>
+<tr class="row-odd"><th class="head text-center"><p>Model</p></th>
+<th class="head text-center"><p><span class="math notranslate nohighlight">\(\hat\beta\)</span></p></th>
+<th class="head text-center"><p>Interval 89%</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-center"><p>Model 4</p></td>
+<td class="text-center"><p>0.66</p></td>
+<td class="text-center"><p>(0.37, 0.93)</p></td>
+</tr>
+<tr class="row-odd"><td class="text-center"><p>Model 5</p></td>
+<td class="text-center"><p>0.66</p></td>
+<td class="text-center"><p>(0.39, 0.95)</p></td>
+</tr>
+</tbody>
+</table>
+<p>So we can draw a possible causal Bayesian network</p>
+<img alt="DagEnergy" class="align-center" src="../../_images/DagEnergy.png" />
+<p>Note that the total effects of N and M can be estimated as</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{align*}
+\text{Total effect of N:}&amp;\quad 0.58+(0.66)(-0.68)\approx 0.13, \\
+\text{Total effect of M:}&amp;\quad -0.68+(0.66)(0.58)\approx -0.3,
+\end{align*}
+\end{split}\]</div>
+<p>which correspond with the total effects estimated my Model 1 and Model 2.</p>
+</section>
+<section id="causal-bayesian-network">
+<h3><span class="section-number">12.9.6. </span>Causal Bayesian network<a class="headerlink" href="#causal-bayesian-network" title="Permalink to this heading">#</a></h3>
+<p>To create the counterfactual plots, first we need to establish a causal model. There are at least three DAGs consistent with this data.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">Dag1</span> <span class="o">=</span> <span class="n">CausalGraphicalModel</span><span class="p">(</span><span class="n">nodes</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;M&quot;</span><span class="p">,</span> <span class="s2">&quot;N&quot;</span><span class="p">,</span> <span class="s2">&quot;E&quot;</span><span class="p">],</span> <span class="n">edges</span><span class="o">=</span><span class="p">[(</span><span class="s2">&quot;M&quot;</span><span class="p">,</span> <span class="s2">&quot;N&quot;</span><span class="p">),</span> <span class="p">(</span><span class="s2">&quot;M&quot;</span><span class="p">,</span> <span class="s2">&quot;E&quot;</span><span class="p">),</span> <span class="p">(</span><span class="s2">&quot;N&quot;</span><span class="p">,</span> <span class="s2">&quot;E&quot;</span><span class="p">)])</span>
+<span class="n">Dag1</span><span class="o">.</span><span class="n">draw</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/4072bfd1a87478aac9fd5dea0acc748ad86a718e02412c53ed3f1564a68e0525.svg" src="../../_images/4072bfd1a87478aac9fd5dea0acc748ad86a718e02412c53ed3f1564a68e0525.svg" /></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">Dag2</span> <span class="o">=</span> <span class="n">CausalGraphicalModel</span><span class="p">(</span><span class="n">nodes</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;M&quot;</span><span class="p">,</span> <span class="s2">&quot;N&quot;</span><span class="p">,</span> <span class="s2">&quot;E&quot;</span><span class="p">],</span> <span class="n">edges</span><span class="o">=</span><span class="p">[(</span><span class="s2">&quot;N&quot;</span><span class="p">,</span> <span class="s2">&quot;M&quot;</span><span class="p">),</span> <span class="p">(</span><span class="s2">&quot;M&quot;</span><span class="p">,</span> <span class="s2">&quot;E&quot;</span><span class="p">),</span> <span class="p">(</span><span class="s2">&quot;N&quot;</span><span class="p">,</span> <span class="s2">&quot;E&quot;</span><span class="p">)])</span>
+<span class="n">Dag2</span><span class="o">.</span><span class="n">draw</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/7f1ff2d788a96e3eb1d292cf3f429d026a43fc297e53c897fb7cf94e631cbfdd.svg" src="../../_images/7f1ff2d788a96e3eb1d292cf3f429d026a43fc297e53c897fb7cf94e631cbfdd.svg" /></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">Dag3</span> <span class="o">=</span> <span class="n">CausalGraphicalModel</span><span class="p">(</span><span class="n">nodes</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;M&quot;</span><span class="p">,</span> <span class="s2">&quot;N&quot;</span><span class="p">,</span> <span class="s2">&quot;E&quot;</span><span class="p">],</span> <span class="n">edges</span><span class="o">=</span><span class="p">[(</span><span class="s2">&quot;M&quot;</span><span class="p">,</span> <span class="s2">&quot;E&quot;</span><span class="p">),</span> <span class="p">(</span><span class="s2">&quot;N&quot;</span><span class="p">,</span> <span class="s2">&quot;E&quot;</span><span class="p">)],</span> <span class="n">latent_edges</span><span class="o">=</span><span class="p">[(</span><span class="s2">&quot;M&quot;</span><span class="p">,</span> <span class="s2">&quot;N&quot;</span><span class="p">)])</span>
+<span class="n">Dag3</span><span class="o">.</span><span class="n">draw</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/02829192abaf6a147c05276c8ec3e473ac06c71ae53322934c4dca27fe38ab77.svg" src="../../_images/02829192abaf6a147c05276c8ec3e473ac06c71ae53322934c4dca27fe38ab77.svg" /></div>
+</div>
+<p>Assume that the third graph is the right one. The next graph presents the graphical representation in <code class="docutils literal notranslate"><span class="pre">PyMC</span></code>.</p>
+<img alt="CausalModelEnergy" class="align-center" src="../../_images/CausalModelEnergy.png" />
+</section>
+<section id="counterfactual-plots">
+<h3><span class="section-number">12.9.7. </span>Counterfactual plots<a class="headerlink" href="#counterfactual-plots" title="Permalink to this heading">#</a></h3>
+<p>The next figures show the causal Bayesian network when we intervene the body mass, and the counterfactual plot for <span class="math notranslate nohighlight">\(N=\bar{N}\)</span> and for different values of the intervene variable <span class="math notranslate nohighlight">\(M\)</span>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">Dag3</span><span class="o">.</span><span class="n">do</span><span class="p">(</span><span class="s1">&#39;M&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">draw</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/0174bd5bcf0c76f1d1ba23dcce8f095fc98fa0aa16169f89c037861c649263ba.svg" src="../../_images/0174bd5bcf0c76f1d1ba23dcce8f095fc98fa0aa16169f89c037861c649263ba.svg" /></div>
+</div>
+<img alt="Counter_E_given_M" class="align-center" src="../../_images/Counter_E_given_M.png" />
+<p>The next figures show analogous results when we intervene the variable <span class="math notranslate nohighlight">\(N\)</span>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">Dag3</span><span class="o">.</span><span class="n">do</span><span class="p">(</span><span class="s1">&#39;N&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">draw</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/239d5ce01e096eb797c14d95140ce8a3c72596eb6d8ac356999b8dfe23857e91.svg" src="../../_images/239d5ce01e096eb797c14d95140ce8a3c72596eb6d8ac356999b8dfe23857e91.svg" /></div>
+</div>
+<img alt="Counter_E_given_N" class="align-center" src="../../_images/Counter_E_given_N.png" />
+</section>
+</section>
 </section>
 
     <script type="text/x-thebe-config">
@@ -403,6 +1066,60 @@ document.write(`
             </div>
             
             
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#predicting-the-divorce-rate">12.1. Predicting the divorce rate</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#predicting-divorce-rate-given-age-at-marriage">12.1.1. Predicting divorce rate given age at marriage</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#predicting-divorce-rate-given-marriage-rate">12.1.2. Predicting divorce rate given marriage rate</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#bayesian-networks">12.2. Bayesian networks</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#graphical-notation-and-terminology">12.2.1. Graphical notation and terminology</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">12.2.2. Bayesian networks</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#causal-bayesian-networks">12.2.3. Causal Bayesian networks</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#causality-while-predicting-the-divorce-rate">12.3. Causality while predicting the divorce rate</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#predicting-marriage-rate-given-age-at-marriage">12.3.1. Predicting marriage rate given age at marriage</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#predicting-divorce-rate-given-age-at-marriage-and-marriage-rate">12.3.2. Predicting divorce rate given age at marriage and marriage rate</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#residual-plots">12.4. Residual plots</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#prediction-plot">12.5. Prediction plot</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#counterfactual">12.6. Counterfactual</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#bc-malian-gulf-tsunami">12.6.1. 426 BC Malian Gulf Tsunami</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-ladder-of-causation">12.7. The ladder of causation</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#do-calculus">12.7.1. Do-calculus</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#counterfactual-plot">12.8. Counterfactual plot</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#intervening-the-age-at-marriage">12.8.1. Intervening the age at marriage</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#intervening-the-marriage-rate">12.8.2. Intervening the marriage rate</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#milk-and-neocortex-in-primates">12.9. Milk and neocortex in primates</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#predicting-energy-given-neocortex-percentage">12.9.1. Predicting energy given neocortex percentage</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#predicting-energy-given-body-mass">12.9.2. Predicting energy given body mass</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#predicting-energy-given-neocortex-percentage-and-body-mass">12.9.3. Predicting energy given neocortex percentage and body mass</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id6">12.9.4. Prediction plot</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#residual-plot">12.9.5. Residual plot</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#causal-bayesian-network">12.9.6. Causal Bayesian network</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#counterfactual-plots">12.9.7. Counterfactual plots</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
               
             
           </div>
