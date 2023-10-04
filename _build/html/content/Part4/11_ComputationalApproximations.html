@@ -66,7 +66,7 @@ const thebe_selector_output = ".output, .cell_output"
     <script>DOCUMENTATION_OPTIONS.pagename = 'content/Part4/11_ComputationalApproximations';</script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="next" title="12. Causality" href="../Part5/12_Causality.html" />
+    <link rel="next" title="12. Introduction to causality" href="../Part5/12_Causality.html" />
     <link rel="prev" title="10. Bayesian regression (2)" href="10_BayesianRegression.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
@@ -183,14 +183,17 @@ const thebe_selector_output = ".output, .cell_output"
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">V Causality</span></p>
 <ul class="nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="../Part5/12_Causality.html">12. Causality</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Part5/12_Causality.html">12. Introduction to causality</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Part5/13_CategoricalAndBiases.html">13. Categorical variables, multicollinearity and biases</a></li>
 </ul>
-<p aria-level="2" class="caption" role="heading"><span class="caption-text">VI Advanced topics</span></p>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">VI Hierarchical models, and evaluation and comparison of models</span></p>
 <ul class="nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="../Part6/13_HierarchicalModels.html">13. Hierarchical models</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../Part6/14_EvaluatingComparingModels.html">14. Evaluating and comparing models</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../Part6/15_VariationalInference.html">15. Variational Inference</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../Part6/16_VariationalAutoencoders.html">16. Variational Autoencoders (VAES)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Part6/14_HierarchicalModels.html">14. Hierarchical models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Part6/15_EvaluatingComparingModels.html">15. Evaluating and comparing models</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">VII Variational autoencoders</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../Part7/16_VariationalAutoencoders.html">16. Variational autoencoders (VAEs)</a></li>
 </ul>
 <ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="../../References.html">References</a></li>
@@ -418,7 +421,10 @@ h_i|\mu_i,\sigma^2 &amp;\sim \textsf{Normal}(\mu_i,\sigma^2) \\
 <section id="analysis-of-a-bioassay-experiment">
 <h2><span class="section-number">11.4. </span>Analysis of a bioassay experiment<a class="headerlink" href="#analysis-of-a-bioassay-experiment" title="Permalink to this heading">#</a></h2>
 <p>This example was taken from section 3.7 of <span id="id2">[<a class="reference internal" href="../../References.html#id5" title="A. Gelman, J.B. Carlin, H.S. Stern, D.B. Dunson, A. Vehtari, and D.B. Rubin. Bayesian Data Analysis, Third Edition. Chapman &amp; Hall/CRC Texts in Statistical Science. Taylor &amp; Francis, 2013. ISBN 9781439840955. URL: https://books.google.co.th/books?id=ZXL6AQAAQBAJ.">GCS+13</a>]</span>. The code with all the details is <a class="reference external" href="https://github.com/IrvingGomez/BayesianStatistics/blob/main/Codes/19_BioassayExample.ipynb">19_BioassayExample.ipynb</a> in the <a class="reference external" href="https://github.com/IrvingGomez/BayesianStatistics">repository of the course</a>.</p>
-<p>In the development of drugs and other chemical compounds, acute toxicity tests or bioassay experiments are commonly performed on animals. Such experiments proceed by administering various dose levels of the compound to batches of animals. The animals’ responses are typically characterized by a dichotomous outcome: for example, alive or dead, tumor or no tumor. An experiment of this kind gives rise to data of the form $<span class="math notranslate nohighlight">\((X_i,n_i,Y_i);\quad i=1,\ldots,k,\)</span><span class="math notranslate nohighlight">\( where \)</span>X_i<span class="math notranslate nohighlight">\( represents the \)</span>i<span class="math notranslate nohighlight">\( th of \)</span>k<span class="math notranslate nohighlight">\( dose levels (often measured on a logarithmic scale) given to \)</span>n_i<span class="math notranslate nohighlight">\( animals, of which \)</span>Y_i$ subsequently respond with positive outcome. An example of real data from such an experiment is shown in the next table, wherein twenty animals were tested, five at each of four dose levels.</p>
+<p>In the development of drugs and other chemical compounds, acute toxicity tests or bioassay experiments are commonly performed on animals. Such experiments proceed by administering various dose levels of the compound to batches of animals. The animals’ responses are typically characterized by a dichotomous outcome: for example, alive or dead, tumor or no tumor. An experiment of this kind gives rise to data of the form</p>
+<div class="math notranslate nohighlight">
+\[(X_i,n_i,Y_i);\quad i=1,\ldots,k,\]</div>
+<p>where <span class="math notranslate nohighlight">\(X_i\)</span> represents the <span class="math notranslate nohighlight">\(i\)</span> th of <span class="math notranslate nohighlight">\(k\)</span> dose levels (often measured on a logarithmic scale) given to <span class="math notranslate nohighlight">\(n_i\)</span> animals, of which <span class="math notranslate nohighlight">\(Y_i\)</span> subsequently respond with positive outcome. An example of real data from such an experiment is shown in the next table, wherein twenty animals were tested, five at each of four dose levels.</p>
 <table class="table">
 <thead>
 <tr class="row-odd"><th class="head text-center"><p>Dose, <span class="math notranslate nohighlight">\(X_i\)</span> (log g/ml)</p></th>
@@ -446,7 +452,13 @@ h_i|\mu_i,\sigma^2 &amp;\sim \textsf{Normal}(\mu_i,\sigma^2) \\
 </tbody>
 </table>
 <p>Data from <span id="id3">[<a class="reference internal" href="../../References.html#id11" title="A Racine-Poon, AP Grieve, H Fluhler, and AFM Smith. Bayesian methods in practice: experiences in the pharmaceutical industry (with discussion). Applied Statistics, 35:93–150, 1986.">RPGFS86</a>]</span>.</p>
-<p>For these data, we could consider the following model $<span class="math notranslate nohighlight">\(Y_i|\theta_i\sim\textsf{Binomial}(n_i,\theta_i),\)</span><span class="math notranslate nohighlight">\( where \)</span>\theta_i<span class="math notranslate nohighlight">\( is the probability of death for animals given dose \)</span>x_i<span class="math notranslate nohighlight">\(. The simplest model of the dose–response relation --that is, the relation of \)</span>\theta_i<span class="math notranslate nohighlight">\( to \)</span>X_i<span class="math notranslate nohighlight">\(-- is linear: \)</span>\theta_i = \alpha + \beta X_i<span class="math notranslate nohighlight">\(. Unfortunately, this model has the flaw that at low or high doses (recall that the dose is measured on the log scale), \)</span>\theta_i<span class="math notranslate nohighlight">\( approaches \)</span>\pm \infty<span class="math notranslate nohighlight">\(, whereas \)</span>\theta_i<span class="math notranslate nohighlight">\(, being a probability, must be constrained to lie between 0 and 1. The standard solution is to use a transformation of the \)</span>\theta<span class="math notranslate nohighlight">\(’s, such as the logistic, in the dose–response relation: \)</span><span class="math notranslate nohighlight">\(\text{logit}(\theta_i)=\alpha+\beta X_i,\)</span><span class="math notranslate nohighlight">\( where \)</span>\text{logit}(\theta_i)=\log(\theta_i/(1-\theta_i))$. This is called a logistic regression model.</p>
+<p>For these data, we could consider the following model</p>
+<div class="math notranslate nohighlight">
+\[Y_i|\theta_i\sim\textsf{Binomial}(n_i,\theta_i),\]</div>
+<p>where <span class="math notranslate nohighlight">\(\theta_i\)</span> is the probability of death for animals given dose <span class="math notranslate nohighlight">\(x_i\)</span>. The simplest model of the dose–response relation –that is, the relation of <span class="math notranslate nohighlight">\(\theta_i\)</span> to <span class="math notranslate nohighlight">\(X_i\)</span>– is linear: <span class="math notranslate nohighlight">\(\theta_i = \alpha + \beta X_i\)</span>. Unfortunately, this model has the flaw that at low or high doses (recall that the dose is measured on the log scale), <span class="math notranslate nohighlight">\(\theta_i\)</span> approaches <span class="math notranslate nohighlight">\(\pm \infty\)</span>, whereas <span class="math notranslate nohighlight">\(\theta_i\)</span>, being a probability, must be constrained to lie between 0 and 1. The standard solution is to use a transformation of the <span class="math notranslate nohighlight">\(\theta\)</span>’s, such as the logistic, in the dose–response relation:</p>
+<div class="math notranslate nohighlight">
+\[\text{logit}(\theta_i)=\alpha+\beta X_i,\]</div>
+<p>where <span class="math notranslate nohighlight">\(\text{logit}(\theta_i)=\log(\theta_i/(1-\theta_i))\)</span>. This is called a logistic regression model.</p>
 <p>We can implement the following model for this data:</p>
 <div class="math notranslate nohighlight">
 \[\begin{split}
@@ -459,8 +471,10 @@ p(\beta) &amp;\propto 1_{\mathbb{R}}(\beta)
 \end{split}\]</div>
 <p>The next figure shows the joint posterior of <span class="math notranslate nohighlight">\(\alpha\)</span> and <span class="math notranslate nohighlight">\(\beta\)</span>, where we can observe how the joint posterior might be far from a gaussian distribution.</p>
 <img alt="PosteriorBioassay" class="align-center" src="../../_images/PosteriorBioassay.png" />
-<p>A parameter of common interest in bioassay studies is the LD50–the dose level at which the probability of death is 50%. In our logistic model, a 50% survival rate means $<span class="math notranslate nohighlight">\(\theta = \text{logit}^{-1}(\alpha+\beta \text{LD}_{50})=0.5;\)</span><span class="math notranslate nohighlight">\(
-thus, \)</span>\alpha + \beta \text{LD}<em>{50} = \text{logit}(0.5) = 0<span class="math notranslate nohighlight">\(, and the \)</span>\text{LD}</em>{50} = -\alpha/\beta$.</p>
+<p>A parameter of common interest in bioassay studies is the LD50–the dose level at which the probability of death is 50%. In our logistic model, a 50% survival rate means</p>
+<div class="math notranslate nohighlight">
+\[\theta = \text{logit}^{-1}(\alpha+\beta \text{LD}_{50})=0.5;\]</div>
+<p>thus, <span class="math notranslate nohighlight">\(\alpha + \beta \text{LD}_{50} = \text{logit}(0.5) = 0\)</span>, and the <span class="math notranslate nohighlight">\(\text{LD}_{50} = -\alpha/\beta\)</span>.</p>
 <p>The following image shows the posterior of the <span class="math notranslate nohighlight">\(\text{LD}_{50}\)</span>.</p>
 <img alt="PosteriorLd50" class="align-center" src="../../_images/PosteriorLd50.png" />
 </section>
@@ -511,7 +525,7 @@ thus, \)</span>\alpha + \beta \text{LD}<em>{50} = \text{logit}(0.5) = 0<span cla
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title"><span class="section-number">12. </span>Causality</p>
+        <p class="prev-next-title"><span class="section-number">12. </span>Introduction to causality</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>

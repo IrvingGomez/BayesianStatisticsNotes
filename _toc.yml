@@ -31,15 +31,17 @@ parts:
     numbered: True
     chapters:
     - file: content/Part5/12_Causality
+    - file: content/Part5/13_CategoricalAndBiases
+    - file: content/Part5/14_HauntedCases
   - caption: VI Hierarchical models, and evaluation and comparison of models
     numbered: True
     chapters:
-    - file: content/Part6/13_HierarchicalModels
-    - file: content/Part6/14_EvaluatingComparingModels
-  - caption: VII Variational autoencoders
-    numbered: True
-    chapters:
-    - file: content/Part7/15_VariationalAutoencoders
+    - file: content/Part6/15_HierarchicalModels
+    - file: content/Part6/16_EvaluatingComparingModels
+#  - caption: VII Variational autoencoders
+#    numbered: True
+#    chapters:
+#    - file: content/Part7/17_VariationalAutoencoders
   - caption:
     chapters:
     - file: References
