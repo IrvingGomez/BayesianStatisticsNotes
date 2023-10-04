@@ -1,0 +1,750 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="en" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+    <title>14. \(d\)-separation, causal and noncausal paths &#8212; Bayesian Statistics</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../../_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+
+  
+  <link href="../../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" href="../../_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
+
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/clipboard.min.js"></script>
+    <script src="../../_static/copybutton.js"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../../_static/togglebutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../../_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="../../_static/sphinx-thebe.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'content/Part5/14_HauntedCases';</script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="15. Hierarchical models" href="../Part6/15_HierarchicalModels.html" />
+    <link rel="prev" title="13. Categorical variables, multicollinearity and biases" href="13_CategoricalAndBiases.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+  
+
+<a class="navbar-brand logo" href="../../intro.html">
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../_static/RF_logo.png" class="logo__image only-light" alt="Logo image"/>
+    <script>document.write(`<img src="../../_static/RF_logo.png" class="logo__image only-dark" alt="Logo image"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../../intro.html">
+                    Bayesian statistics: Course notes
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">I Philosophy and basics of Bayesian statistics</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../Part1/01_BayesianPhilosophy.html">1. Bayesian philosophy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Part1/02_UniparametricModels.html">2. Uniparametric models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Part1/03_ConjugateAnalysis.html">3. Conjugate analysis</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">II Multiparametric models and regression</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../Part2/04_MultiparametricModels.html">4. Normal likelihood with mean and variance unknown</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Part2/05_BayesianRegression.html">5. Bayesian regression</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">III Reference analysis and normal approximation</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../Part3/06_ReferenceAnalysis.html">6. Reference analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Part3/07_NormalApproximation.html">7. Normal approximation</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">IV Bayesian inference</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../Part4/08_GridApproximation.html">8. Grid approximation and statistical inference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Part4/09_ModelChecking.html">9. Model checking</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Part4/10_BayesianRegression.html">10. Bayesian regression (2)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Part4/11_ComputationalApproximations.html">11. Quadratic approximation and MCMC</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">V Causality</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="12_Causality.html">12. Introduction to causality</a></li>
+<li class="toctree-l1"><a class="reference internal" href="13_CategoricalAndBiases.html">13. Categorical variables, multicollinearity and biases</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">14. <span class="math notranslate nohighlight">\(d\)</span>-separation, causal and noncausal paths</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">VI Hierarchical models, and evaluation and comparison of models</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../Part6/15_HierarchicalModels.html">15. Hierarchical models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Part6/16_EvaluatingComparingModels.html">16. Evaluating and comparing models</a></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../References.html">References</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../../_sources/content/Part5/14_HauntedCases.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script>
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>d-separation, causal and noncausal paths</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#d-separation-rules">14.1. <span class="math notranslate nohighlight">\(d\)</span>-separation rules</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-haunted-dag">14.2. The haunted DAG</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="d-separation-causal-and-noncausal-paths">
+<h1><span class="section-number">14. </span><span class="math notranslate nohighlight">\(d\)</span>-separation, causal and noncausal paths<a class="headerlink" href="#d-separation-causal-and-noncausal-paths" title="Permalink to this heading">#</a></h1>
+<p>In this chapter I present the <span class="math notranslate nohighlight">\(d\)</span>-separation rules, these rules, when they are used with a causasl Bayesian network can help us to know which variables to include in the statistical analysis and which variables not to include to avoid biases when we are interested in estimating causal effects between variables. Then I present two examples where the inference of the causal effects becomes difficult or impossible.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The first example this chapter was taken from <span id="id1">[<a class="reference internal" href="../../References.html#id2" title="Richard McElreath. Statistical rethinking: A Bayesian course with examples in R and Stan. Chapman and Hall/CRC, 2018.">McE18</a>]</span>.</p>
+</div>
+<p>The second example of this chapter is an extension that I proposed to illustrate the case where the inference of the causasl effect is completely doomed with the observational data.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># The next libraries are to plot DAGs</span>
+<span class="kn">import</span> <span class="nn">collections.abc</span>
+<span class="n">collections</span><span class="o">.</span><span class="n">Iterable</span> <span class="o">=</span> <span class="n">collections</span><span class="o">.</span><span class="n">abc</span><span class="o">.</span><span class="n">Iterable</span>
+<span class="kn">from</span> <span class="nn">causalgraphicalmodels</span> <span class="kn">import</span> <span class="n">CausalGraphicalModel</span>
+</pre></div>
+</div>
+</div>
+</div>
+<section id="d-separation-rules">
+<h2><span class="section-number">14.1. </span><span class="math notranslate nohighlight">\(d\)</span>-separation rules<a class="headerlink" href="#d-separation-rules" title="Permalink to this heading">#</a></h2>
+<p>Suppose that we are interested in the causal effect of a variable <span class="math notranslate nohighlight">\(X\)</span> in another variable <span class="math notranslate nohighlight">\(Y\)</span>, but that there exists unobserved variables <span class="math notranslate nohighlight">\(U\)</span> that affect both <span class="math notranslate nohighlight">\(X\)</span> and <span class="math notranslate nohighlight">\(Y\)</span>, so the DAG looks like</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">DagConfounded</span> <span class="o">=</span> <span class="n">CausalGraphicalModel</span><span class="p">(</span><span class="n">nodes</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;X&quot;</span><span class="p">,</span> <span class="s2">&quot;Y&quot;</span><span class="p">,</span> <span class="s2">&quot;U&quot;</span><span class="p">],</span> <span class="n">edges</span><span class="o">=</span><span class="p">[(</span><span class="s2">&quot;X&quot;</span><span class="p">,</span> <span class="s2">&quot;Y&quot;</span><span class="p">),</span> <span class="p">(</span><span class="s2">&quot;U&quot;</span><span class="p">,</span> <span class="s2">&quot;X&quot;</span><span class="p">),</span> <span class="p">(</span><span class="s2">&quot;U&quot;</span><span class="p">,</span> <span class="s2">&quot;Y&quot;</span><span class="p">)])</span>
+<span class="n">DagConfounded</span><span class="o">.</span><span class="n">draw</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/df2a25b93aaca8b55bcc126c6a42324c592635390fc5f3eb7516e5757ea60a1f.svg" src="../../_images/df2a25b93aaca8b55bcc126c6a42324c592635390fc5f3eb7516e5757ea60a1f.svg" /></div>
+</div>
+<p>In this DAG there are two paths connecting <span class="math notranslate nohighlight">\(X\)</span> and <span class="math notranslate nohighlight">\(Y\)</span>. A causal path given by <span class="math notranslate nohighlight">\(X\rightarrow Y\)</span>, and a noncausal path given by <span class="math notranslate nohighlight">\(X\leftarrow U\rightarrow Y\)</span>. This implies that a causal interpretation of a regression analysis between <span class="math notranslate nohighlight">\(Y\)</span> and <span class="math notranslate nohighlight">\(X\)</span> would be incorrected. In this case, it is usually said that the result is confounded by the variables <span class="math notranslate nohighlight">\(U\)</span>. We say that a path between <span class="math notranslate nohighlight">\(X\)</span> and <span class="math notranslate nohighlight">\(Y\)</span> is closed if <span class="math notranslate nohighlight">\(X\)</span> is independent of <span class="math notranslate nohighlight">\(Y\)</span>. A path is causal if all the arrows in the path go in the same direction (from <span class="math notranslate nohighlight">\(X\)</span> to <span class="math notranslate nohighlight">\(Y\)</span>). Thus, to get a reliable causal interpretation we need to close all the non-causal paths, while keeping open the causal ones.</p>
+<p>For any DAG, there are three basic relations between the variables, which satisfies certain conditional independencies</p>
+<ol class="arabic simple">
+<li><p><strong>Fork</strong>: In a fork some variable <span class="math notranslate nohighlight">\(Z\)</span> is a common cause of <span class="math notranslate nohighlight">\(X\)</span> and <span class="math notranslate nohighlight">\(Y\)</span>, <span class="math notranslate nohighlight">\(X\leftarrow Z \rightarrow Y\)</span>. We saw in the previous chapter that this DAG creates a relation between <span class="math notranslate nohighlight">\(X\)</span> and <span class="math notranslate nohighlight">\(Y\)</span>, but once we include <span class="math notranslate nohighlight">\(Z\)</span>, this relation desappears. That is <span class="math notranslate nohighlight">\(X\not\perp\!\!\!\perp Y\)</span>, but <span class="math notranslate nohighlight">\(X\perp\!\!\!\perp Y|Z\)</span>.</p></li>
+<li><p><strong>Pipe</strong>: A pipe or a mediation case is when <span class="math notranslate nohighlight">\(X\)</span> influences <span class="math notranslate nohighlight">\(Y\)</span> through a third variable <span class="math notranslate nohighlight">\(Z\)</span>, <span class="math notranslate nohighlight">\(X\rightarrow Z\rightarrow Y\)</span>. As in the fork, this path is open unless we include the variable <span class="math notranslate nohighlight">\(Z\)</span>, in such case <span class="math notranslate nohighlight">\(X\)</span> and <span class="math notranslate nohighlight">\(Y\)</span> becomes independent as we observed in the post-treatment bias. That is <span class="math notranslate nohighlight">\(X\not\perp\!\!\!\perp Y\)</span>, but <span class="math notranslate nohighlight">\(X\perp\!\!\!\perp Y|Z\)</span>.</p></li>
+<li><p><strong>Collider</strong> In a collider some variable <span class="math notranslate nohighlight">\(Z\)</span> is the consequence of <span class="math notranslate nohighlight">\(X\)</span> and <span class="math notranslate nohighlight">\(Y\)</span>, <span class="math notranslate nohighlight">\(X\rightarrow Z\leftarrow Y\)</span>. Unlike the other two types of relations, in a collider there is no association between <span class="math notranslate nohighlight">\(X\)</span> and <span class="math notranslate nohighlight">\(Y\)</span> unless you condition on <span class="math notranslate nohighlight">\(Z\)</span>, as we commented in the Berkson’s paradox. That is That is <span class="math notranslate nohighlight">\(X\perp\!\!\!\perp Y\)</span>, but <span class="math notranslate nohighlight">\(X\not\perp\!\!\!\perp Y|Z\)</span>.</p></li>
+</ol>
+<p>Here’s the recipe then that would help you to determine which variables to include or exclude from the analysis when the goal is causasl inference.</p>
+<ol class="arabic simple">
+<li><p>List all the paths connecting <span class="math notranslate nohighlight">\(X\)</span> and <span class="math notranslate nohighlight">\(Y\)</span>.</p></li>
+<li><p>Classify each path by wether it is causal or non-causal.</p></li>
+<li><p>Classify each path by whether it is open or closed. A path is open unless it contains a collider.</p></li>
+<li><p>Determine the variables to condition on, so the causal paths are kept open, and the non-causal paths are closed.</p></li>
+</ol>
+<p>To illustrate these points, in the next table I present the examples analyzed in <a class="reference internal" href="13_CategoricalAndBiases.html"><span class="doc std std-doc">Chapter 13</span></a></p>
+<table class="table">
+<thead>
+<tr class="row-odd"><th class="head text-center"><p>Example</p></th>
+<th class="head text-center"><p>Cause</p></th>
+<th class="head text-center"><p>Consequence</p></th>
+<th class="head text-center"><p>Paths</p></th>
+<th class="head text-center"><p>Causal</p></th>
+<th class="head text-center"><p>Contains colliders</p></th>
+<th class="head text-center"><p>Close/Open</p></th>
+<th class="head text-center"><p>How to Open/Close</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-center"><p>Treatment with effect</p></td>
+<td class="text-center"><p><span class="math notranslate nohighlight">\(T\)</span></p></td>
+<td class="text-center"><p><span class="math notranslate nohighlight">\(H_1\)</span></p></td>
+<td class="text-center"><p><span class="math notranslate nohighlight">\(T\rightarrow F\rightarrow H_1\)</span></p></td>
+<td class="text-center"><p>Yes</p></td>
+<td class="text-center"><p>No</p></td>
+<td class="text-center"><p>Open</p></td>
+<td class="text-center"><p>To close: conditioning in <span class="math notranslate nohighlight">\(F\)</span></p></td>
+</tr>
+<tr class="row-odd"><td class="text-center"><p>Treatment without effect</p></td>
+<td class="text-center"><p><span class="math notranslate nohighlight">\(T\)</span></p></td>
+<td class="text-center"><p><span class="math notranslate nohighlight">\(H_1\)</span></p></td>
+<td class="text-center"><p><span class="math notranslate nohighlight">\(T\rightarrow F \leftarrow M \rightarrow H_1\)</span></p></td>
+<td class="text-center"><p>No</p></td>
+<td class="text-center"><p>Yes</p></td>
+<td class="text-center"><p>Close</p></td>
+<td class="text-center"><p>To open: conditioning in <span class="math notranslate nohighlight">\(F\)</span></p></td>
+</tr>
+<tr class="row-even"><td class="text-center"><p>Beauty and talent</p></td>
+<td class="text-center"><p><span class="math notranslate nohighlight">\(B\)</span></p></td>
+<td class="text-center"><p><span class="math notranslate nohighlight">\(T\)</span></p></td>
+<td class="text-center"><p><span class="math notranslate nohighlight">\(B\rightarrow S\leftarrow T\)</span></p></td>
+<td class="text-center"><p>No</p></td>
+<td class="text-center"><p>Yes</p></td>
+<td class="text-center"><p>Close</p></td>
+<td class="text-center"><p>To open: conditioning in <span class="math notranslate nohighlight">\(S\)</span></p></td>
+</tr>
+<tr class="row-odd"><td class="text-center"><p>Shoes and reading</p></td>
+<td class="text-center"><p><span class="math notranslate nohighlight">\(S\)</span></p></td>
+<td class="text-center"><p><span class="math notranslate nohighlight">\(R\)</span></p></td>
+<td class="text-center"><p><span class="math notranslate nohighlight">\(S\leftarrow A\rightarrow R\)</span></p></td>
+<td class="text-center"><p>No</p></td>
+<td class="text-center"><p>No</p></td>
+<td class="text-center"><p>Open</p></td>
+<td class="text-center"><p>To close: conditioning in <span class="math notranslate nohighlight">\(A\)</span></p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="the-haunted-dag">
+<h2><span class="section-number">14.2. </span>The haunted DAG<a class="headerlink" href="#the-haunted-dag" title="Permalink to this heading">#</a></h2>
+<p>Unmeasured causes can still induce biases. So we also have to consider the possibility that our DAG may be haunted.</p>
+<p>Suppose for example that we want to infer the influence of grandparents (<span class="math notranslate nohighlight">\(G\)</span>) on the educational achievement of children (<span class="math notranslate nohighlight">\(C\)</span>). Assume that the grandparents only influence the education of the children trough their parents (P).</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">scipy.stats</span> <span class="kn">import</span> <span class="n">norm</span><span class="p">,</span> <span class="n">bernoulli</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">DagChildrenEducation</span> <span class="o">=</span> <span class="n">CausalGraphicalModel</span><span class="p">(</span><span class="n">nodes</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;G&quot;</span><span class="p">,</span> <span class="s2">&quot;P&quot;</span><span class="p">,</span> <span class="s2">&quot;C&quot;</span><span class="p">],</span> <span class="n">edges</span><span class="o">=</span><span class="p">[(</span><span class="s2">&quot;G&quot;</span><span class="p">,</span> <span class="s2">&quot;P&quot;</span><span class="p">),</span> <span class="p">(</span><span class="s2">&quot;P&quot;</span><span class="p">,</span> <span class="s2">&quot;C&quot;</span><span class="p">)])</span>
+<span class="n">DagChildrenEducation</span><span class="o">.</span><span class="n">draw</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/95625c769dd13f43673c7b4950d42d9febe876d4edc71fd02d2d16ed88e425ea.svg" src="../../_images/95625c769dd13f43673c7b4950d42d9febe876d4edc71fd02d2d16ed88e425ea.svg" /></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">DagChildrenEducation</span><span class="o">.</span><span class="n">get_all_independence_relationships</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[(&#39;C&#39;, &#39;G&#39;, {&#39;P&#39;})]
+</pre></div>
+</div>
+</div>
+</div>
+<p>But suppose there are unmeasured, common influences on parents and their children, such as neighborhoods, that are not shared by grandparents . Then our DAG becomes haunted by the unobserved U:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">DagChildrenEducation2</span> <span class="o">=</span> <span class="n">CausalGraphicalModel</span><span class="p">(</span><span class="n">nodes</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;G&quot;</span><span class="p">,</span> <span class="s2">&quot;P&quot;</span><span class="p">,</span> <span class="s2">&quot;C&quot;</span><span class="p">],</span> <span class="n">edges</span><span class="o">=</span><span class="p">[(</span><span class="s2">&quot;G&quot;</span><span class="p">,</span> <span class="s2">&quot;P&quot;</span><span class="p">),</span> <span class="p">(</span><span class="s2">&quot;P&quot;</span><span class="p">,</span> <span class="s2">&quot;C&quot;</span><span class="p">)],</span> <span class="n">latent_edges</span><span class="o">=</span><span class="p">[(</span><span class="s2">&quot;P&quot;</span><span class="p">,</span> <span class="s2">&quot;C&quot;</span><span class="p">)])</span>
+<span class="n">DagChildrenEducation2</span><span class="o">.</span><span class="n">draw</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/6c317c952fed9b0818ed09d741455226d60c9b240b9e14130f04f39885902c74.svg" src="../../_images/6c317c952fed9b0818ed09d741455226d60c9b240b9e14130f04f39885902c74.svg" /></div>
+</div>
+<p>Note that once we incorpoarte into the DAG the unobserved variable <span class="math notranslate nohighlight">\(U\)</span>. there are no independence relationships.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">DagChildrenEducation2</span><span class="o">.</span><span class="n">get_all_independence_relationships</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[]
+</pre></div>
+</div>
+</div>
+</div>
+<p>In the next table I present the the analysis of the paths connecting <span class="math notranslate nohighlight">\(G\)</span> and <span class="math notranslate nohighlight">\(C\)</span>.</p>
+<table class="table">
+<thead>
+<tr class="row-odd"><th class="head text-center"><p>Example</p></th>
+<th class="head text-center"><p>Cause</p></th>
+<th class="head text-center"><p>Consequence</p></th>
+<th class="head text-center"><p>Paths</p></th>
+<th class="head text-center"><p>Causal</p></th>
+<th class="head text-center"><p>Contains colliders</p></th>
+<th class="head text-center"><p>Close/Open</p></th>
+<th class="head text-center"><p>How to Open/Close</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-center"><p>Haunted DAG</p></td>
+<td class="text-center"><p><span class="math notranslate nohighlight">\(G\)</span></p></td>
+<td class="text-center"><p><span class="math notranslate nohighlight">\(C\)</span></p></td>
+<td class="text-center"><p><span class="math notranslate nohighlight">\(G\rightarrow P\rightarrow C\)</span></p></td>
+<td class="text-center"><p>Yes</p></td>
+<td class="text-center"><p>No</p></td>
+<td class="text-center"><p>Open</p></td>
+<td class="text-center"><p>To close: conditioning in <span class="math notranslate nohighlight">\(P\)</span></p></td>
+</tr>
+<tr class="row-odd"><td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p><span class="math notranslate nohighlight">\(G\rightarrow P\leftarrow U\rightarrow C\)</span></p></td>
+<td class="text-center"><p>No</p></td>
+<td class="text-center"><p>Yes</p></td>
+<td class="text-center"><p>Close</p></td>
+<td class="text-center"><p>To open: conditioning in <span class="math notranslate nohighlight">\(P\)</span></p></td>
+</tr>
+</tbody>
+</table>
+<p>Now <span class="math notranslate nohighlight">\(P\)</span> is a common consecuence between <span class="math notranslate nohighlight">\(G\)</span> and <span class="math notranslate nohighlight">\(U\)</span>. Thus, conditioning in <span class="math notranslate nohighlight">\(P\)</span> would create a bias between <span class="math notranslate nohighlight">\(G\)</span> and <span class="math notranslate nohighlight">\(C\)</span>.</p>
+<p>Let’s make a simulation study for this DAG. The code with all the details is <a class="reference external" href="https://github.com/IrvingGomez/BayesianStatistics/blob/main/Codes/23HauntedDag.ipynb">23HauntedDag.ipynb</a> in the <a class="reference external" href="https://github.com/IrvingGomez/BayesianStatistics">repository of the course</a></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">N</span> <span class="o">=</span> <span class="mi">4000</span>
+
+<span class="n">b_GP</span> <span class="o">=</span> <span class="mf">1.5</span>
+<span class="n">b_PC</span> <span class="o">=</span> <span class="mf">1.5</span>
+<span class="n">b_U</span>  <span class="o">=</span> <span class="mi">2</span>
+
+<span class="n">U</span> <span class="o">=</span> <span class="n">bernoulli</span><span class="o">.</span><span class="n">rvs</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="n">N</span><span class="p">,</span> <span class="n">p</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span><span class="o">*</span><span class="mi">2</span> <span class="o">-</span><span class="mi">1</span>
+<span class="n">G</span> <span class="o">=</span> <span class="n">norm</span><span class="o">.</span><span class="n">rvs</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="n">N</span><span class="p">)</span>
+<span class="n">P</span> <span class="o">=</span> <span class="n">norm</span><span class="o">.</span><span class="n">rvs</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="n">N</span><span class="p">,</span> <span class="n">loc</span><span class="o">=</span><span class="n">b_GP</span><span class="o">*</span><span class="n">G</span> <span class="o">+</span> <span class="n">b_U</span><span class="o">*</span><span class="n">U</span><span class="p">)</span>
+<span class="n">C</span> <span class="o">=</span> <span class="n">norm</span><span class="o">.</span><span class="n">rvs</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="n">N</span><span class="p">,</span> <span class="n">loc</span><span class="o">=</span><span class="n">b_PC</span><span class="o">*</span><span class="n">P</span> <span class="o">+</span> <span class="n">b_U</span><span class="o">*</span><span class="n">U</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>The next figure shows teh DAG of the data, the numbers on the arrows indicate the value of the coefficients.</p>
+<img alt="DagHaunted" class="align-center" src="../../_images/DagHaunted.png" />
+<p>The next figure shows the result when we regressed <span class="math notranslate nohighlight">\(C\)</span> in function of <span class="math notranslate nohighlight">\(G\)</span> without conditioning in <span class="math notranslate nohighlight">\(P\)</span> nor <span class="math notranslate nohighlight">\(U\)</span>, where we can observe the total effect of <span class="math notranslate nohighlight">\(G\)</span> into <span class="math notranslate nohighlight">\(C\)</span>.</p>
+<table class="table">
+<thead>
+<tr class="row-odd"><th class="head text-center"><p>Parameter</p></th>
+<th class="head text-center"><p>Posterior mean</p></th>
+<th class="head text-center"><p>Credible interval (89%)</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-center"><p><span class="math notranslate nohighlight">\(\beta_{GC}\)</span></p></td>
+<td class="text-center"><p>2.187</p></td>
+<td class="text-center"><p>(2.056, 2.325)</p></td>
+</tr>
+</tbody>
+</table>
+<img alt="HauntedGInC" class="align-center" src="../../_images/HauntedGInC.png" />
+<p>If we were able measure <span class="math notranslate nohighlight">\(U\)</span>, we would be able to get the total effect of <span class="math notranslate nohighlight">\(G\)</span> into <span class="math notranslate nohighlight">\(C\)</span> even conditioning in <span class="math notranslate nohighlight">\(U\)</span>. This is because the non-causal path <span class="math notranslate nohighlight">\(G\rightarrow P \leftarrow U \rightarrow C\)</span> is closed because <span class="math notranslate nohighlight">\(P\)</span> is a collider.</p>
+<table class="table">
+<thead>
+<tr class="row-odd"><th class="head text-center"><p>Parameter</p></th>
+<th class="head text-center"><p>Posterior mean</p></th>
+<th class="head text-center"><p>Credible interval (89%)</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-center"><p>$\beta_{GC}</p></td>
+<td class="text-center"><p>U=1$</p></td>
+<td class="text-center"><p>2.284</p></td>
+</tr>
+<tr class="row-odd"><td class="text-center"><p>$\beta_{GC}</p></td>
+<td class="text-center"><p>U=-1$</p></td>
+<td class="text-center"><p>2.217</p></td>
+</tr>
+</tbody>
+</table>
+<img alt="HauntedGInCAdjustU" class="align-center" src="../../_images/HauntedGInCAdjustU.png" />
+<p>But, when we controlled by <span class="math notranslate nohighlight">\(P\)</span> the problems arrive! <strong>We now observe that the apparent effect of <span class="math notranslate nohighlight">\(G\)</span> in <span class="math notranslate nohighlight">\(C\)</span> is now negative!</strong> This is known as the Simpson’s Paradox.</p>
+<table class="table">
+<thead>
+<tr class="row-odd"><th class="head text-center"><p>Parameter</p></th>
+<th class="head text-center"><p>Posterior mean</p></th>
+<th class="head text-center"><p>Credible interval (89%)</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-center"><p><span class="math notranslate nohighlight">\(\beta_{PC}\)</span></p></td>
+<td class="text-center"><p>2.306</p></td>
+<td class="text-center"><p>(2.213, 2.346)</p></td>
+</tr>
+<tr class="row-odd"><td class="text-center"><p><span class="math notranslate nohighlight">\(\beta_{GC}\)</span></p></td>
+<td class="text-center"><p><strong>-1.226</strong></p></td>
+<td class="text-center"><p><strong>(-1.266, -1.184)</strong></p></td>
+</tr>
+</tbody>
+</table>
+<p>To show this bizarre behavior, in the next graph I present the regression considering only the observations whose value of <span class="math notranslate nohighlight">\(P\)</span> is between the 0.45 and 0.6
+quantiles.</p>
+<img alt="HauntedGInCAdjustP" class="align-center" src="../../_images/HauntedGInCAdjustP.png" />
+<p>If we condition of both <span class="math notranslate nohighlight">\(P\)</span> and <span class="math notranslate nohighlight">\(U\)</span> we can get the direct effect of <span class="math notranslate nohighlight">\(G\)</span> into <span class="math notranslate nohighlight">\(C\)</span>. In this case, we assume that there is no such direct effect.</p>
+<img alt="HauntedGInCAdjustUAdjustP" class="align-center" src="../../_images/HauntedGInCAdjustUAdjustP.png" />
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./content/Part5"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+                <footer class="bd-footer-article">
+                  
+<div class="footer-article-items footer-article__inner">
+  
+    <div class="footer-article-item"><!-- Previous / next buttons -->
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="13_CategoricalAndBiases.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title"><span class="section-number">13. </span>Categorical variables, multicollinearity and biases</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="../Part6/15_HierarchicalModels.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title"><span class="section-number">15. </span>Hierarchical models</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div></div>
+  
+</div>
+
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#d-separation-rules">14.1. <span class="math notranslate nohighlight">\(d\)</span>-separation rules</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-haunted-dag">14.2. The haunted DAG</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Irving Gómez Méndez
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  <p class="copyright">
+    
+      © Copyright 2022.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
+<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

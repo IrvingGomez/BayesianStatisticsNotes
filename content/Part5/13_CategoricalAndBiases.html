@@ -1,0 +1,1366 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="en" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+    <title>13. Categorical variables, multicollinearity and biases &#8212; Bayesian Statistics</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../../_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+
+  
+  <link href="../../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" href="../../_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
+
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/clipboard.min.js"></script>
+    <script src="../../_static/copybutton.js"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../../_static/togglebutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../../_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="../../_static/sphinx-thebe.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'content/Part5/13_CategoricalAndBiases';</script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="14. \(d\)-separation, causal and noncausal paths" href="14_HauntedCases.html" />
+    <link rel="prev" title="12. Introduction to causality" href="12_Causality.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+  
+
+<a class="navbar-brand logo" href="../../intro.html">
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../_static/RF_logo.png" class="logo__image only-light" alt="Logo image"/>
+    <script>document.write(`<img src="../../_static/RF_logo.png" class="logo__image only-dark" alt="Logo image"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../../intro.html">
+                    Bayesian statistics: Course notes
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">I Philosophy and basics of Bayesian statistics</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../Part1/01_BayesianPhilosophy.html">1. Bayesian philosophy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Part1/02_UniparametricModels.html">2. Uniparametric models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Part1/03_ConjugateAnalysis.html">3. Conjugate analysis</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">II Multiparametric models and regression</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../Part2/04_MultiparametricModels.html">4. Normal likelihood with mean and variance unknown</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Part2/05_BayesianRegression.html">5. Bayesian regression</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">III Reference analysis and normal approximation</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../Part3/06_ReferenceAnalysis.html">6. Reference analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Part3/07_NormalApproximation.html">7. Normal approximation</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">IV Bayesian inference</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../Part4/08_GridApproximation.html">8. Grid approximation and statistical inference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Part4/09_ModelChecking.html">9. Model checking</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Part4/10_BayesianRegression.html">10. Bayesian regression (2)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Part4/11_ComputationalApproximations.html">11. Quadratic approximation and MCMC</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">V Causality</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="12_Causality.html">12. Introduction to causality</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">13. Categorical variables, multicollinearity and biases</a></li>
+<li class="toctree-l1"><a class="reference internal" href="14_HauntedCases.html">14. <span class="math notranslate nohighlight">\(d\)</span>-separation, causal and noncausal paths</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">VI Hierarchical models, and evaluation and comparison of models</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../Part6/15_HierarchicalModels.html">15. Hierarchical models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Part6/16_EvaluatingComparingModels.html">16. Evaluating and comparing models</a></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../References.html">References</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../../_sources/content/Part5/13_CategoricalAndBiases.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script>
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Categorical variables, multicollinearity and biases</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#categorical-variables">13.1. Categorical variables</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#multicollinearity">13.2. Multicollinearity</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#mediation-or-post-treatment-bias">13.3. Mediation or post-treatment bias</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#collider-bias">13.4. Collider bias</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#common-cause-bias">13.5. Common cause bias</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="categorical-variables-multicollinearity-and-biases">
+<h1><span class="section-number">13. </span>Categorical variables, multicollinearity and biases<a class="headerlink" href="#categorical-variables-multicollinearity-and-biases" title="Permalink to this heading">#</a></h1>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Unless said otherwise, the examples and discussion for this chapter were taken from <span id="id1">[<a class="reference internal" href="../../References.html#id2" title="Richard McElreath. Statistical rethinking: A Bayesian course with examples in R and Stan. Chapman and Hall/CRC, 2018.">McE18</a>]</span>.</p>
+</div>
+<section id="categorical-variables">
+<h2><span class="section-number">13.1. </span>Categorical variables<a class="headerlink" href="#categorical-variables" title="Permalink to this heading">#</a></h2>
+<p>In the data of the !Kung population used in <a class="reference internal" href="../Part4/09_ModelChecking.html"><span class="doc std std-doc">Chapter 9</span></a>, <a class="reference internal" href="../Part4/10_BayesianRegression.html"><span class="doc std std-doc">Chapter 10</span></a> and <a class="reference internal" href="../Part4/11_ComputationalApproximations.html"><span class="doc std std-doc">Chapter 11</span></a> we didn’t consider the sex of the people when we model their height, even when we know that men and women tend to have a different average height. One way to incorporate this difference is with the model:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{align*}\
+h_i|\mu_i,\sigma^2 &amp;\sim \textsf{Normal}(\mu_i,\sigma^2) \\
+\mu_i|\alpha,\beta_M &amp;= \alpha + \beta_M M_i\\
+\alpha &amp;\sim \textsf{Normal}(167, 3^2) \\
+\beta &amp;\sim \textsf{Normal}(0, 3^2) \\
+\sigma &amp;\sim \textsf{Uniform}(0, 10),
+\end{align*}
+\end{split}\]</div>
+<p>where <span class="math notranslate nohighlight">\(M_i=1\)</span> if the <span class="math notranslate nohighlight">\(i\)</span>-th person is male and zero if it is female.</p>
+<p>In thus model <span class="math notranslate nohighlight">\(\beta_M\)</span> represents the expected difference between the height of men and women. This also means that <span class="math notranslate nohighlight">\(\alpha\)</span> is no longer the average height of the population, but women average height. This model assumes more prior uncertainty in the height of men than height of women. This is because the height of men includes two parameters, and thus, two priors. The next figure shows the prior distribution for the average height of mean and the average height of women. You can find the details in the code <a class="reference external" href="https://github.com/IrvingGomez/BayesianStatistics/blob/main/Codes/22_HeightSex.ipynb">22_HeightSex.ipynb</a> in the <a class="reference external" href="https://github.com/IrvingGomez/BayesianStatistics">repository of the course</a>.</p>
+<img alt="PriorHeight" class="align-center" src="../../_images/PriorHeight.png" />
+<p>Another model that we can use is given by:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{align*}\
+h_i|\mu_i,\sigma^2 &amp;\sim \textsf{Normal}(\mu_i,\sigma^2) \\
+\mu_i|\alpha_j &amp;= \alpha_{\text{SEX}[i]}\\
+\alpha_j &amp;\sim \textsf{Normal}(167, 3^2),\quad j=1,2 \\
+\sigma &amp;\sim \textsf{Uniform}(0, 10).
+\end{align*}
+\end{split}\]</div>
+<p>In this case, the same prior distribution can be used for both sexes, so none of them has more prior uncertainty. The variable <span class="math notranslate nohighlight">\(\alpha_{\text{SEX}[i]}\)</span> is usually referred as an index variable, since it has an index for each category of the variable. The next figure shows the posterior distribution of <span class="math notranslate nohighlight">\(\alpha_{\text{SEX}[i]}\)</span>, considering the adults of the !Kung population.</p>
+<img alt="PosteriorHeight" class="align-center" src="../../_images/PosteriorHeight.png" />
+</section>
+<section id="multicollinearity">
+<h2><span class="section-number">13.2. </span>Multicollinearity<a class="headerlink" href="#multicollinearity" title="Permalink to this heading">#</a></h2>
+<p>The problem of multicollinearity refers to a strong association between two or more predictor variables. A consequence of multicollinearity is that the posterior distributions suggests that none of the predictor variables is associated with the variable of interest. Let’s make a simulation to illustrate this problem.</p>
+<p>Imagine trying to predict the height of a person using the length of the legs. Surely height is positively associated with leg length,
+or at least our simulation will assume it is. Nevertheless, once you put both legs (right and left) into the model, something vexing will happen.</p>
+<p>The code below simulates the height and leg lengths of <code class="docutils literal notranslate"><span class="pre">N</span></code> people. First, a height is simulated from a Gaussian distribution. Then each individual gets a simulated
+proportion of height for their legs. Finally, each leg is salted with a little measurement or developmental error, so the left and right legs are not exactly the same
+length.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">scipy.stats</span> <span class="kn">import</span> <span class="n">multivariate_normal</span><span class="p">,</span> <span class="n">norm</span><span class="p">,</span> <span class="n">uniform</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ALPHA_LEVEL</span> <span class="o">=</span> <span class="mf">0.11</span>
+
+<span class="n">N</span> <span class="o">=</span> <span class="mi">100</span>
+
+<span class="n">Height</span>   <span class="o">=</span> <span class="n">norm</span><span class="o">.</span><span class="n">rvs</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="n">N</span><span class="p">,</span> <span class="n">loc</span><span class="o">=</span><span class="mi">170</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+<span class="n">LegProp</span>  <span class="o">=</span> <span class="n">uniform</span><span class="o">.</span><span class="n">rvs</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="n">N</span><span class="p">,</span> <span class="n">loc</span><span class="o">=</span><span class="mf">0.6</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="mf">0.1</span><span class="p">)</span>
+<span class="n">LegLeft</span>  <span class="o">=</span> <span class="n">LegProp</span> <span class="o">*</span> <span class="n">Height</span> <span class="o">+</span> <span class="n">norm</span><span class="o">.</span><span class="n">rvs</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="n">N</span><span class="p">,</span> <span class="n">loc</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="mf">0.02</span><span class="p">)</span>
+<span class="n">LegRight</span> <span class="o">=</span> <span class="n">LegProp</span> <span class="o">*</span> <span class="n">Height</span> <span class="o">+</span> <span class="n">norm</span><span class="o">.</span><span class="n">rvs</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="n">N</span><span class="p">,</span> <span class="n">loc</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="mf">0.02</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>The slope of the next regression model measures the association of a leg with the height, so we expect it to be around <span class="math notranslate nohighlight">\(1/0.6\approx 1.67\)</span>.</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{align*}
+h_i|\mu_i,\sigma^2 &amp;\sim \textsf{Normal}(\mu_i, \sigma^2) \\
+\mu_i|\beta_L,\beta_R &amp;= \beta_L x_{L,i} + \beta_R x_{R,i} \\
+p(\beta_L,\beta_R,\sigma) &amp;\propto 1_{\mathbb{R}}(\beta_L)1_{\mathbb{R}}(\beta_R)1_{(0,\infty)}(\sigma)
+\end{align*}
+\end{split}\]</div>
+<p>The next table gives a summary of the posterior distribution. Note the bizarre behavior of <span class="math notranslate nohighlight">\(\beta_L\)</span> and <span class="math notranslate nohighlight">\(\beta_R\)</span>, with extremely wide credible intervals.</p>
+<div class="cell tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>BetaLeft</th>
+      <th>BetaRight</th>
+      <th>Sigma</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>count</th>
+      <td>1000.000000</td>
+      <td>1000.000000</td>
+      <td>1000.000000</td>
+    </tr>
+    <tr>
+      <th>mean</th>
+      <td>27.670582</td>
+      <td>-26.125177</td>
+      <td>7.442640</td>
+    </tr>
+    <tr>
+      <th>std</th>
+      <td>26.028757</td>
+      <td>26.028915</td>
+      <td>0.069392</td>
+    </tr>
+    <tr>
+      <th>min</th>
+      <td>-53.666166</td>
+      <td>-98.176712</td>
+      <td>7.228594</td>
+    </tr>
+    <tr>
+      <th>5.5%</th>
+      <td>-12.759056</td>
+      <td>-67.940913</td>
+      <td>7.329874</td>
+    </tr>
+    <tr>
+      <th>50%</th>
+      <td>27.092292</td>
+      <td>-25.547450</td>
+      <td>7.441643</td>
+    </tr>
+    <tr>
+      <th>94.5%</th>
+      <td>69.482078</td>
+      <td>14.297563</td>
+      <td>7.553142</td>
+    </tr>
+    <tr>
+      <th>max</th>
+      <td>99.730735</td>
+      <td>55.220641</td>
+      <td>7.661380</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>The posterior distribution of these two parameters is very highly correlated with all of the plausible values lying along a narrow ridge.</p>
+<div class="cell tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Text(0, 0.5, &#39;$\\beta_R$&#39;)
+</pre></div>
+</div>
+<img alt="../../_images/3b9956462583268d1ae2e4d046bae873c8aada77552d847a6a4c910459e089a9.png" src="../../_images/3b9956462583268d1ae2e4d046bae873c8aada77552d847a6a4c910459e089a9.png" />
+</div>
+</div>
+<p>One way to think of this phenomenon is that we have approximated this model:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{align*}
+h_i|\mu_i,\sigma^2 &amp;\sim \textsf{Normal}(\mu_i, \sigma^2) \\
+\mu_i|\beta_L,\beta_R &amp;= (\beta_L + \beta_R) x_i \\
+p(\beta_L,\beta_R,\sigma) &amp;\propto 1_{\mathbb{R}}(\beta_L)1_{\mathbb{R}}(\beta_R)1_{(0,\infty)}(\sigma)
+\end{align*}
+\end{split}\]</div>
+<p>The parameters <span class="math notranslate nohighlight">\(\beta_L\)</span> and <span class="math notranslate nohighlight">\(\beta_R\)</span> cannot be pulled apart, because they never separately influence the mean <span class="math notranslate nohighlight">\(\mu\)</span>. Only their sum, <span class="math notranslate nohighlight">\(\beta_L+\beta_R\)</span>, influences <span class="math notranslate nohighlight">\(\mu\)</span>. That make their sum close to the actual association of <span class="math notranslate nohighlight">\(x\)</span> with <span class="math notranslate nohighlight">\(h\)</span>.</p>
+<div class="cell tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<img alt="../../_images/32f953585b86573216cab558ea23eda59e3537704b145a8a244fccb19e957812.png" src="../../_images/32f953585b86573216cab558ea23eda59e3537704b145a8a244fccb19e957812.png" />
+</div>
+</div>
+<p>In this case, the problem is also fixed if we just consider the length of one leg instead of both of them.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">pm</span><span class="o">.</span><span class="n">Model</span><span class="p">()</span> <span class="k">as</span> <span class="n">HeightLegNoCollinearModel</span><span class="p">:</span>
+    <span class="n">Beta</span>   <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Flat</span><span class="p">(</span><span class="s1">&#39;Beta&#39;</span><span class="p">)</span>
+    <span class="n">Sigma</span>  <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">HalfFlat</span><span class="p">(</span><span class="s1">&#39;Sigma&#39;</span><span class="p">)</span>
+    <span class="n">HeightModel</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="s1">&#39;Height&#39;</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="n">Beta</span><span class="o">*</span><span class="n">LegLeft</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="n">Sigma</span><span class="p">,</span> <span class="n">observed</span><span class="o">=</span><span class="n">Height</span><span class="p">)</span>
+    
+    <span class="n">HeightLegNoCollinearTrace</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">sample</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Auto-assigning NUTS sampler...
+Initializing NUTS using jitter+adapt_diag...
+Multiprocess sampling (4 chains in 4 jobs)
+NUTS: [Beta, Sigma]
+</pre></div>
+</div>
+<div class="output text_html">
+<style>
+    /* Turns off some styling */
+    progress {
+        /* gets rid of default border in Firefox and Opera. */
+        border: none;
+        /* Needs to be in here for Safari polyfill so background images work as expected. */
+        background-size: auto;
+    }
+    progress:not([value]), progress:not([value])::-webkit-progress-bar {
+        background: repeating-linear-gradient(45deg, #7e7e7e, #7e7e7e 10px, #5c5c5c 10px, #5c5c5c 20px);
+    }
+    .progress-bar-interrupted, .progress-bar-interrupted::-webkit-progress-bar {
+        background: #F44336;
+    }
+</style>
+</div><div class="output text_html">
+    <div>
+      <progress value='8000' class='' max='8000' style='width:300px; height:20px; vertical-align: middle;'></progress>
+      100.00% [8000/8000 00:02&lt;00:00 Sampling 4 chains, 0 divergences]
+    </div>
+    </div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sampling 4 chains for 1_000 tune and 1_000 draw iterations (4_000 + 4_000 draws total) took 3 seconds.
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">arviz.labels</span> <span class="k">as</span> <span class="nn">azl</span>
+
+<span class="n">labeller</span> <span class="o">=</span> <span class="n">azl</span><span class="o">.</span><span class="n">MapLabeller</span><span class="p">(</span><span class="n">var_name_map</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;Beta&quot;</span><span class="p">:</span> <span class="sa">r</span><span class="s2">&quot;$\beta$&quot;</span><span class="p">,</span> <span class="s2">&quot;Sigma&quot;</span><span class="p">:</span> <span class="sa">r</span><span class="s2">&quot;$\sigma$&quot;</span><span class="p">})</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">az</span><span class="o">.</span><span class="n">plot_posterior</span><span class="p">(</span><span class="n">HeightLegNoCollinearTrace</span><span class="p">,</span> <span class="n">hdi_prob</span><span class="o">=</span><span class="mi">1</span><span class="o">-</span><span class="n">ALPHA_LEVEL</span><span class="p">,</span> <span class="n">labeller</span><span class="o">=</span><span class="n">labeller</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([&lt;Axes: title={&#39;center&#39;: &#39;$\\beta$&#39;}&gt;,
+       &lt;Axes: title={&#39;center&#39;: &#39;$\\sigma$&#39;}&gt;], dtype=object)
+</pre></div>
+</div>
+<img alt="../../_images/897835495a66a8baf44399eb4ffa3362e09896917eb9e0fcc2245cf55ad55f6a.png" src="../../_images/897835495a66a8baf44399eb4ffa3362e09896917eb9e0fcc2245cf55ad55f6a.png" />
+</div>
+</div>
+</section>
+<section id="mediation-or-post-treatment-bias">
+<h2><span class="section-number">13.3. </span>Mediation or post-treatment bias<a class="headerlink" href="#mediation-or-post-treatment-bias" title="Permalink to this heading">#</a></h2>
+<p>Suppose that we are growing some plants in a greenhouse. We want to know the effect of an antifungal treatment against a fungus that tends to reduce their growth. We measure the height of the plants, <span class="math notranslate nohighlight">\(H_0\)</span>, at an initial time. Then we apply the antifungal treatment, <span class="math notranslate nohighlight">\(T\)</span>, at random. Finally, after some time, we measure again the height of the plants and register the presence of the fungus. If our goal is to make a causal inference about the treatment, we shouldn’t include the fungus, because it is a post-treatment effect.</p>
+<p>Let’s simulate some data, to make the example more transparent and see what exactly goes wrong when we include a post-treatment variable. Assume that when we take the first measurements, the plants’ height was around 10cm, and we expect them to grow around 5cm if there is no presence of the fungus, but around 2cm in when there is fungus. Also, assume that the treatment reduces the probability of the fungus presence from 0.5 to 0.1.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">scipy.stats</span> <span class="kn">import</span> <span class="n">bernoulli</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">N</span> <span class="o">=</span> <span class="mi">100</span>
+
+<span class="n">H0</span> <span class="o">=</span> <span class="n">norm</span><span class="o">.</span><span class="n">rvs</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="n">N</span><span class="p">,</span> <span class="n">loc</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+
+<span class="n">Treatment</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span><span class="o">*</span><span class="nb">int</span><span class="p">(</span><span class="n">N</span><span class="o">/</span><span class="mi">2</span><span class="p">))</span>                    <span class="c1"># We apply the threatment to half of the plants</span>
+<span class="n">Fungus</span>    <span class="o">=</span> <span class="n">bernoulli</span><span class="o">.</span><span class="n">rvs</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="n">N</span><span class="p">,</span> <span class="n">p</span><span class="o">=</span><span class="mf">0.5</span><span class="o">-</span><span class="n">Treatment</span><span class="o">*</span><span class="mf">0.4</span><span class="p">)</span>  <span class="c1"># We simulate the presence of fungus</span>
+<span class="n">H1</span>        <span class="o">=</span> <span class="n">H0</span> <span class="o">+</span> <span class="n">norm</span><span class="o">.</span><span class="n">rvs</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="n">N</span><span class="p">,</span> <span class="n">loc</span><span class="o">=</span><span class="mi">5</span><span class="o">-</span><span class="mi">3</span><span class="o">*</span><span class="n">Fungus</span><span class="p">)</span>       <span class="c1"># We simulate the final height</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>First, let’s calculate the growth proportion for plants with and without the treatment.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Average growth proportion for treater plants: </span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">H1</span><span class="p">[</span><span class="n">Treatment</span><span class="o">==</span><span class="mi">1</span><span class="p">]</span><span class="o">/</span><span class="n">H0</span><span class="p">[</span><span class="n">Treatment</span><span class="o">==</span><span class="mi">1</span><span class="p">]</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Average growth proportion for not treater plants: </span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">H1</span><span class="p">[</span><span class="n">Treatment</span><span class="o">==</span><span class="mi">0</span><span class="p">]</span><span class="o">/</span><span class="n">H0</span><span class="p">[</span><span class="n">Treatment</span><span class="o">==</span><span class="mi">0</span><span class="p">]</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Growth proportion for treated plants: 0.4688
+Growth proportion for not treated plants: 0.3358
+</pre></div>
+</div>
+</div>
+</div>
+<p>We can implement the next model:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{align*}
+h_{1,i}|\mu_i,\sigma^2 &amp;\sim \textsf{Normal}(\mu_i,\sigma^2) \\
+\mu_i|p &amp;= h_{0,i}\times p \\
+p|\alpha,\beta_T,\beta_F &amp;= \alpha + \beta_T T_i + \beta_F F_i \\
+p(\alpha) &amp;\propto 1_{(0,\infty)}(\alpha) \\
+p(\beta_T) &amp;\propto 1_{\mathbb{R}}(\beta_T) \\
+p(\beta_F) &amp;\propto 1_{\mathbb{R}}(\beta_F) \\
+p(\sigma) &amp;\propto 1_{(0,\infty)}(\sigma),
+\end{align*}
+\end{split}\]</div>
+<p>so <span class="math notranslate nohighlight">\(p\)</span> is the proportion of growth.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">pm</span><span class="o">.</span><span class="n">Model</span><span class="p">()</span> <span class="k">as</span> <span class="n">FungusEffectModel</span><span class="p">:</span>
+    <span class="n">Alpha</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">HalfFlat</span><span class="p">(</span><span class="s1">&#39;Alpha&#39;</span><span class="p">)</span>
+    <span class="n">BetaT</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Flat</span><span class="p">(</span><span class="s1">&#39;BetaT&#39;</span><span class="p">)</span>
+    <span class="n">BetaF</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Flat</span><span class="p">(</span><span class="s1">&#39;BetaF&#39;</span><span class="p">)</span>
+    <span class="n">Sigma</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">HalfFlat</span><span class="p">(</span><span class="s1">&#39;Sigma&#39;</span><span class="p">)</span>
+
+    <span class="n">Proportion</span> <span class="o">=</span> <span class="n">Alpha</span> <span class="o">+</span> <span class="n">BetaT</span><span class="o">*</span><span class="n">Treatment</span> <span class="o">+</span> <span class="n">BetaF</span><span class="o">*</span><span class="n">Fungus</span>
+
+    <span class="n">Height</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="s1">&#39;Height&#39;</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="n">H0</span><span class="o">*</span><span class="n">Proportion</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="n">Sigma</span><span class="p">,</span> <span class="n">observed</span><span class="o">=</span><span class="n">H1</span><span class="p">)</span>
+
+    <span class="n">FungusEffectTrace</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">sample</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Auto-assigning NUTS sampler...
+Initializing NUTS using jitter+adapt_diag...
+Multiprocess sampling (4 chains in 4 jobs)
+NUTS: [Alpha, BetaT, BetaF, Sigma]
+</pre></div>
+</div>
+<div class="output text_html">
+<style>
+    /* Turns off some styling */
+    progress {
+        /* gets rid of default border in Firefox and Opera. */
+        border: none;
+        /* Needs to be in here for Safari polyfill so background images work as expected. */
+        background-size: auto;
+    }
+    progress:not([value]), progress:not([value])::-webkit-progress-bar {
+        background: repeating-linear-gradient(45deg, #7e7e7e, #7e7e7e 10px, #5c5c5c 10px, #5c5c5c 20px);
+    }
+    .progress-bar-interrupted, .progress-bar-interrupted::-webkit-progress-bar {
+        background: #F44336;
+    }
+</style>
+</div><div class="output text_html">
+    <div>
+      <progress value='8000' class='' max='8000' style='width:300px; height:20px; vertical-align: middle;'></progress>
+      100.00% [8000/8000 00:05&lt;00:00 Sampling 4 chains, 0 divergences]
+    </div>
+    </div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sampling 4 chains for 1_000 tune and 1_000 draw iterations (4_000 + 4_000 draws total) took 6 seconds.
+/home/dmitri/.local/lib/python3.11/site-packages/arviz/utils.py:184: NumbaDeprecationWarning: <span class=" -Color -Color-Bold">The &#39;nopython&#39; keyword argument was not supplied to the &#39;numba.jit&#39; decorator. The implicit default value for this argument is currently False, but it will be changed to True in Numba 0.59.0. See https://numba.readthedocs.io/en/stable/reference/deprecation.html#deprecation-of-object-mode-fall-back-behaviour-when-using-jit for details.</span>
+  numba_fn = numba.jit(**self.kwargs)(self.function)
+</pre></div>
+</div>
+</div>
+</div>
+<p>The next table shows a summary of the posterior of the parameters, note that <span class="math notranslate nohighlight">\(\beta_T\)</span> is almost zero, implying that the treatment has no apparent effect on the growth of the plants. This is because the treatment just affects the plants growth through the development of the fungus. Thus, if we already know if there was presence of the fungus, knowing if the plant was treater is irrelevant. This type of relation is known as mediation, <span class="math notranslate nohighlight">\(T\rightarrow F\rightarrow H_1\)</span>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">az</span><span class="o">.</span><span class="n">summary</span><span class="p">(</span><span class="n">FungusEffectTrace</span><span class="p">,</span> <span class="n">hdi_prob</span><span class="o">=</span><span class="mi">1</span><span class="o">-</span><span class="n">ALPHA_LEVEL</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s1">&#39;stats&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>mean</th>
+      <th>sd</th>
+      <th>hdi_5.5%</th>
+      <th>hdi_94.5%</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>BetaT</th>
+      <td>-0.002</td>
+      <td>0.030</td>
+      <td>-0.047</td>
+      <td>0.048</td>
+    </tr>
+    <tr>
+      <th>BetaF</th>
+      <td>-0.266</td>
+      <td>0.031</td>
+      <td>-0.312</td>
+      <td>-0.213</td>
+    </tr>
+    <tr>
+      <th>Alpha</th>
+      <td>1.465</td>
+      <td>0.025</td>
+      <td>1.425</td>
+      <td>1.507</td>
+    </tr>
+    <tr>
+      <th>Sigma</th>
+      <td>1.314</td>
+      <td>0.096</td>
+      <td>1.154</td>
+      <td>1.456</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>The next causal Bayesian network illustrates our simulated data.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># The next libraries are to plot DAGs</span>
+<span class="kn">import</span> <span class="nn">collections.abc</span>
+<span class="n">collections</span><span class="o">.</span><span class="n">Iterable</span> <span class="o">=</span> <span class="n">collections</span><span class="o">.</span><span class="n">abc</span><span class="o">.</span><span class="n">Iterable</span>
+<span class="kn">from</span> <span class="nn">causalgraphicalmodels</span> <span class="kn">import</span> <span class="n">CausalGraphicalModel</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">DagFungusEffect</span> <span class="o">=</span> <span class="n">CausalGraphicalModel</span><span class="p">(</span><span class="n">nodes</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;H0&quot;</span><span class="p">,</span> <span class="s2">&quot;H1&quot;</span><span class="p">,</span> <span class="s2">&quot;F&quot;</span><span class="p">,</span> <span class="s2">&quot;T&quot;</span><span class="p">],</span> <span class="n">edges</span><span class="o">=</span><span class="p">[(</span><span class="s2">&quot;H0&quot;</span><span class="p">,</span> <span class="s2">&quot;H1&quot;</span><span class="p">),</span> <span class="p">(</span><span class="s2">&quot;F&quot;</span><span class="p">,</span> <span class="s2">&quot;H1&quot;</span><span class="p">),</span> <span class="p">(</span><span class="s2">&quot;T&quot;</span><span class="p">,</span> <span class="s2">&quot;F&quot;</span><span class="p">)])</span>
+<span class="n">DagFungusEffect</span><span class="o">.</span><span class="n">draw</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/a00ffa9d7204144baf119eee791beeb87cb416811917a5eed8f4d95868fa57b9.svg" src="../../_images/a00ffa9d7204144baf119eee791beeb87cb416811917a5eed8f4d95868fa57b9.svg" /></div>
+</div>
+<p>Using some rules known as <strong><span class="math notranslate nohighlight">\(d\)</span>-separation</strong>, we can get all the relationships of independence implied in the DAG.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">DagFungusEffect</span><span class="o">.</span><span class="n">get_all_independence_relationships</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[(&#39;T&#39;, &#39;H0&#39;, set()),
+ (&#39;T&#39;, &#39;H0&#39;, {&#39;F&#39;}),
+ (&#39;T&#39;, &#39;H0&#39;, {&#39;F&#39;, &#39;H1&#39;}),
+ (&#39;T&#39;, &#39;H1&#39;, {&#39;F&#39;}),
+ (&#39;T&#39;, &#39;H1&#39;, {&#39;F&#39;, &#39;H0&#39;}),
+ (&#39;F&#39;, &#39;H0&#39;, set()),
+ (&#39;F&#39;, &#39;H0&#39;, {&#39;T&#39;})]
+</pre></div>
+</div>
+</div>
+</div>
+<p>One of the independence relationships is <code class="docutils literal notranslate"><span class="pre">('T',</span> <span class="pre">'H1',</span> <span class="pre">{'F'})</span></code>, which means that conditional on <span class="math notranslate nohighlight">\(F\)</span>, <span class="math notranslate nohighlight">\(T\)</span> and <span class="math notranslate nohighlight">\(H_1\)</span> are independent, i.e. <span class="math notranslate nohighlight">\(H_1\perp\!\!\!\perp T|F\)</span>. Thus, if we want to estimate the effect of the treatment, we shouldn’t include the presence of the fungus in the model.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">pm</span><span class="o">.</span><span class="n">Model</span><span class="p">()</span> <span class="k">as</span> <span class="n">FungusEffectModel2</span><span class="p">:</span>
+    <span class="n">Alpha</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">HalfFlat</span><span class="p">(</span><span class="s1">&#39;Alpha&#39;</span><span class="p">)</span>
+    <span class="n">BetaT</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Flat</span><span class="p">(</span><span class="s1">&#39;BetaT&#39;</span><span class="p">)</span>
+    <span class="n">Sigma</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">HalfFlat</span><span class="p">(</span><span class="s1">&#39;Sigma&#39;</span><span class="p">)</span>
+
+    <span class="n">Proportion</span> <span class="o">=</span> <span class="n">Alpha</span> <span class="o">+</span> <span class="n">BetaT</span><span class="o">*</span><span class="n">Treatment</span>
+
+    <span class="n">Height</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="s1">&#39;Height&#39;</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="n">H0</span><span class="o">*</span><span class="n">Proportion</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="n">Sigma</span><span class="p">,</span> <span class="n">observed</span><span class="o">=</span><span class="n">H1</span><span class="p">)</span>
+
+    <span class="n">FungusEffectTrace2</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">sample</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Auto-assigning NUTS sampler...
+Initializing NUTS using jitter+adapt_diag...
+Multiprocess sampling (4 chains in 4 jobs)
+NUTS: [Alpha, BetaT, Sigma]
+</pre></div>
+</div>
+<div class="output text_html">
+<style>
+    /* Turns off some styling */
+    progress {
+        /* gets rid of default border in Firefox and Opera. */
+        border: none;
+        /* Needs to be in here for Safari polyfill so background images work as expected. */
+        background-size: auto;
+    }
+    progress:not([value]), progress:not([value])::-webkit-progress-bar {
+        background: repeating-linear-gradient(45deg, #7e7e7e, #7e7e7e 10px, #5c5c5c 10px, #5c5c5c 20px);
+    }
+    .progress-bar-interrupted, .progress-bar-interrupted::-webkit-progress-bar {
+        background: #F44336;
+    }
+</style>
+</div><div class="output text_html">
+    <div>
+      <progress value='8000' class='' max='8000' style='width:300px; height:20px; vertical-align: middle;'></progress>
+      100.00% [8000/8000 00:04&lt;00:00 Sampling 4 chains, 0 divergences]
+    </div>
+    </div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sampling 4 chains for 1_000 tune and 1_000 draw iterations (4_000 + 4_000 draws total) took 4 seconds.
+</pre></div>
+</div>
+</div>
+</div>
+<p>In the next table we can see the effect of the treatment in the height of the plants.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">az</span><span class="o">.</span><span class="n">summary</span><span class="p">(</span><span class="n">FungusEffectTrace2</span><span class="p">,</span> <span class="n">hdi_prob</span><span class="o">=</span><span class="mi">1</span><span class="o">-</span><span class="n">ALPHA_LEVEL</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s1">&#39;stats&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>mean</th>
+      <th>sd</th>
+      <th>hdi_5.5%</th>
+      <th>hdi_94.5%</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>BetaT</th>
+      <td>0.121</td>
+      <td>0.035</td>
+      <td>0.064</td>
+      <td>0.175</td>
+    </tr>
+    <tr>
+      <th>Alpha</th>
+      <td>1.316</td>
+      <td>0.025</td>
+      <td>1.276</td>
+      <td>1.353</td>
+    </tr>
+    <tr>
+      <th>Sigma</th>
+      <td>1.725</td>
+      <td>0.125</td>
+      <td>1.528</td>
+      <td>1.922</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>Conditioning on a post-treatment variable can not only fool you into thinking the treatment doesn’t work. It can also fool you into thinking it does work. Consider the next DAG:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">DagFungusNoEffect</span> <span class="o">=</span> <span class="n">CausalGraphicalModel</span><span class="p">(</span><span class="n">nodes</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;H0&quot;</span><span class="p">,</span> <span class="s2">&quot;H1&quot;</span><span class="p">,</span> <span class="s2">&quot;F&quot;</span><span class="p">,</span> <span class="s2">&quot;T&quot;</span><span class="p">,</span> <span class="s2">&quot;M&quot;</span><span class="p">],</span> <span class="n">edges</span><span class="o">=</span><span class="p">[(</span><span class="s2">&quot;H0&quot;</span><span class="p">,</span> <span class="s2">&quot;H1&quot;</span><span class="p">),</span> <span class="p">(</span><span class="s2">&quot;M&quot;</span><span class="p">,</span> <span class="s2">&quot;H1&quot;</span><span class="p">),</span> <span class="p">(</span><span class="s2">&quot;M&quot;</span><span class="p">,</span> <span class="s2">&quot;F&quot;</span><span class="p">),</span> <span class="p">(</span><span class="s2">&quot;T&quot;</span><span class="p">,</span> <span class="s2">&quot;F&quot;</span><span class="p">)])</span>
+<span class="n">DagFungusNoEffect</span><span class="o">.</span><span class="n">draw</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/a45d512cab676d829fb16d8fe9e43a94a83b428d6ed689cb535dcb06de4e542e.svg" src="../../_images/a45d512cab676d829fb16d8fe9e43a94a83b428d6ed689cb535dcb06de4e542e.svg" /></div>
+</div>
+<p>This graph represents the case in which the treatment <span class="math notranslate nohighlight">\(T\)</span> influences the fungus <span class="math notranslate nohighlight">\(F\)</span>, but the fungus does not have an impact in the plants growth. The new variable <span class="math notranslate nohighlight">\(M\)</span> is moisture, which influences both <span class="math notranslate nohighlight">\(H_1\)</span> and <span class="math notranslate nohighlight">\(F\)</span>, but it’s unobserved. Thus, the next DAG reflects better our case:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">DagFungusNoEffect2</span> <span class="o">=</span> <span class="n">CausalGraphicalModel</span><span class="p">(</span><span class="n">nodes</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;H0&quot;</span><span class="p">,</span> <span class="s2">&quot;H1&quot;</span><span class="p">,</span> <span class="s2">&quot;F&quot;</span><span class="p">,</span> <span class="s2">&quot;T&quot;</span><span class="p">],</span> <span class="n">edges</span><span class="o">=</span><span class="p">[(</span><span class="s2">&quot;H0&quot;</span><span class="p">,</span> <span class="s2">&quot;H1&quot;</span><span class="p">),</span> <span class="p">(</span><span class="s2">&quot;T&quot;</span><span class="p">,</span> <span class="s2">&quot;F&quot;</span><span class="p">)],</span> <span class="n">latent_edges</span><span class="o">=</span><span class="p">[(</span><span class="s2">&quot;F&quot;</span><span class="p">,</span> <span class="s2">&quot;H1&quot;</span><span class="p">)])</span>
+<span class="n">DagFungusNoEffect2</span><span class="o">.</span><span class="n">draw</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/112b7c2b004dec3e89ec77840cc84b8802e476ef9b83701c8347c96674b5819c.svg" src="../../_images/112b7c2b004dec3e89ec77840cc84b8802e476ef9b83701c8347c96674b5819c.svg" /></div>
+</div>
+<p>The next cell shows all the independence relationships induced by the DAG.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">DagFungusNoEffect2</span><span class="o">.</span><span class="n">get_all_independence_relationships</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[(&#39;T&#39;, &#39;H0&#39;, set()),
+ (&#39;T&#39;, &#39;H0&#39;, {&#39;H1&#39;}),
+ (&#39;T&#39;, &#39;H0&#39;, {&#39;F&#39;}),
+ (&#39;T&#39;, &#39;H1&#39;, set()),
+ (&#39;T&#39;, &#39;H1&#39;, {&#39;H0&#39;}),
+ (&#39;F&#39;, &#39;H0&#39;, set()),
+ (&#39;F&#39;, &#39;H0&#39;, {&#39;T&#39;})]
+</pre></div>
+</div>
+</div>
+</div>
+<p>Note that among other independence relationships we have <code class="docutils literal notranslate"><span class="pre">('T',</span> <span class="pre">'H1',</span> <span class="pre">set())</span></code>, which means that a regression of <span class="math notranslate nohighlight">\(H_1\)</span> in <span class="math notranslate nohighlight">\(T\)</span> would not reflect anything. However, if we condition on <span class="math notranslate nohighlight">\(F\)</span>, we don’t have anymore the independence relation between <span class="math notranslate nohighlight">\(T\)</span> and <span class="math notranslate nohighlight">\(H_1\)</span>. Let’s illustrate this phenomenon through simulated data.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">N</span> <span class="o">=</span> <span class="mi">100</span>
+
+<span class="n">H0</span> <span class="o">=</span> <span class="n">norm</span><span class="o">.</span><span class="n">rvs</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="n">N</span><span class="p">,</span> <span class="n">loc</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+
+<span class="n">Treatment</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span><span class="o">*</span><span class="nb">int</span><span class="p">(</span><span class="n">N</span><span class="o">/</span><span class="mi">2</span><span class="p">))</span>                                 <span class="c1"># We apply the threatment to half of the plants</span>
+<span class="n">Moist</span>     <span class="o">=</span> <span class="n">bernoulli</span><span class="o">.</span><span class="n">rvs</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="n">N</span><span class="p">,</span> <span class="n">p</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>                             <span class="c1"># We simulate the presence of moist</span>
+<span class="n">Fungus</span>    <span class="o">=</span> <span class="n">bernoulli</span><span class="o">.</span><span class="n">rvs</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="n">N</span><span class="p">,</span> <span class="n">p</span><span class="o">=</span><span class="mf">0.5</span> <span class="o">-</span> <span class="mf">0.4</span><span class="o">*</span><span class="n">Treatment</span> <span class="o">+</span> <span class="mf">0.4</span><span class="o">*</span><span class="n">Moist</span><span class="p">)</span> <span class="c1"># We simulate the presence of fungus</span>
+<span class="n">H1</span>        <span class="o">=</span> <span class="n">H0</span> <span class="o">+</span> <span class="n">norm</span><span class="o">.</span><span class="n">rvs</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="n">N</span><span class="p">,</span> <span class="n">loc</span><span class="o">=</span><span class="mi">5</span> <span class="o">+</span> <span class="mi">3</span><span class="o">*</span><span class="n">Moist</span><span class="p">)</span>                   <span class="c1"># We simulate the final height</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">pm</span><span class="o">.</span><span class="n">Model</span><span class="p">()</span> <span class="k">as</span> <span class="n">FungusNoEffectModel</span><span class="p">:</span>
+    <span class="n">Alpha</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">HalfFlat</span><span class="p">(</span><span class="s1">&#39;Alpha&#39;</span><span class="p">)</span>
+    <span class="n">BetaT</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Flat</span><span class="p">(</span><span class="s1">&#39;BetaT&#39;</span><span class="p">)</span>
+    <span class="n">BetaF</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Flat</span><span class="p">(</span><span class="s1">&#39;BetaF&#39;</span><span class="p">)</span>
+    <span class="n">Sigma</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">HalfFlat</span><span class="p">(</span><span class="s1">&#39;Sigma&#39;</span><span class="p">)</span>
+
+    <span class="n">Proportion</span> <span class="o">=</span> <span class="n">Alpha</span> <span class="o">+</span> <span class="n">BetaT</span><span class="o">*</span><span class="n">Treatment</span> <span class="o">+</span> <span class="n">BetaF</span><span class="o">*</span><span class="n">Fungus</span>
+
+    <span class="n">Height</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="s1">&#39;Height&#39;</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="n">H0</span><span class="o">*</span><span class="n">Proportion</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="n">Sigma</span><span class="p">,</span> <span class="n">observed</span><span class="o">=</span><span class="n">H1</span><span class="p">)</span>
+
+    <span class="n">FungusNoEffectTrace</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">sample</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Auto-assigning NUTS sampler...
+Initializing NUTS using jitter+adapt_diag...
+Multiprocess sampling (4 chains in 4 jobs)
+NUTS: [Alpha, BetaT, BetaF, Sigma]
+</pre></div>
+</div>
+<div class="output text_html">
+<style>
+    /* Turns off some styling */
+    progress {
+        /* gets rid of default border in Firefox and Opera. */
+        border: none;
+        /* Needs to be in here for Safari polyfill so background images work as expected. */
+        background-size: auto;
+    }
+    progress:not([value]), progress:not([value])::-webkit-progress-bar {
+        background: repeating-linear-gradient(45deg, #7e7e7e, #7e7e7e 10px, #5c5c5c 10px, #5c5c5c 20px);
+    }
+    .progress-bar-interrupted, .progress-bar-interrupted::-webkit-progress-bar {
+        background: #F44336;
+    }
+</style>
+</div><div class="output text_html">
+    <div>
+      <progress value='8000' class='' max='8000' style='width:300px; height:20px; vertical-align: middle;'></progress>
+      100.00% [8000/8000 00:05&lt;00:00 Sampling 4 chains, 0 divergences]
+    </div>
+    </div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sampling 4 chains for 1_000 tune and 1_000 draw iterations (4_000 + 4_000 draws total) took 6 seconds.
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">az</span><span class="o">.</span><span class="n">summary</span><span class="p">(</span><span class="n">FungusNoEffectTrace</span><span class="p">,</span> <span class="n">hdi_prob</span><span class="o">=</span><span class="mi">1</span><span class="o">-</span><span class="n">ALPHA_LEVEL</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s1">&#39;stats&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>mean</th>
+      <th>sd</th>
+      <th>hdi_5.5%</th>
+      <th>hdi_94.5%</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>BetaT</th>
+      <td>0.054</td>
+      <td>0.048</td>
+      <td>-0.019</td>
+      <td>0.131</td>
+    </tr>
+    <tr>
+      <th>BetaF</th>
+      <td>0.157</td>
+      <td>0.047</td>
+      <td>0.084</td>
+      <td>0.234</td>
+    </tr>
+    <tr>
+      <th>Alpha</th>
+      <td>1.512</td>
+      <td>0.049</td>
+      <td>1.438</td>
+      <td>1.589</td>
+    </tr>
+    <tr>
+      <th>Sigma</th>
+      <td>2.136</td>
+      <td>0.157</td>
+      <td>1.896</td>
+      <td>2.389</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>In the next model we do not cosider the fungus variable.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">pm</span><span class="o">.</span><span class="n">Model</span><span class="p">()</span> <span class="k">as</span> <span class="n">FungusNoEffectModel2</span><span class="p">:</span>
+    <span class="n">Alpha</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">HalfFlat</span><span class="p">(</span><span class="s1">&#39;Alpha&#39;</span><span class="p">)</span>
+    <span class="n">BetaT</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Flat</span><span class="p">(</span><span class="s1">&#39;BetaT&#39;</span><span class="p">)</span>
+    <span class="n">Sigma</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">HalfFlat</span><span class="p">(</span><span class="s1">&#39;Sigma&#39;</span><span class="p">)</span>
+
+    <span class="n">Proportion</span> <span class="o">=</span> <span class="n">Alpha</span> <span class="o">+</span> <span class="n">BetaT</span><span class="o">*</span><span class="n">Treatment</span>
+
+    <span class="n">Height</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="s1">&#39;Height&#39;</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="n">H0</span><span class="o">*</span><span class="n">Proportion</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="n">Sigma</span><span class="p">,</span> <span class="n">observed</span><span class="o">=</span><span class="n">H1</span><span class="p">)</span>
+
+    <span class="n">FungusNoEffectTrace2</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">sample</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Auto-assigning NUTS sampler...
+Initializing NUTS using jitter+adapt_diag...
+Multiprocess sampling (4 chains in 4 jobs)
+NUTS: [Alpha, BetaT, Sigma]
+</pre></div>
+</div>
+<div class="output text_html">
+<style>
+    /* Turns off some styling */
+    progress {
+        /* gets rid of default border in Firefox and Opera. */
+        border: none;
+        /* Needs to be in here for Safari polyfill so background images work as expected. */
+        background-size: auto;
+    }
+    progress:not([value]), progress:not([value])::-webkit-progress-bar {
+        background: repeating-linear-gradient(45deg, #7e7e7e, #7e7e7e 10px, #5c5c5c 10px, #5c5c5c 20px);
+    }
+    .progress-bar-interrupted, .progress-bar-interrupted::-webkit-progress-bar {
+        background: #F44336;
+    }
+</style>
+</div><div class="output text_html">
+    <div>
+      <progress value='8000' class='' max='8000' style='width:300px; height:20px; vertical-align: middle;'></progress>
+      100.00% [8000/8000 00:04&lt;00:00 Sampling 4 chains, 0 divergences]
+    </div>
+    </div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sampling 4 chains for 1_000 tune and 1_000 draw iterations (4_000 + 4_000 draws total) took 5 seconds.
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">az</span><span class="o">.</span><span class="n">summary</span><span class="p">(</span><span class="n">FungusNoEffectTrace2</span><span class="p">,</span> <span class="n">hdi_prob</span><span class="o">=</span><span class="mi">1</span><span class="o">-</span><span class="n">ALPHA_LEVEL</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s1">&#39;stats&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>mean</th>
+      <th>sd</th>
+      <th>hdi_5.5%</th>
+      <th>hdi_94.5%</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>BetaT</th>
+      <td>-0.023</td>
+      <td>0.044</td>
+      <td>-0.096</td>
+      <td>0.044</td>
+    </tr>
+    <tr>
+      <th>Alpha</th>
+      <td>1.641</td>
+      <td>0.031</td>
+      <td>1.590</td>
+      <td>1.688</td>
+    </tr>
+    <tr>
+      <th>Sigma</th>
+      <td>2.236</td>
+      <td>0.164</td>
+      <td>1.970</td>
+      <td>2.481</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+</section>
+<section id="collider-bias">
+<h2><span class="section-number">13.4. </span>Collider bias<a class="headerlink" href="#collider-bias" title="Permalink to this heading">#</a></h2>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The example for this section was taken from <span id="id2">[<a class="reference internal" href="../../References.html#id16" title="Judea Pearl and Dana Mackenzie. The book of why: the new science of cause and effect. Basic books, 2018.">PM18</a>]</span></p>
+</div>
+<p>Both talent and beauty contribute to a Hollywood actor’s success, but beauty and talent are completely unrelated to one another in the general population. This relation is represented in the next DAG:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">DagBeautyTalent</span> <span class="o">=</span> <span class="n">CausalGraphicalModel</span><span class="p">(</span><span class="n">nodes</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;B&quot;</span><span class="p">,</span> <span class="s2">&quot;T&quot;</span><span class="p">,</span> <span class="s2">&quot;S&quot;</span><span class="p">],</span> <span class="n">edges</span><span class="o">=</span><span class="p">[(</span><span class="s2">&quot;B&quot;</span><span class="p">,</span> <span class="s2">&quot;S&quot;</span><span class="p">),</span> <span class="p">(</span><span class="s2">&quot;T&quot;</span><span class="p">,</span> <span class="s2">&quot;S&quot;</span><span class="p">)])</span>
+<span class="n">DagBeautyTalent</span><span class="o">.</span><span class="n">draw</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/9297954d742616fee33e67dcd072b3284a229aa9aba964d3c584434862e121c7.svg" src="../../_images/9297954d742616fee33e67dcd072b3284a229aa9aba964d3c584434862e121c7.svg" /></div>
+</div>
+<p>Meanwhile <span class="math notranslate nohighlight">\(T\)</span> and <span class="math notranslate nohighlight">\(B\)</span> are independent, when we condition on <span class="math notranslate nohighlight">\(S\)</span>, a dependence is created. For example, if we look only at famous actors (in other words, we observe the variable <span class="math notranslate nohighlight">\(S=1\)</span>), we will see a negative correlation between talent and beauty: finding out that a celebrity is unattractive increases our belief that he or she is talented.</p>
+<p>This phenomenon is known long ago, sometimes called Berkson’s paradox. In 1946, Joseph Berkson, a biostatistician at the Mayo Clinic, pointed out a peculiarity of observational studies conducted in a hospital setting: even if two diseases have no relation to each other in the general population, they can appear to be associated among patients in a hospital. Actually, it is pretty common phenomenon:</p>
+<ul class="simple">
+<li><p>When there is an incomptent person in a directive position, we tend to justify its position by the contacts of the person. Meanwhile, a person without such contacts, can achieve a directive position due to their high competence.</p></li>
+<li><p>Many restaurants in good places tend to have terrible food. This is because the only way to keep such restaurants on float is if they are in a good place. On the other hand, excellent restaurants might be on float even if they are not located in the principal places of a city.</p></li>
+</ul>
+</section>
+<section id="common-cause-bias">
+<h2><span class="section-number">13.5. </span>Common cause bias<a class="headerlink" href="#common-cause-bias" title="Permalink to this heading">#</a></h2>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The example for this section was taken from <span id="id3">[<a class="reference internal" href="../../References.html#id16" title="Judea Pearl and Dana Mackenzie. The book of why: the new science of cause and effect. Basic books, 2018.">PM18</a>]</span></p>
+</div>
+<p>Consider the next DAG:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">DagShoesReading</span> <span class="o">=</span> <span class="n">CausalGraphicalModel</span><span class="p">(</span><span class="n">nodes</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;A&quot;</span><span class="p">,</span> <span class="s2">&quot;S&quot;</span><span class="p">,</span> <span class="s2">&quot;R&quot;</span><span class="p">],</span> <span class="n">edges</span><span class="o">=</span><span class="p">[(</span><span class="s2">&quot;A&quot;</span><span class="p">,</span> <span class="s2">&quot;S&quot;</span><span class="p">),</span> <span class="p">(</span><span class="s2">&quot;A&quot;</span><span class="p">,</span> <span class="s2">&quot;R&quot;</span><span class="p">)])</span>
+<span class="n">DagShoesReading</span><span class="o">.</span><span class="n">draw</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/ab0642625e2eb033669e0f441eadf058fec8f044759de1b7cea65e72e59ece75.svg" src="../../_images/ab0642625e2eb033669e0f441eadf058fec8f044759de1b7cea65e72e59ece75.svg" /></div>
+</div>
+<p>This graph represents the relation between the shoe size of children, <span class="math notranslate nohighlight">\(S\)</span>, and their reading skill <span class="math notranslate nohighlight">\(R\)</span>. We will find that children with larger shoes tend to read better. But the relation is not of cause and effect. Giving a child larger shoes won’t make him read better! Instead, both variables are explained by a third, which is the child’s age. Older children have larger shoes, and they also are more advanced readers. We can eliminate this spurious correlation, by conditioning on the child’s age. For instance, if we look only at seven-year-olds, we expect to see no relationship between shoe size and reading ability.</p>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./content/Part5"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+                <footer class="bd-footer-article">
+                  
+<div class="footer-article-items footer-article__inner">
+  
+    <div class="footer-article-item"><!-- Previous / next buttons -->
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="12_Causality.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title"><span class="section-number">12. </span>Introduction to causality</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="14_HauntedCases.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title"><span class="section-number">14. </span><span class="math notranslate nohighlight">\(d\)</span>-separation, causal and noncausal paths</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div></div>
+  
+</div>
+
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#categorical-variables">13.1. Categorical variables</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#multicollinearity">13.2. Multicollinearity</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#mediation-or-post-treatment-bias">13.3. Mediation or post-treatment bias</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#collider-bias">13.4. Collider bias</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#common-cause-bias">13.5. Common cause bias</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Irving Gómez Méndez
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  <p class="copyright">
+    
+      © Copyright 2022.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
+<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
