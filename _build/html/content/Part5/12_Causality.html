@@ -66,7 +66,7 @@ const thebe_selector_output = ".output, .cell_output"
     <script>DOCUMENTATION_OPTIONS.pagename = 'content/Part5/12_Causality';</script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="next" title="13. Hierarchical models" href="../Part6/13_HierarchicalModels.html" />
+    <link rel="next" title="13. Categorical variables, multicollinearity and biases" href="13_CategoricalAndBiases.html" />
     <link rel="prev" title="11. Quadratic approximation and MCMC" href="../Part4/11_ComputationalApproximations.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
@@ -184,15 +184,13 @@ const thebe_selector_output = ".output, .cell_output"
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">V Causality</span></p>
 <ul class="current nav bd-sidenav">
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">12. Introduction to causality</a></li>
+<li class="toctree-l1"><a class="reference internal" href="13_CategoricalAndBiases.html">13. Categorical variables, multicollinearity and biases</a></li>
+<li class="toctree-l1"><a class="reference internal" href="14_HauntedCases.html">14. <span class="math notranslate nohighlight">\(d\)</span>-separation, causal and noncausal paths</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">VI Hierarchical models, and evaluation and comparison of models</span></p>
 <ul class="nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="../Part6/13_HierarchicalModels.html">13. Hierarchical models</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../Part6/14_EvaluatingComparingModels.html">14. Evaluating and comparing models</a></li>
-</ul>
-<p aria-level="2" class="caption" role="heading"><span class="caption-text">VII Variational autoencoders</span></p>
-<ul class="nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="../Part7/15_VariationalAutoencoders.html">15. Variational autoencoders (VAEs)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Part6/15_HierarchicalModels.html">15. Hierarchical models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Part6/16_EvaluatingComparingModels.html">16. Evaluating and comparing models</a></li>
 </ul>
 <ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="../../References.html">References</a></li>
@@ -543,7 +541,7 @@ D_i &amp;\sim \textsf{Normal}(\mu_i,\sigma^2) \\
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/5966fb6bda138ef81f806bf5e157f9ddc97d765558e9bfc1a273376442d93092.svg" src="../../_images/5966fb6bda138ef81f806bf5e157f9ddc97d765558e9bfc1a273376442d93092.svg" /></div>
+<img alt="../../_images/acd6af9eb305cb437ecc9fe4ea3d26d26bc424aab6468c866256147bbe342518.svg" src="../../_images/acd6af9eb305cb437ecc9fe4ea3d26d26bc424aab6468c866256147bbe342518.svg" /></div>
 </div>
 <p>In this case <span class="math notranslate nohighlight">\(A\)</span> has two effects in <span class="math notranslate nohighlight">\(D\)</span>. First it has a first direct effect <span class="math notranslate nohighlight">\(A\rightarrow D\)</span>, which arises because younger people change faster than older people and are therefore more likely to grow incompatible with a partner. Second, it has an indirect effect, <span class="math notranslate nohighlight">\(A\rightarrow M\rightarrow D\)</span>, by influencing the marriage rate, which then influences divorce. If people get married earlier, then the marriage rate may rise, because there are more young people.</p>
 <p>The next cell shows the product decomposition induced by the previous DAG.</p>
@@ -713,7 +711,7 @@ D_i &amp;\sim \textsf{Normal}(\mu_i,\sigma^2) \\
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/84eaf9f8ff9ce1847ad3ec4185493e53612c1c4daccc3d00f58ea0335dc07a21.svg" src="../../_images/84eaf9f8ff9ce1847ad3ec4185493e53612c1c4daccc3d00f58ea0335dc07a21.svg" /></div>
+<img alt="../../_images/aa1c1fc4f0729983e8ea98dd18786750d2f929a1c7feee096a118d8ffec3b947.svg" src="../../_images/aa1c1fc4f0729983e8ea98dd18786750d2f929a1c7feee096a118d8ffec3b947.svg" /></div>
 </div>
 <p>The next figures show the counterfactual effect of the age in the divorce rate, and the marriage rate, respectively. These graphs answer the question <em>what will happen with the state X, if the median age of marriage would be…?</em></p>
 <img alt="Counter_D_given_A" class="align-center" src="../../_images/Counter_D_given_A.png" />
@@ -751,7 +749,7 @@ D_i &amp;\sim \textsf{Normal}(\mu_i,\sigma^2) \\
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/727bb85119eeb3836aeded556dc4cb9e113358808d4ff9ba01b2d3da3ca34640.svg" src="../../_images/727bb85119eeb3836aeded556dc4cb9e113358808d4ff9ba01b2d3da3ca34640.svg" /></div>
+<img alt="../../_images/8835142433842e314df0f4301951f34f8bbb3dc41413a33a4264ccb512afe978.svg" src="../../_images/8835142433842e314df0f4301951f34f8bbb3dc41413a33a4264ccb512afe978.svg" /></div>
 </div>
 <p>The next figure shows the counterfactual effect for a state whose median age at marriage corresponds with the national average, manipulating the marriage rate at different values.</p>
 <img alt="Counter_D_given_M" class="align-center" src="../../_images/Counter_D_given_M.png" />
@@ -955,7 +953,7 @@ N_i &amp;\sim \textsf{Normal}(\mu_i,\sigma^2) \\
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/4072bfd1a87478aac9fd5dea0acc748ad86a718e02412c53ed3f1564a68e0525.svg" src="../../_images/4072bfd1a87478aac9fd5dea0acc748ad86a718e02412c53ed3f1564a68e0525.svg" /></div>
+<img alt="../../_images/dc084b54f9c6ef3958f4f12b2079be92f85562a28fc9780b220ccf54f8efb310.svg" src="../../_images/dc084b54f9c6ef3958f4f12b2079be92f85562a28fc9780b220ccf54f8efb310.svg" /></div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -965,7 +963,7 @@ N_i &amp;\sim \textsf{Normal}(\mu_i,\sigma^2) \\
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/7f1ff2d788a96e3eb1d292cf3f429d026a43fc297e53c897fb7cf94e631cbfdd.svg" src="../../_images/7f1ff2d788a96e3eb1d292cf3f429d026a43fc297e53c897fb7cf94e631cbfdd.svg" /></div>
+<img alt="../../_images/6dc22364270821025d88daa1d855254579d45ee3f3ab0b73c5c747d3e2eb1a6d.svg" src="../../_images/6dc22364270821025d88daa1d855254579d45ee3f3ab0b73c5c747d3e2eb1a6d.svg" /></div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -975,7 +973,7 @@ N_i &amp;\sim \textsf{Normal}(\mu_i,\sigma^2) \\
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/02829192abaf6a147c05276c8ec3e473ac06c71ae53322934c4dca27fe38ab77.svg" src="../../_images/02829192abaf6a147c05276c8ec3e473ac06c71ae53322934c4dca27fe38ab77.svg" /></div>
+<img alt="../../_images/10da606afcab64e9118338a2d1a443f14a4a95a21c2ed098f1a383e366815ae1.svg" src="../../_images/10da606afcab64e9118338a2d1a443f14a4a95a21c2ed098f1a383e366815ae1.svg" /></div>
 </div>
 <p>Assume that the third graph is the right one. The next graph presents the graphical representation in <code class="docutils literal notranslate"><span class="pre">PyMC</span></code>.</p>
 <img alt="CausalModelEnergy" class="align-center" src="../../_images/CausalModelEnergy.png" />
@@ -990,7 +988,7 @@ N_i &amp;\sim \textsf{Normal}(\mu_i,\sigma^2) \\
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/0174bd5bcf0c76f1d1ba23dcce8f095fc98fa0aa16169f89c037861c649263ba.svg" src="../../_images/0174bd5bcf0c76f1d1ba23dcce8f095fc98fa0aa16169f89c037861c649263ba.svg" /></div>
+<img alt="../../_images/e17e581344d6788aa56b80edf84a6e75087afc58d773beac3457c0889638e836.svg" src="../../_images/e17e581344d6788aa56b80edf84a6e75087afc58d773beac3457c0889638e836.svg" /></div>
 </div>
 <img alt="Counter_E_given_M" class="align-center" src="../../_images/Counter_E_given_M.png" />
 <p>The next figures show analogous results when we intervene the variable <span class="math notranslate nohighlight">\(N\)</span>.</p>
@@ -1001,7 +999,7 @@ N_i &amp;\sim \textsf{Normal}(\mu_i,\sigma^2) \\
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/239d5ce01e096eb797c14d95140ce8a3c72596eb6d8ac356999b8dfe23857e91.svg" src="../../_images/239d5ce01e096eb797c14d95140ce8a3c72596eb6d8ac356999b8dfe23857e91.svg" /></div>
+<img alt="../../_images/68916ef86ada1ab25390e26149a8d8c7009edcfde1a07892677d5a9a9add6baf.svg" src="../../_images/68916ef86ada1ab25390e26149a8d8c7009edcfde1a07892677d5a9a9add6baf.svg" /></div>
 </div>
 <img alt="Counter_E_given_N" class="align-center" src="../../_images/Counter_E_given_N.png" />
 </section>
@@ -1049,11 +1047,11 @@ N_i &amp;\sim \textsf{Normal}(\mu_i,\sigma^2) \\
       </div>
     </a>
     <a class="right-next"
-       href="../Part6/13_HierarchicalModels.html"
+       href="13_CategoricalAndBiases.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title"><span class="section-number">13. </span>Hierarchical models</p>
+        <p class="prev-next-title"><span class="section-number">13. </span>Categorical variables, multicollinearity and biases</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>

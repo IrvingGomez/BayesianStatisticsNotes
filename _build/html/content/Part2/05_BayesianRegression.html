@@ -183,14 +183,14 @@ const thebe_selector_output = ".output, .cell_output"
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">V Causality</span></p>
 <ul class="nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="../Part5/12_Causality.html">12. Causality</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Part5/12_Causality.html">12. Introduction to causality</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Part5/13_CategoricalAndBiases.html">13. Categorical variables, multicollinearity and biases</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Part5/14_HauntedCases.html">14. <span class="math notranslate nohighlight">\(d\)</span>-separation, causal and noncausal paths</a></li>
 </ul>
-<p aria-level="2" class="caption" role="heading"><span class="caption-text">VI Advanced topics</span></p>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">VI Hierarchical models, and evaluation and comparison of models</span></p>
 <ul class="nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="../Part6/13_HierarchicalModels.html">13. Hierarchical models</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../Part6/14_EvaluatingComparingModels.html">14. Evaluating and comparing models</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../Part6/15_VariationalInference.html">15. Variational Inference</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../Part6/16_VariationalAutoencoders.html">16. Variational Autoencoders (VAES)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Part6/15_HierarchicalModels.html">15. Hierarchical models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Part6/16_EvaluatingComparingModels.html">16. Evaluating and comparing models</a></li>
 </ul>
 <ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="../../References.html">References</a></li>
@@ -375,7 +375,7 @@ document.write(`
 <p>The parameters of this model are <span class="math notranslate nohighlight">\(\beta\)</span> and <span class="math notranslate nohighlight">\(\sigma\)</span>.</p>
 <div class="admonition seealso">
 <p class="admonition-title">See also</p>
-<p>The accounts needed to deduce all the different distributions of the model presented in this chapter are too tedious, so I will limit myself to present here the results. Those readers interested can find in <a class="reference external" href="https://irvinggomez.com/courses/bayesian/GoryDetailsStudentsVersion.pdf">these notes</a> all the details.</p>
+<p>The accounts needed to deduce all the different distributions of the model presented in this chapter are extremely tedious, so I will limit myself to present here the results. Those interested readers can find in <a class="reference external" href="https://irvinggomez.com/courses/bayesian/GoryDetailsStudentsVersion.pdf">these notes</a> all the details.</p>
 </div>
 <section id="prior-distributions">
 <h3><span class="section-number">5.1.1. </span>Prior distributions<a class="headerlink" href="#prior-distributions" title="Permalink to this heading">#</a></h3>
@@ -452,13 +452,13 @@ V_n &amp; = \left(V_0^{-1}+\mathbf{X}^T\mathbf{X}\right)^{-1} \\
 <img alt="BetasRegression" class="align-center" src="../../_images/BetasRegression.png" />
 <p>Similarly, in the next image I present the posterior distribution of <span class="math notranslate nohighlight">\(\sigma^2\)</span> with a posterior interval of probability 0.95 obtained with the quantiles method, i.e. the interval is given by the quantiles of probability 0.025 and 0.975.</p>
 <img alt="SpcMeanTheoretical" class="align-center" src="../../_images/Sigma2Regression.png" />
-<p>Finally, in the next image I present the scatterplot with the fitted regression line, I present posterior intervals for both, the regression function and observations comming from the process analyzed. It is common in the Bayesian framework to call them “Credible intervals”, other authors have proposed to call them “Compatibility intervals”. Let as it be, I denoted these intervals as “Confidence interval” and “Prediction interval”, respectively.</p>
+<p>Finally, in the next image I present the scatterplot with the fitted regression line, I present posterior intervals for both, the regression function and observations comming from the process analyzed. It is common in the Bayesian framework to call them “Credible intervals”, other authors have proposed to call them “Compatibility intervals”.</p>
 <img alt="SpcMeanTheoretical" class="align-center" src="../../_images/ScatterplotRegression.png" />
 </section>
 <section id="exercises">
 <h2><span class="section-number">5.3. </span>Exercises<a class="headerlink" href="#exercises" title="Permalink to this heading">#</a></h2>
 <ol class="arabic simple">
-<li><p>Verify that the expressions of the normal inverse <span class="math notranslate nohighlight">\(\chi^2\)</span> are obtained from the expressions of this section.</p></li>
+<li><p>Verify the expressions for the normal inverse <span class="math notranslate nohighlight">\(\chi^2\)</span> model presentedn in <a class="reference internal" href="04_MultiparametricModels.html"><span class="doc std std-doc">Chapter 4</span></a> usind the expressions given in this chapter.</p></li>
 </ol>
 </section>
 </section>

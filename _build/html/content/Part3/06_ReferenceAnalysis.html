@@ -183,14 +183,14 @@ const thebe_selector_output = ".output, .cell_output"
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">V Causality</span></p>
 <ul class="nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="../Part5/12_Causality.html">12. Causality</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Part5/12_Causality.html">12. Introduction to causality</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Part5/13_CategoricalAndBiases.html">13. Categorical variables, multicollinearity and biases</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Part5/14_HauntedCases.html">14. <span class="math notranslate nohighlight">\(d\)</span>-separation, causal and noncausal paths</a></li>
 </ul>
-<p aria-level="2" class="caption" role="heading"><span class="caption-text">VI Advanced topics</span></p>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">VI Hierarchical models, and evaluation and comparison of models</span></p>
 <ul class="nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="../Part6/13_HierarchicalModels.html">13. Hierarchical models</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../Part6/14_EvaluatingComparingModels.html">14. Evaluating and comparing models</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../Part6/15_VariationalInference.html">15. Variational Inference</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../Part6/16_VariationalAutoencoders.html">16. Variational Autoencoders (VAES)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Part6/15_HierarchicalModels.html">15. Hierarchical models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Part6/16_EvaluatingComparingModels.html">16. Evaluating and comparing models</a></li>
 </ul>
 <ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="../../References.html">References</a></li>
@@ -341,14 +341,14 @@ document.write(`
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#ambiguity-of-the-principle-of-indifference">6.1. Ambiguity of the principle of indifference</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#jeffreys-rule">6.2. Jeffreys rule</a><ul class="nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#jeffreys-rule">6.2. Jeffreys’ rule</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#score-function">6.2.1. Score function</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#expected-fisher-information-per-sample-unit">6.2.2. (Expected) Fisher information per sample unit</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exponential-likelihood">6.2.3. Exponential likelihood</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#jeffreys-prior">6.2.4. Jeffreys prior</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#proof-of-the-invariance-of-jeffreys-prior-optional">6.2.5. Proof of the invariance of Jeffreys prior (optional)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#jeffreys-prior">6.2.4. Jeffreys’ prior</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#proof-of-the-invariance-of-jeffreys-prior-optional">6.2.5. Proof of the invariance of Jeffreys’ prior (optional)</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#cramerrao-bound-optional">6.2.6. Cramér–Rao bound (optional)</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#historical-relevance-of-jeffrey-prior">6.2.7. Historical relevance of Jeffrey prior</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#historical-relevance-of-jeffreys-prior">6.2.7. Historical relevance of Jeffreys’ prior</a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#reference-analysis-with-pivotals">6.3. Reference analysis with pivotals</a><ul class="nav section-nav flex-column">
@@ -393,7 +393,7 @@ document.write(`
 <p>This ambiguity of the principle of indifference, in which it is not clear what parameter should follow a uniform distribution can yield important contradictions. As an example, check <a class="reference external" href="https://en.wikipedia.org/wiki/Bertrand_paradox_(probability)">Bertrand paradox</a>.</p>
 </section>
 <section id="jeffreys-rule">
-<h2><span class="section-number">6.2. </span>Jeffreys rule<a class="headerlink" href="#jeffreys-rule" title="Permalink to this heading">#</a></h2>
+<h2><span class="section-number">6.2. </span>Jeffreys’ rule<a class="headerlink" href="#jeffreys-rule" title="Permalink to this heading">#</a></h2>
 <p>There exists some rules that helps us to define a noninformative prior distribution for the parameters, without suffering from the inconsistency of the principle of indifference. The most popular option is Jeffreys rule. To properly define it, we first need concepts as the score function and the (expected) Fisher information.</p>
 <section id="score-function">
 <h3><span class="section-number">6.2.1. </span>Score function<a class="headerlink" href="#score-function" title="Permalink to this heading">#</a></h3>
@@ -471,8 +471,8 @@ document.write(`
 <p>You can check the code <a class="reference external" href="https://github.com/IrvingGomez/BayesianStatistics/blob/main/Codes/05_ScoreExponentialLikelihood.ipynb">05_ScoreExponentialLikelihood.ipynb</a> within the <a class="reference external" href="https://github.com/IrvingGomez/BayesianStatistics">repository of the course</a>, for an example of the previous concepts for the exponential likeklihood.</p>
 </section>
 <section id="jeffreys-prior">
-<h3><span class="section-number">6.2.4. </span>Jeffreys prior<a class="headerlink" href="#jeffreys-prior" title="Permalink to this heading">#</a></h3>
-<p>The noninformative Jefrreys prior is given by</p>
+<h3><span class="section-number">6.2.4. </span>Jeffreys’ prior<a class="headerlink" href="#jeffreys-prior" title="Permalink to this heading">#</a></h3>
+<p>The noninformative Jefrreys’ prior is given by</p>
 <div class="math notranslate nohighlight">
 \[p(\theta)\propto \sqrt{J(\theta)}.\]</div>
 <p>Assume that <span class="math notranslate nohighlight">\(\phi\)</span> is a tansformed parameter from <span class="math notranslate nohighlight">\(\theta\)</span>. If we use Jeffreys rule to determine the prior of <span class="math notranslate nohighlight">\(\theta\)</span> and then we apply the transformation theorem to calculate the distribution of <span class="math notranslate nohighlight">\(\phi\)</span>, or if we use directly Jeffreys rule to determine the distribution of <span class="math notranslate nohighlight">\(\phi\)</span>, we would end up with the same distribution. Thus, Jeffreys prior does not suffer from the inconsistencies of the principle of indifference, previously pointed out. Moreover, the fact that Jeffreys prior is invariant under transformations 1-1 has been interpretated as that we do not add information, it does not matter in which parametric space your working in, and thus generates a noninformative prior.</p>
@@ -483,7 +483,7 @@ document.write(`
 <p>note that <span class="math notranslate nohighlight">\(\theta\to 0\)</span> or <span class="math notranslate nohighlight">\(\theta\to 1\)</span> correspond to the most informative cases, and <span class="math notranslate nohighlight">\(J(\theta)\to\infty\)</span> in those cases. On the other hand, <span class="math notranslate nohighlight">\(J(\theta)\)</span> is minimized when <span class="math notranslate nohighlight">\(\theta=0.5\)</span>, which corresponds with the less informative case.</p>
 </section>
 <section id="proof-of-the-invariance-of-jeffreys-prior-optional">
-<h3><span class="section-number">6.2.5. </span>Proof of the invariance of Jeffreys prior (optional)<a class="headerlink" href="#proof-of-the-invariance-of-jeffreys-prior-optional" title="Permalink to this heading">#</a></h3>
+<h3><span class="section-number">6.2.5. </span>Proof of the invariance of Jeffreys’ prior (optional)<a class="headerlink" href="#proof-of-the-invariance-of-jeffreys-prior-optional" title="Permalink to this heading">#</a></h3>
 <p>Assume that <span class="math notranslate nohighlight">\(p(\theta)\propto \sqrt{J(\theta)}\)</span> and let be <span class="math notranslate nohighlight">\(\phi=\phi(\theta)\)</span> a 1-1 transformation of <span class="math notranslate nohighlight">\(\theta\)</span>.</p>
 <p>By the chain rule, we have that</p>
 <div class="math notranslate nohighlight">
@@ -544,8 +544,8 @@ sc_n(\theta) &amp; = \frac{d}{d\theta} \log p(\mathbf{Y}|\theta) \\
 \[\mathbb{V}_{\mathbf{Y}|\theta}(T(\mathbf{Y})) \geq \frac{1}{n J(\theta)}.\]</div>
 <p>This inequality formalizes our intuitive thinking of the inverse behavior between variance and information. Large variance implies low information, while low variance implies large information.</p>
 </section>
-<section id="historical-relevance-of-jeffrey-prior">
-<h3><span class="section-number">6.2.7. </span>Historical relevance of Jeffrey prior<a class="headerlink" href="#historical-relevance-of-jeffrey-prior" title="Permalink to this heading">#</a></h3>
+<section id="historical-relevance-of-jeffreys-prior">
+<h3><span class="section-number">6.2.7. </span>Historical relevance of Jeffreys’ prior<a class="headerlink" href="#historical-relevance-of-jeffreys-prior" title="Permalink to this heading">#</a></h3>
 <p>The problem of the not-invariance under 1-1 transformations by the principle of indifference was a major critique to Bayesian statistics at the beginning of the century XX, made, among others, by Ronald A. Fisher. However, the studies and contributions done by Harold Jeffres about the noninformative priors that were invariant brought interest to the field again.</p>
 </section>
 </section>
@@ -556,13 +556,13 @@ sc_n(\theta) &amp; = \frac{d}{d\theta} \log p(\mathbf{Y}|\theta) \\
 <p>If <span class="math notranslate nohighlight">\(U=Y-\theta\)</span> is a random variable whose distribution does not depend of <span class="math notranslate nohighlight">\(\theta\)</span> nor <span class="math notranslate nohighlight">\(Y\)</span>, we say that <span class="math notranslate nohighlight">\(U\)</span> is a pivotal quantity and <span class="math notranslate nohighlight">\(\theta\)</span> is known as the parameter of localization <span class="math notranslate nohighlight">\(\theta\in\mathbb{R}\)</span>.</p>
 <p>Note that</p>
 <div class="math notranslate nohighlight">
-\[\frac{dY}{dU}=1\quad\text{and}\quad \left|\frac{d\theta}{dU}\right]=|-1|=1,\]</div>
+\[\frac{dY}{dU}=1\quad\text{and}\quad \left|\frac{d\theta}{dU}\right|=|-1|=1,\]</div>
 <p>then</p>
 <div class="math notranslate nohighlight">
-\[p(U)=p(Y|\theta)\left|\frac{dY}{dU}\right]=p(Y|\theta)\]</div>
+\[p(U)=p(Y|\theta)\left|\frac{dY}{dU}\right|=p(Y|\theta)\]</div>
 <p>and</p>
 <div class="math notranslate nohighlight">
-\[p(U)=p(\theta|Y)\left|\frac{d\theta}{dU}\right]=p(\theta|Y).\]</div>
+\[p(U)=p(\theta|Y)\left|\frac{d\theta}{dU}\right|=p(\theta|Y).\]</div>
 <p>Thus,</p>
 <div class="math notranslate nohighlight">
 \[p(\theta|Y)=p(Y|\theta)\]</div>
@@ -719,14 +719,14 @@ sc_n(\theta) &amp; = \frac{d}{d\theta} \log p(\mathbf{Y}|\theta) \\
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#ambiguity-of-the-principle-of-indifference">6.1. Ambiguity of the principle of indifference</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#jeffreys-rule">6.2. Jeffreys rule</a><ul class="nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#jeffreys-rule">6.2. Jeffreys’ rule</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#score-function">6.2.1. Score function</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#expected-fisher-information-per-sample-unit">6.2.2. (Expected) Fisher information per sample unit</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exponential-likelihood">6.2.3. Exponential likelihood</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#jeffreys-prior">6.2.4. Jeffreys prior</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#proof-of-the-invariance-of-jeffreys-prior-optional">6.2.5. Proof of the invariance of Jeffreys prior (optional)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#jeffreys-prior">6.2.4. Jeffreys’ prior</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#proof-of-the-invariance-of-jeffreys-prior-optional">6.2.5. Proof of the invariance of Jeffreys’ prior (optional)</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#cramerrao-bound-optional">6.2.6. Cramér–Rao bound (optional)</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#historical-relevance-of-jeffrey-prior">6.2.7. Historical relevance of Jeffrey prior</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#historical-relevance-of-jeffreys-prior">6.2.7. Historical relevance of Jeffreys’ prior</a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#reference-analysis-with-pivotals">6.3. Reference analysis with pivotals</a><ul class="nav section-nav flex-column">

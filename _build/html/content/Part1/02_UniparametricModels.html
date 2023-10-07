@@ -183,14 +183,14 @@ const thebe_selector_output = ".output, .cell_output"
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">V Causality</span></p>
 <ul class="nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="../Part5/12_Causality.html">12. Causality</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Part5/12_Causality.html">12. Introduction to causality</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Part5/13_CategoricalAndBiases.html">13. Categorical variables, multicollinearity and biases</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Part5/14_HauntedCases.html">14. <span class="math notranslate nohighlight">\(d\)</span>-separation, causal and noncausal paths</a></li>
 </ul>
-<p aria-level="2" class="caption" role="heading"><span class="caption-text">VI Advanced topics</span></p>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">VI Hierarchical models, and evaluation and comparison of models</span></p>
 <ul class="nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="../Part6/13_HierarchicalModels.html">13. Hierarchical models</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../Part6/14_EvaluatingComparingModels.html">14. Evaluating and comparing models</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../Part6/15_VariationalInference.html">15. Variational Inference</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../Part6/16_VariationalAutoencoders.html">16. Variational Autoencoders (VAES)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Part6/15_HierarchicalModels.html">15. Hierarchical models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Part6/16_EvaluatingComparingModels.html">16. Evaluating and comparing models</a></li>
 </ul>
 <ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="../../References.html">References</a></li>
@@ -363,11 +363,11 @@ document.write(`
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#inference-of-a-fair-or-a-biased-coin">2.8. Inference of a fair or a biased coin</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#prior-distribution">2.8.1. Prior distribution</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#likelihood">2.8.2. Likelihood</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">2.8.3. Prior predictive distribution</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">2.8.3. Prior predictive distribution</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#likelihood-of-the-sample">2.8.4. Likelihood of the sample</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#evidence">2.8.5. Evidence</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">2.8.6. Posterior distribution</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">2.8.7. Posterior predictive distribution</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">2.8.6. Posterior distribution</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id5">2.8.7. Posterior predictive distribution</a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#there-is-no-free-lunch">2.9. There is no free lunch</a></li>
@@ -491,6 +491,10 @@ Y|\theta &amp; \sim \textsf{Binomial}(n,\theta) \\\\
 </section>
 <section id="probability-of-a-girl-birth-given-placenta-previa">
 <h3><span class="section-number">2.4.2. </span>Probability of a girl birth given placenta previa<a class="headerlink" href="#probability-of-a-girl-birth-given-placenta-previa" title="Permalink to this heading">#</a></h3>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This example was taken from <span id="id1">[<a class="reference internal" href="../../References.html#id5" title="A. Gelman, J.B. Carlin, H.S. Stern, D.B. Dunson, A. Vehtari, and D.B. Rubin. Bayesian Data Analysis, Third Edition. Chapman &amp; Hall/CRC Texts in Statistical Science. Taylor &amp; Francis, 2013. ISBN 9781439840955. URL: https://books.google.co.th/books?id=ZXL6AQAAQBAJ.">GCS+13</a>]</span></p>
+</div>
 <p>Placenta previa is an unusual condition of pregnancy in which the placenta is implanted low in the uterus. An early study concerning the sex of placenta previa births in Germany found that of a total of 980 births, 437 were female.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -556,7 +560,7 @@ Y|\theta &amp; \sim \textsf{Binomial}(n,\theta) \\\\
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/ad11e3d9e18ab82cc0649520580244a99d07a89cd446aa5f237fc9d3738fa65c.png" src="../../_images/ad11e3d9e18ab82cc0649520580244a99d07a89cd446aa5f237fc9d3738fa65c.png" />
+<img alt="../../_images/3ddd47d0b202f4e27c8f6767d1328b8a625972c0bcc7d1ad6ac2d0bfdbc01bf2.png" src="../../_images/3ddd47d0b202f4e27c8f6767d1328b8a625972c0bcc7d1ad6ac2d0bfdbc01bf2.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -566,7 +570,7 @@ Y|\theta &amp; \sim \textsf{Binomial}(n,\theta) \\\\
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([0.412, 0.473])
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([0.413, 0.472])
 </pre></div>
 </div>
 </div>
@@ -582,7 +586,7 @@ Y|\theta &amp; \sim \textsf{Binomial}(n,\theta) \\\\
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/141670e84597aa41a586bbd7df9835f56ffd20b1c95a32973e49b6351cd701ad.png" src="../../_images/141670e84597aa41a586bbd7df9835f56ffd20b1c95a32973e49b6351cd701ad.png" />
+<img alt="../../_images/493bec59fd95cb27b7d305284655509df542f0263588dc2b24ccce95250e1ab8.png" src="../../_images/493bec59fd95cb27b7d305284655509df542f0263588dc2b24ccce95250e1ab8.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -603,6 +607,10 @@ Y|\theta &amp; \sim \textsf{Binomial}(n,\theta) \\\\
 </section>
 <section id="cells-production-of-protein">
 <h3><span class="section-number">2.4.3. </span>Cells production of protein<a class="headerlink" href="#cells-production-of-protein" title="Permalink to this heading">#</a></h3>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This example was taken from the <a class="reference external" href="https://www.cimat.mx/~jac/cursos/">notes of Bayesian Statistics</a> of J. Andrés Christen.</p>
+</div>
 <p>Assume that a particular population of cells can be in one of three states of protein production: A, B and C, corresponding to low, mid and high production, respectively. If the population is in the state A, we expect that 20% of cells are producing the protein, if it is in the state B we expect 50% and if it is in state C we expect 70%.</p>
 <p>We take a random sample of 20 cells and verify if each one of them is in production of the protein (the result of the test for each cell is 1 if it is in production and 0 if it is not). In this sample, we found that 12 cells were in production and the rest were not. What is the probability that the population is in each one of the states?</p>
 <p>The next cells show two ways to find the answer to the question.</p>
@@ -761,7 +769,7 @@ p(Y|\mathbf{Y})=\int_\Theta p(Y|\theta)p(\theta|\mathbf{Y})d\theta
 <h2><span class="section-number">2.8. </span>Inference of a fair or a biased coin<a class="headerlink" href="#inference-of-a-fair-or-a-biased-coin" title="Permalink to this heading">#</a></h2>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>This example was taken from <span id="id1">[<a class="reference internal" href="../../References.html#id8" title="Arturo Erdely and Eduardo Gutiérrez-Peña. Monografía de estadística bayesiana. 2023. arXiv:2309.06601.">EGP23</a>]</span>.</p>
+<p>This example was taken from <span id="id2">[<a class="reference internal" href="../../References.html#id8" title="Arturo Erdely and Eduardo Gutiérrez-Peña. Monografía de estadística bayesiana. 2023. arXiv:2309.06601.">EGP23</a>]</span>.</p>
 </div>
 <p>Consider a box with two coins: one fair and one biased. Assume that the biased coin is built in such way that there is a probability of 3/4 of showing “head”. One person takes one coin (not necessarily at random) and starts flipping it.</p>
 <p>In this case, we can define the measurable space as <span class="math notranslate nohighlight">\(\Omega=\{\text{the coin shows head}, \text{the coin shows tail}\}\)</span> and take as the sigma-algebra the power set of <span class="math notranslate nohighlight">\(\Omega\)</span>, <span class="math notranslate nohighlight">\(\mathcal{P}(\Omega)\)</span>. In this space, we define the random variable</p>
@@ -789,8 +797,8 @@ Y(\omega)=
 <div class="math notranslate nohighlight">
 \[p(Y|\theta)=\theta^Y(1-\theta)^{1-Y}1_{\{0,1\}}(Y).\]</div>
 </section>
-<section id="id2">
-<h3><span class="section-number">2.8.3. </span>Prior predictive distribution<a class="headerlink" href="#id2" title="Permalink to this heading">#</a></h3>
+<section id="id3">
+<h3><span class="section-number">2.8.3. </span>Prior predictive distribution<a class="headerlink" href="#id3" title="Permalink to this heading">#</a></h3>
 <div class="math notranslate nohighlight">
 \[\begin{split}
 \begin{align*}
@@ -826,8 +834,8 @@ p(\mathbf{Y}) &amp;= \sum_{\theta\in\Theta}p(\mathbf{Y}|\theta)p(\theta) \\\\
 \end{align*}
 \end{split}\]</div>
 </section>
-<section id="id3">
-<h3><span class="section-number">2.8.6. </span>Posterior distribution<a class="headerlink" href="#id3" title="Permalink to this heading">#</a></h3>
+<section id="id4">
+<h3><span class="section-number">2.8.6. </span>Posterior distribution<a class="headerlink" href="#id4" title="Permalink to this heading">#</a></h3>
 <p>Now that we know the likelihood evaluated in the sample, the prior and the evidence, we can calculate the posterior distribution of <span class="math notranslate nohighlight">\(\theta\)</span>.</p>
 <div class="math notranslate nohighlight">
 \[\begin{split}
@@ -847,8 +855,8 @@ p(\theta|\mathbf{Y}) &amp;= \frac{p(\mathbf{Y}|\theta)p(\theta)}{p(\mathbf{Y})} 
 <div class="math notranslate nohighlight">
 \[p_{\theta|\mathbf{Y}}(3/4|\mathbf{y})=1-\frac{1}{1+v}=\frac{v}{1+v}=\frac{1}{1+v^{-1}}.\]</div>
 </section>
-<section id="id4">
-<h3><span class="section-number">2.8.7. </span>Posterior predictive distribution<a class="headerlink" href="#id4" title="Permalink to this heading">#</a></h3>
+<section id="id5">
+<h3><span class="section-number">2.8.7. </span>Posterior predictive distribution<a class="headerlink" href="#id5" title="Permalink to this heading">#</a></h3>
 <div class="math notranslate nohighlight">
 \[\begin{split}
 \begin{align*}
@@ -968,11 +976,11 @@ p(Y|\mathbf{Y})&amp;=\sum_{\theta\in\Theta}p(Y|\theta)p(\theta|\mathbf{Y}) \\\\
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#inference-of-a-fair-or-a-biased-coin">2.8. Inference of a fair or a biased coin</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#prior-distribution">2.8.1. Prior distribution</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#likelihood">2.8.2. Likelihood</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">2.8.3. Prior predictive distribution</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">2.8.3. Prior predictive distribution</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#likelihood-of-the-sample">2.8.4. Likelihood of the sample</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#evidence">2.8.5. Evidence</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">2.8.6. Posterior distribution</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">2.8.7. Posterior predictive distribution</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">2.8.6. Posterior distribution</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id5">2.8.7. Posterior predictive distribution</a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#there-is-no-free-lunch">2.9. There is no free lunch</a></li>
