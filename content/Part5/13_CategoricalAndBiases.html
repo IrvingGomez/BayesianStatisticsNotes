@@ -464,45 +464,45 @@ p(\beta_L,\beta_R,\sigma) &amp;\propto 1_{\mathbb{R}}(\beta_L)1_{\mathbb{R}}(\be
     </tr>
     <tr>
       <th>mean</th>
-      <td>27.670582</td>
-      <td>-26.125177</td>
-      <td>7.442640</td>
+      <td>0.212014</td>
+      <td>1.320642</td>
+      <td>7.666061</td>
     </tr>
     <tr>
       <th>std</th>
-      <td>26.028757</td>
-      <td>26.028915</td>
-      <td>0.069392</td>
+      <td>27.485832</td>
+      <td>27.485622</td>
+      <td>0.068745</td>
     </tr>
     <tr>
       <th>min</th>
-      <td>-53.666166</td>
-      <td>-98.176712</td>
-      <td>7.228594</td>
+      <td>-87.412255</td>
+      <td>-78.456433</td>
+      <td>7.414876</td>
     </tr>
     <tr>
       <th>5.5%</th>
-      <td>-12.759056</td>
-      <td>-67.940913</td>
-      <td>7.329874</td>
+      <td>-42.192166</td>
+      <td>-42.554262</td>
+      <td>7.553123</td>
     </tr>
     <tr>
       <th>50%</th>
-      <td>27.092292</td>
-      <td>-25.547450</td>
-      <td>7.441643</td>
+      <td>0.646005</td>
+      <td>0.891006</td>
+      <td>7.666054</td>
     </tr>
     <tr>
       <th>94.5%</th>
-      <td>69.482078</td>
-      <td>14.297563</td>
-      <td>7.553142</td>
+      <td>44.079838</td>
+      <td>43.721909</td>
+      <td>7.775633</td>
     </tr>
     <tr>
       <th>max</th>
-      <td>99.730735</td>
-      <td>55.220641</td>
-      <td>7.661380</td>
+      <td>79.990308</td>
+      <td>88.947810</td>
+      <td>7.858265</td>
     </tr>
   </tbody>
 </table>
@@ -514,7 +514,7 @@ p(\beta_L,\beta_R,\sigma) &amp;\propto 1_{\mathbb{R}}(\beta_L)1_{\mathbb{R}}(\be
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Text(0, 0.5, &#39;$\\beta_R$&#39;)
 </pre></div>
 </div>
-<img alt="../../_images/3b9956462583268d1ae2e4d046bae873c8aada77552d847a6a4c910459e089a9.png" src="../../_images/3b9956462583268d1ae2e4d046bae873c8aada77552d847a6a4c910459e089a9.png" />
+<img alt="../../_images/15b9106f7777b57ab1f6f1263abaa13681294092d04cb8af3e0696fdddf489e5.png" src="../../_images/15b9106f7777b57ab1f6f1263abaa13681294092d04cb8af3e0696fdddf489e5.png" />
 </div>
 </div>
 <p>One way to think of this phenomenon is that we have approximated this model:</p>
@@ -529,7 +529,7 @@ p(\beta_L,\beta_R,\sigma) &amp;\propto 1_{\mathbb{R}}(\beta_L)1_{\mathbb{R}}(\be
 <p>The parameters <span class="math notranslate nohighlight">\(\beta_L\)</span> and <span class="math notranslate nohighlight">\(\beta_R\)</span> cannot be pulled apart, because they never separately influence the mean <span class="math notranslate nohighlight">\(\mu\)</span>. Only their sum, <span class="math notranslate nohighlight">\(\beta_L+\beta_R\)</span>, influences <span class="math notranslate nohighlight">\(\mu\)</span>. That make their sum close to the actual association of <span class="math notranslate nohighlight">\(x\)</span> with <span class="math notranslate nohighlight">\(h\)</span>.</p>
 <div class="cell tag_remove-input docutils container">
 <div class="cell_output docutils container">
-<img alt="../../_images/32f953585b86573216cab558ea23eda59e3537704b145a8a244fccb19e957812.png" src="../../_images/32f953585b86573216cab558ea23eda59e3537704b145a8a244fccb19e957812.png" />
+<img alt="../../_images/9f24ac38a46eda17e7df16938de2c9d7a5ebef613675e5c6c8a727f6c9633400.png" src="../../_images/9f24ac38a46eda17e7df16938de2c9d7a5ebef613675e5c6c8a727f6c9633400.png" />
 </div>
 </div>
 <p>In this case, the problem is also fixed if we just consider the length of one leg instead of both of them.</p>
@@ -546,9 +546,15 @@ p(\beta_L,\beta_R,\sigma) &amp;\propto 1_{\mathbb{R}}(\beta_L)1_{\mathbb{R}}(\be
 </div>
 <div class="cell_output docutils container">
 <div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Auto-assigning NUTS sampler...
-Initializing NUTS using jitter+adapt_diag...
-Multiprocess sampling (4 chains in 4 jobs)
-NUTS: [Beta, Sigma]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Initializing NUTS using jitter+adapt_diag...
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Multiprocess sampling (4 chains in 4 jobs)
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>NUTS: [Beta, Sigma]
 </pre></div>
 </div>
 <div class="output text_html">
@@ -575,6 +581,10 @@ NUTS: [Beta, Sigma]
     </div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sampling 4 chains for 1_000 tune and 1_000 draw iterations (4_000 + 4_000 draws total) took 3 seconds.
 </pre></div>
 </div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/home/dmitri/.local/lib/python3.11/site-packages/arviz/utils.py:184: NumbaDeprecationWarning: <span class=" -Color -Color-Bold">The &#39;nopython&#39; keyword argument was not supplied to the &#39;numba.jit&#39; decorator. The implicit default value for this argument is currently False, but it will be changed to True in Numba 0.59.0. See https://numba.readthedocs.io/en/stable/reference/deprecation.html#deprecation-of-object-mode-fall-back-behaviour-when-using-jit for details.</span>
+  numba_fn = numba.jit(**self.kwargs)(self.function)
+</pre></div>
+</div>
 </div>
 </div>
 <div class="cell docutils container">
@@ -593,11 +603,15 @@ NUTS: [Beta, Sigma]
 </div>
 </div>
 <div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/home/dmitri/.local/lib/python3.11/site-packages/arviz/utils.py:184: NumbaDeprecationWarning: <span class=" -Color -Color-Bold">The &#39;nopython&#39; keyword argument was not supplied to the &#39;numba.jit&#39; decorator. The implicit default value for this argument is currently False, but it will be changed to True in Numba 0.59.0. See https://numba.readthedocs.io/en/stable/reference/deprecation.html#deprecation-of-object-mode-fall-back-behaviour-when-using-jit for details.</span>
+  numba_fn = numba.jit(**self.kwargs)(self.function)
+</pre></div>
+</div>
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([&lt;Axes: title={&#39;center&#39;: &#39;$\\beta$&#39;}&gt;,
        &lt;Axes: title={&#39;center&#39;: &#39;$\\sigma$&#39;}&gt;], dtype=object)
 </pre></div>
 </div>
-<img alt="../../_images/897835495a66a8baf44399eb4ffa3362e09896917eb9e0fcc2245cf55ad55f6a.png" src="../../_images/897835495a66a8baf44399eb4ffa3362e09896917eb9e0fcc2245cf55ad55f6a.png" />
+<img alt="../../_images/c26d8b6a4a92ba3d61544dbabea440966f4d6a9896fa29fafbc305fcd7015ce2.png" src="../../_images/c26d8b6a4a92ba3d61544dbabea440966f4d6a9896fa29fafbc305fcd7015ce2.png" />
 </div>
 </div>
 </section>
@@ -634,8 +648,8 @@ NUTS: [Beta, Sigma]
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Growth proportion for treated plants: 0.4688
-Growth proportion for not treated plants: 0.3358
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Average growth proportion for treater plants: 0.4493
+Average growth proportion for not treater plants: 0.3790
 </pre></div>
 </div>
 </div>
@@ -672,9 +686,15 @@ p(\sigma) &amp;\propto 1_{(0,\infty)}(\sigma),
 </div>
 <div class="cell_output docutils container">
 <div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Auto-assigning NUTS sampler...
-Initializing NUTS using jitter+adapt_diag...
-Multiprocess sampling (4 chains in 4 jobs)
-NUTS: [Alpha, BetaT, BetaF, Sigma]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Initializing NUTS using jitter+adapt_diag...
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Multiprocess sampling (4 chains in 4 jobs)
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>NUTS: [Alpha, BetaT, BetaF, Sigma]
 </pre></div>
 </div>
 <div class="output text_html">
@@ -696,11 +716,9 @@ NUTS: [Alpha, BetaT, BetaF, Sigma]
 </div><div class="output text_html">
     <div>
       <progress value='8000' class='' max='8000' style='width:300px; height:20px; vertical-align: middle;'></progress>
-      100.00% [8000/8000 00:05&lt;00:00 Sampling 4 chains, 0 divergences]
+      100.00% [8000/8000 00:04&lt;00:00 Sampling 4 chains, 0 divergences]
     </div>
-    </div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sampling 4 chains for 1_000 tune and 1_000 draw iterations (4_000 + 4_000 draws total) took 6 seconds.
-/home/dmitri/.local/lib/python3.11/site-packages/arviz/utils.py:184: NumbaDeprecationWarning: <span class=" -Color -Color-Bold">The &#39;nopython&#39; keyword argument was not supplied to the &#39;numba.jit&#39; decorator. The implicit default value for this argument is currently False, but it will be changed to True in Numba 0.59.0. See https://numba.readthedocs.io/en/stable/reference/deprecation.html#deprecation-of-object-mode-fall-back-behaviour-when-using-jit for details.</span>
-  numba_fn = numba.jit(**self.kwargs)(self.function)
+    </div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sampling 4 chains for 1_000 tune and 1_000 draw iterations (4_000 + 4_000 draws total) took 4 seconds.
 </pre></div>
 </div>
 </div>
@@ -740,31 +758,31 @@ NUTS: [Alpha, BetaT, BetaF, Sigma]
   <tbody>
     <tr>
       <th>BetaT</th>
-      <td>-0.002</td>
-      <td>0.030</td>
-      <td>-0.047</td>
-      <td>0.048</td>
+      <td>-0.054</td>
+      <td>0.031</td>
+      <td>-0.101</td>
+      <td>-0.003</td>
     </tr>
     <tr>
       <th>BetaF</th>
-      <td>-0.266</td>
-      <td>0.031</td>
-      <td>-0.312</td>
-      <td>-0.213</td>
+      <td>-0.274</td>
+      <td>0.035</td>
+      <td>-0.328</td>
+      <td>-0.216</td>
     </tr>
     <tr>
       <th>Alpha</th>
-      <td>1.465</td>
-      <td>0.025</td>
-      <td>1.425</td>
-      <td>1.507</td>
+      <td>1.489</td>
+      <td>0.026</td>
+      <td>1.448</td>
+      <td>1.531</td>
     </tr>
     <tr>
       <th>Sigma</th>
-      <td>1.314</td>
-      <td>0.096</td>
-      <td>1.154</td>
-      <td>1.456</td>
+      <td>1.370</td>
+      <td>0.098</td>
+      <td>1.221</td>
+      <td>1.527</td>
     </tr>
   </tbody>
 </table>
@@ -789,7 +807,7 @@ NUTS: [Alpha, BetaT, BetaF, Sigma]
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/a00ffa9d7204144baf119eee791beeb87cb416811917a5eed8f4d95868fa57b9.svg" src="../../_images/a00ffa9d7204144baf119eee791beeb87cb416811917a5eed8f4d95868fa57b9.svg" /></div>
+<img alt="../../_images/1e5f6b8e54bba80f6e24f76f0217f1f138c44da7da5751e04a88c7405dd91086.svg" src="../../_images/1e5f6b8e54bba80f6e24f76f0217f1f138c44da7da5751e04a88c7405dd91086.svg" /></div>
 </div>
 <p>Using some rules known as <strong><span class="math notranslate nohighlight">\(d\)</span>-separation</strong>, we can get all the relationships of independence implied in the DAG.</p>
 <div class="cell docutils container">
@@ -799,13 +817,13 @@ NUTS: [Alpha, BetaT, BetaF, Sigma]
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[(&#39;T&#39;, &#39;H0&#39;, set()),
- (&#39;T&#39;, &#39;H0&#39;, {&#39;F&#39;}),
- (&#39;T&#39;, &#39;H0&#39;, {&#39;F&#39;, &#39;H1&#39;}),
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[(&#39;H0&#39;, &#39;F&#39;, set()),
+ (&#39;H0&#39;, &#39;F&#39;, {&#39;T&#39;}),
+ (&#39;H0&#39;, &#39;T&#39;, set()),
+ (&#39;H0&#39;, &#39;T&#39;, {&#39;F&#39;}),
+ (&#39;H0&#39;, &#39;T&#39;, {&#39;F&#39;, &#39;H1&#39;}),
  (&#39;T&#39;, &#39;H1&#39;, {&#39;F&#39;}),
- (&#39;T&#39;, &#39;H1&#39;, {&#39;F&#39;, &#39;H0&#39;}),
- (&#39;F&#39;, &#39;H0&#39;, set()),
- (&#39;F&#39;, &#39;H0&#39;, {&#39;T&#39;})]
+ (&#39;T&#39;, &#39;H1&#39;, {&#39;F&#39;, &#39;H0&#39;})]
 </pre></div>
 </div>
 </div>
@@ -828,9 +846,15 @@ NUTS: [Alpha, BetaT, BetaF, Sigma]
 </div>
 <div class="cell_output docutils container">
 <div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Auto-assigning NUTS sampler...
-Initializing NUTS using jitter+adapt_diag...
-Multiprocess sampling (4 chains in 4 jobs)
-NUTS: [Alpha, BetaT, Sigma]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Initializing NUTS using jitter+adapt_diag...
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Multiprocess sampling (4 chains in 4 jobs)
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>NUTS: [Alpha, BetaT, Sigma]
 </pre></div>
 </div>
 <div class="output text_html">
@@ -852,9 +876,9 @@ NUTS: [Alpha, BetaT, Sigma]
 </div><div class="output text_html">
     <div>
       <progress value='8000' class='' max='8000' style='width:300px; height:20px; vertical-align: middle;'></progress>
-      100.00% [8000/8000 00:04&lt;00:00 Sampling 4 chains, 0 divergences]
+      100.00% [8000/8000 00:03&lt;00:00 Sampling 4 chains, 0 divergences]
     </div>
-    </div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sampling 4 chains for 1_000 tune and 1_000 draw iterations (4_000 + 4_000 draws total) took 4 seconds.
+    </div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sampling 4 chains for 1_000 tune and 1_000 draw iterations (4_000 + 4_000 draws total) took 3 seconds.
 </pre></div>
 </div>
 </div>
@@ -894,24 +918,24 @@ NUTS: [Alpha, BetaT, Sigma]
   <tbody>
     <tr>
       <th>BetaT</th>
-      <td>0.121</td>
-      <td>0.035</td>
-      <td>0.064</td>
-      <td>0.175</td>
+      <td>0.066</td>
+      <td>0.034</td>
+      <td>0.011</td>
+      <td>0.120</td>
     </tr>
     <tr>
       <th>Alpha</th>
-      <td>1.316</td>
-      <td>0.025</td>
-      <td>1.276</td>
-      <td>1.353</td>
+      <td>1.354</td>
+      <td>0.024</td>
+      <td>1.313</td>
+      <td>1.390</td>
     </tr>
     <tr>
       <th>Sigma</th>
-      <td>1.725</td>
-      <td>0.125</td>
-      <td>1.528</td>
-      <td>1.922</td>
+      <td>1.761</td>
+      <td>0.130</td>
+      <td>1.551</td>
+      <td>1.953</td>
     </tr>
   </tbody>
 </table>
@@ -926,7 +950,7 @@ NUTS: [Alpha, BetaT, Sigma]
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/a45d512cab676d829fb16d8fe9e43a94a83b428d6ed689cb535dcb06de4e542e.svg" src="../../_images/a45d512cab676d829fb16d8fe9e43a94a83b428d6ed689cb535dcb06de4e542e.svg" /></div>
+<img alt="../../_images/7085c86b68bd68e7598b37c84bf896b321ffeb0e1366d8b4002c2f70e8834ff0.svg" src="../../_images/7085c86b68bd68e7598b37c84bf896b321ffeb0e1366d8b4002c2f70e8834ff0.svg" /></div>
 </div>
 <p>This graph represents the case in which the treatment <span class="math notranslate nohighlight">\(T\)</span> influences the fungus <span class="math notranslate nohighlight">\(F\)</span>, but the fungus does not have an impact in the plants growth. The new variable <span class="math notranslate nohighlight">\(M\)</span> is moisture, which influences both <span class="math notranslate nohighlight">\(H_1\)</span> and <span class="math notranslate nohighlight">\(F\)</span>, but it’s unobserved. Thus, the next DAG reflects better our case:</p>
 <div class="cell docutils container">
@@ -937,7 +961,7 @@ NUTS: [Alpha, BetaT, Sigma]
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/112b7c2b004dec3e89ec77840cc84b8802e476ef9b83701c8347c96674b5819c.svg" src="../../_images/112b7c2b004dec3e89ec77840cc84b8802e476ef9b83701c8347c96674b5819c.svg" /></div>
+<img alt="../../_images/2dc1b297df661a2c96c1d752339cf844a7875c525f183251f9f73e0b1b5bf336.svg" src="../../_images/2dc1b297df661a2c96c1d752339cf844a7875c525f183251f9f73e0b1b5bf336.svg" /></div>
 </div>
 <p>The next cell shows all the independence relationships induced by the DAG.</p>
 <div class="cell docutils container">
@@ -947,13 +971,13 @@ NUTS: [Alpha, BetaT, Sigma]
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[(&#39;T&#39;, &#39;H0&#39;, set()),
- (&#39;T&#39;, &#39;H0&#39;, {&#39;H1&#39;}),
- (&#39;T&#39;, &#39;H0&#39;, {&#39;F&#39;}),
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[(&#39;H0&#39;, &#39;F&#39;, set()),
+ (&#39;H0&#39;, &#39;F&#39;, {&#39;T&#39;}),
+ (&#39;H0&#39;, &#39;T&#39;, set()),
+ (&#39;H0&#39;, &#39;T&#39;, {&#39;F&#39;}),
+ (&#39;H0&#39;, &#39;T&#39;, {&#39;H1&#39;}),
  (&#39;T&#39;, &#39;H1&#39;, set()),
- (&#39;T&#39;, &#39;H1&#39;, {&#39;H0&#39;}),
- (&#39;F&#39;, &#39;H0&#39;, set()),
- (&#39;F&#39;, &#39;H0&#39;, {&#39;T&#39;})]
+ (&#39;T&#39;, &#39;H1&#39;, {&#39;H0&#39;})]
 </pre></div>
 </div>
 </div>
@@ -991,9 +1015,15 @@ NUTS: [Alpha, BetaT, Sigma]
 </div>
 <div class="cell_output docutils container">
 <div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Auto-assigning NUTS sampler...
-Initializing NUTS using jitter+adapt_diag...
-Multiprocess sampling (4 chains in 4 jobs)
-NUTS: [Alpha, BetaT, BetaF, Sigma]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Initializing NUTS using jitter+adapt_diag...
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Multiprocess sampling (4 chains in 4 jobs)
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>NUTS: [Alpha, BetaT, BetaF, Sigma]
 </pre></div>
 </div>
 <div class="output text_html">
@@ -1015,9 +1045,9 @@ NUTS: [Alpha, BetaT, BetaF, Sigma]
 </div><div class="output text_html">
     <div>
       <progress value='8000' class='' max='8000' style='width:300px; height:20px; vertical-align: middle;'></progress>
-      100.00% [8000/8000 00:05&lt;00:00 Sampling 4 chains, 0 divergences]
+      100.00% [8000/8000 00:04&lt;00:00 Sampling 4 chains, 0 divergences]
     </div>
-    </div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sampling 4 chains for 1_000 tune and 1_000 draw iterations (4_000 + 4_000 draws total) took 6 seconds.
+    </div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sampling 4 chains for 1_000 tune and 1_000 draw iterations (4_000 + 4_000 draws total) took 5 seconds.
 </pre></div>
 </div>
 </div>
@@ -1056,31 +1086,31 @@ NUTS: [Alpha, BetaT, BetaF, Sigma]
   <tbody>
     <tr>
       <th>BetaT</th>
-      <td>0.054</td>
-      <td>0.048</td>
-      <td>-0.019</td>
+      <td>0.055</td>
+      <td>0.049</td>
+      <td>-0.025</td>
       <td>0.131</td>
     </tr>
     <tr>
       <th>BetaF</th>
-      <td>0.157</td>
-      <td>0.047</td>
-      <td>0.084</td>
-      <td>0.234</td>
+      <td>0.142</td>
+      <td>0.049</td>
+      <td>0.059</td>
+      <td>0.216</td>
     </tr>
     <tr>
       <th>Alpha</th>
-      <td>1.512</td>
-      <td>0.049</td>
-      <td>1.438</td>
-      <td>1.589</td>
+      <td>1.532</td>
+      <td>0.048</td>
+      <td>1.454</td>
+      <td>1.605</td>
     </tr>
     <tr>
       <th>Sigma</th>
-      <td>2.136</td>
-      <td>0.157</td>
-      <td>1.896</td>
-      <td>2.389</td>
+      <td>2.237</td>
+      <td>0.166</td>
+      <td>1.952</td>
+      <td>2.474</td>
     </tr>
   </tbody>
 </table>
@@ -1104,9 +1134,15 @@ NUTS: [Alpha, BetaT, BetaF, Sigma]
 </div>
 <div class="cell_output docutils container">
 <div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Auto-assigning NUTS sampler...
-Initializing NUTS using jitter+adapt_diag...
-Multiprocess sampling (4 chains in 4 jobs)
-NUTS: [Alpha, BetaT, Sigma]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Initializing NUTS using jitter+adapt_diag...
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Multiprocess sampling (4 chains in 4 jobs)
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>NUTS: [Alpha, BetaT, Sigma]
 </pre></div>
 </div>
 <div class="output text_html">
@@ -1130,7 +1166,7 @@ NUTS: [Alpha, BetaT, Sigma]
       <progress value='8000' class='' max='8000' style='width:300px; height:20px; vertical-align: middle;'></progress>
       100.00% [8000/8000 00:04&lt;00:00 Sampling 4 chains, 0 divergences]
     </div>
-    </div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sampling 4 chains for 1_000 tune and 1_000 draw iterations (4_000 + 4_000 draws total) took 5 seconds.
+    </div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sampling 4 chains for 1_000 tune and 1_000 draw iterations (4_000 + 4_000 draws total) took 4 seconds.
 </pre></div>
 </div>
 </div>
@@ -1169,24 +1205,24 @@ NUTS: [Alpha, BetaT, Sigma]
   <tbody>
     <tr>
       <th>BetaT</th>
-      <td>-0.023</td>
-      <td>0.044</td>
-      <td>-0.096</td>
-      <td>0.044</td>
+      <td>-0.006</td>
+      <td>0.045</td>
+      <td>-0.078</td>
+      <td>0.063</td>
     </tr>
     <tr>
       <th>Alpha</th>
-      <td>1.641</td>
-      <td>0.031</td>
+      <td>1.639</td>
+      <td>0.032</td>
       <td>1.590</td>
-      <td>1.688</td>
+      <td>1.689</td>
     </tr>
     <tr>
       <th>Sigma</th>
-      <td>2.236</td>
-      <td>0.164</td>
-      <td>1.970</td>
-      <td>2.481</td>
+      <td>2.319</td>
+      <td>0.166</td>
+      <td>2.049</td>
+      <td>2.568</td>
     </tr>
   </tbody>
 </table>
@@ -1208,7 +1244,7 @@ NUTS: [Alpha, BetaT, Sigma]
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/9297954d742616fee33e67dcd072b3284a229aa9aba964d3c584434862e121c7.svg" src="../../_images/9297954d742616fee33e67dcd072b3284a229aa9aba964d3c584434862e121c7.svg" /></div>
+<img alt="../../_images/c17e65bc66cb62c0d3d656dc1e85f2291694399d61c29e5ad655062a0e2bf9bb.svg" src="../../_images/c17e65bc66cb62c0d3d656dc1e85f2291694399d61c29e5ad655062a0e2bf9bb.svg" /></div>
 </div>
 <p>Meanwhile <span class="math notranslate nohighlight">\(T\)</span> and <span class="math notranslate nohighlight">\(B\)</span> are independent, when we condition on <span class="math notranslate nohighlight">\(S\)</span>, a dependence is created. For example, if we look only at famous actors (in other words, we observe the variable <span class="math notranslate nohighlight">\(S=1\)</span>), we will see a negative correlation between talent and beauty: finding out that a celebrity is unattractive increases our belief that he or she is talented.</p>
 <p>This phenomenon is known long ago, sometimes called Berkson’s paradox. In 1946, Joseph Berkson, a biostatistician at the Mayo Clinic, pointed out a peculiarity of observational studies conducted in a hospital setting: even if two diseases have no relation to each other in the general population, they can appear to be associated among patients in a hospital. Actually, it is pretty common phenomenon:</p>
@@ -1232,7 +1268,7 @@ NUTS: [Alpha, BetaT, Sigma]
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/ab0642625e2eb033669e0f441eadf058fec8f044759de1b7cea65e72e59ece75.svg" src="../../_images/ab0642625e2eb033669e0f441eadf058fec8f044759de1b7cea65e72e59ece75.svg" /></div>
+<img alt="../../_images/dfd70eb7e7a33654815ed4808c7c46cdf6bbf765aa7ebe464b93a1e0a9ca34e4.svg" src="../../_images/dfd70eb7e7a33654815ed4808c7c46cdf6bbf765aa7ebe464b93a1e0a9ca34e4.svg" /></div>
 </div>
 <p>This graph represents the relation between the shoe size of children, <span class="math notranslate nohighlight">\(S\)</span>, and their reading skill <span class="math notranslate nohighlight">\(R\)</span>. We will find that children with larger shoes tend to read better. But the relation is not of cause and effect. Giving a child larger shoes won’t make him read better! Instead, both variables are explained by a third, which is the child’s age. Older children have larger shoes, and they also are more advanced readers. We can eliminate this spurious correlation, by conditioning on the child’s age. For instance, if we look only at seven-year-olds, we expect to see no relationship between shoe size and reading ability.</p>
 </section>

@@ -183,14 +183,14 @@ const thebe_selector_output = ".output, .cell_output"
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">V Causality</span></p>
 <ul class="nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="../Part5/12_Causality.html">12. Causality</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Part5/12_Causality.html">12. Introduction to causality</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Part5/13_CategoricalAndBiases.html">13. Categorical variables, multicollinearity and biases</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Part5/14_HauntedCases.html">14. <span class="math notranslate nohighlight">\(d\)</span>-separation, causal and noncausal paths</a></li>
 </ul>
-<p aria-level="2" class="caption" role="heading"><span class="caption-text">VI Advanced topics</span></p>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">VI Hierarchical models, and evaluation and comparison of models</span></p>
 <ul class="nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="../Part6/13_HierarchicalModels.html">13. Hierarchical models</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../Part6/14_EvaluatingComparingModels.html">14. Evaluating and comparing models</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../Part6/15_VariationalInference.html">15. Variational Inference</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../Part6/16_VariationalAutoencoders.html">16. Variational Autoencoders (VAES)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Part6/15_HierarchicalModels.html">15. Hierarchical models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Part6/16_EvaluatingComparingModels.html">16. Evaluating and comparing models</a></li>
 </ul>
 <ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="../../References.html">References</a></li>
@@ -348,6 +348,7 @@ document.write(`
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#subjectivity-is-always-present">1.4. Subjectivity is always present</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#chapter-summary">1.5. Chapter summary</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercises">1.6. Exercises</a></li>
 </ul>
             </nav>
         </div>
@@ -404,6 +405,10 @@ document.write(`
 </section>
 <section id="the-probability-is-conditional-and-subjective">
 <h2><span class="section-number">1.2. </span>The probability is conditional and subjective<a class="headerlink" href="#the-probability-is-conditional-and-subjective" title="Permalink to this heading">#</a></h2>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>These examples were taken from the <a class="reference external" href="https://www.cimat.mx/~jac/cursos/">notes of Bayesian Statistics</a> of J. Andrés Christen.</p>
+</div>
 <p>One of the fundamental points of Bayesian statistics is the concept of probability (and its definition). Let’s start with some examples in which we use the concept of probability and let’s try to find a definition for it.</p>
 <ol class="arabic simple">
 <li><p>What is the probability of getting “head” when flipping a coin?</p></li>
@@ -416,9 +421,10 @@ document.write(`
 <p class="admonition-title">Click the button to reveal the answers!</p>
 <p>One might think that the answer to the first quention is 0.5 but, what coin are we talking about? does the coin has a “head”? it could be a foreign coin without “head”. For example, Mexican coins have “eagle” and “sun”, there are no “heads” in them. The coin that we are using, was given to us at the store? or is a coin that an illusionist just took out of their pocket?</p>
 <p>For the fourth question, I could search if it is raining in Mexico (the city? the state? the whole country or just some part?) and then the probability would be 0 or 1; but right now, how much do we know about the event “it’s raining in Mexico”?</p>
-<p>Let be <span class="math notranslate nohighlight">\(A\)</span> the event “it’s raining in Mexico”. A person that lives some km away from Qaanaaq, without internet, wouldn’t have any reason to assign a larger propability to <span class="math notranslate nohighlight">\(A\)</span> than <span class="math notranslate nohighlight">\(A^c\)</span>. If we denote by <span class="math notranslate nohighlight">\(\mathcal{H}_1\)</span> the information of this person, then</p>
+<p>Let be <span class="math notranslate nohighlight">\(A\)</span> the event “it’s raining in Mexico”. A person that lives some km away from Ittoqqortoormiit, without internet, wouldn’t have any reason to assign a larger propability to <span class="math notranslate nohighlight">\(A\)</span> than <span class="math notranslate nohighlight">\(A^c\)</span>. If we denote by <span class="math notranslate nohighlight">\(\mathcal{H}_1\)</span> the information of this person, then</p>
 <div class="math notranslate nohighlight">
 \[\mathbb{P}(A|\mathcal{H}_1)=\mathbb{P}(A^c|\mathcal{H}_1).\]</div>
+<p><img alt="GreenlandMap" src="../../_images/GreenlandMap2.png" /></p>
 <p>Meanwhile, a person that lives in El Bajío has a different information <span class="math notranslate nohighlight">\(\mathcal{H}_2\)</span>, and could assign the following probabilities</p>
 <div class="math notranslate nohighlight">
 \[\begin{split}\mathbb{P}(A|\mathcal{H}_2)=\begin{cases}
@@ -426,6 +432,7 @@ document.write(`
 1/4 &amp; \text{otherwise}.
 \end{cases}
 \end{split}\]</div>
+<p><img alt="ElBajio" src="../../_images/ElBajioMap2.jpg" /></p>
 <p>On the other hand, someone that lives in Mexico has an information <span class="math notranslate nohighlight">\(\mathcal{H}_3\)</span>, such that</p>
 <div class="math notranslate nohighlight">
 \[\begin{split}\mathbb{P}(A|\mathcal{H}_3)=\begin{cases}
@@ -433,6 +440,7 @@ document.write(`
 0 &amp; \text{otherwise}.
 \end{cases}
 \end{split}\]</div>
+<p><img alt="MexicoCity" src="../../_images/MexicoCity2.png" /></p>
 <p>Thus, <strong>the probability of an event <span class="math notranslate nohighlight">\(A\)</span> is the measurement of the uncertainty that some agent has on that event</strong>. This means that the probability is always contextual, given some assumptions and considerations, even for the simplest cases.</p>
 </div>
 </section>
@@ -572,6 +580,210 @@ document.write(`
 <p>Let be <span class="math notranslate nohighlight">\(\mathcal{P}=\{p(Y|\theta),\theta\in\Theta\}\)</span> a parametric family of distributions. Since all uncertainty must be measured through a probability, and we have uncertainty on the parameters, they have to be modeled through a measurement of probability, that is, they have their own distribution of probability.</p>
 </div>
 </section>
+<section id="exercises">
+<h2><span class="section-number">1.6. </span>Exercises<a class="headerlink" href="#exercises" title="Permalink to this heading">#</a></h2>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>The next exercise presents a sensitive topic, discretion is advised.</p>
+</div>
+<ol class="arabic">
+<li><p>According to the <a class="reference external" href="https://www.inegi.org.mx/programas/endiseg/2021/">National Survey on Sexual and Gender Diversity (ENDISEG) 2021</a>, in Mexico, the LGBTI+ population surpasses 5 million people (5.1% of the Mexican population of 15 or more years old). The survey analyzed different aspects that affect the LGBTI+ community, such as the marital situation, the environment and social rejection, emotional health, among others. The next tables summarize some of the results found in the survey.</p>
+ <br>
+<ol class="arabic simple">
+<li><p>Marital situation
+<br></br></p></li>
+</ol>
+<table class="table">
+<thead>
+<tr class="row-odd"><th class="head text-left"><p></p></th>
+<th class="head text-center"><p>LGBTI+</p></th>
+<th class="head text-center"><p>No LGBTI+</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-left"><p>Single</p></td>
+<td class="text-center"><p>64.9%</p></td>
+<td class="text-center"><p>26.9%</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p>Married</p></td>
+<td class="text-center"><p>30.6%</p></td>
+<td class="text-center"><p>58.5%</p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p>Divorced, widowed or separated</p></td>
+<td class="text-center"><p>4.51%</p></td>
+<td class="text-center"><p>14.7%</p></td>
+</tr>
+</tbody>
+</table>
+ <br>
+<ol class="arabic simple" start="2">
+<li><p>Between the age of 12 and 17 years old, people made you feel different to most of the girls/boys for …
+<br></br></p></li>
+</ol>
+<table class="table">
+<thead>
+<tr class="row-odd"><th class="head text-left"><p></p></th>
+<th class="head text-center"><p>LGBTI+</p></th>
+<th class="head text-center"><p>No LGBTI+</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-left"><p>your way to dress?</p></td>
+<td class="text-center"><p>24.7%</p></td>
+<td class="text-center"><p>11.9%</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p>your interests?</p></td>
+<td class="text-center"><p>27%</p></td>
+<td class="text-center"><p>9.4%</p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p>how you speak or express?</p></td>
+<td class="text-center"><p>22.9%</p></td>
+<td class="text-center"><p>8.9%</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p>your behavior?</p></td>
+<td class="text-center"><p>24.8%</p></td>
+<td class="text-center"><p>9.4%</p></td>
+</tr>
+</tbody>
+</table>
+ <br>
+<ol class="arabic simple" start="3">
+<li><p>During the last 12 months, at the job… did you received a different treatment with respect to job benefits or promotions? did you received offensive comments or ridicule?
+<br></br></p></li>
+</ol>
+<table class="table">
+<thead>
+<tr class="row-odd"><th class="head text-left"><p></p></th>
+<th class="head text-center"><p>LGBTI+</p></th>
+<th class="head text-center"><p>No LGBTI+</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-left"><p>At least one yes</p></td>
+<td class="text-center"><p>28.1%</p></td>
+<td class="text-center"><p>18.4%</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p>No</p></td>
+<td class="text-center"><p>71.9%</p></td>
+<td class="text-center"><p>81.6%</p></td>
+</tr>
+</tbody>
+</table>
+ <br>
+<ol class="arabic simple" start="4">
+<li><p>Have you ever thought to commit suicide?
+<br></br></p></li>
+</ol>
+<table class="table">
+<thead>
+<tr class="row-odd"><th class="head text-left"><p></p></th>
+<th class="head text-center"><p>LGBTI+</p></th>
+<th class="head text-center"><p>No LGBTI+</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-left"><p>Yes</p></td>
+<td class="text-center"><p>26.1%</p></td>
+<td class="text-center"><p>7.9%</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p>No</p></td>
+<td class="text-center"><p>73.9%</p></td>
+<td class="text-center"><p>92.1%</p></td>
+</tr>
+</tbody>
+</table>
+ <br>
+<ol class="arabic simple" start="5">
+<li><p>Have you ever tried to do it?
+<br></br></p></li>
+</ol>
+<table class="table">
+<thead>
+<tr class="row-odd"><th class="head text-left"><p></p></th>
+<th class="head text-center"><p>LGBTI+</p></th>
+<th class="head text-center"><p>No LGBTI+</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-left"><p>Yes</p></td>
+<td class="text-center"><p>14.2%</p></td>
+<td class="text-center"><p>4.2%</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p>No</p></td>
+<td class="text-center"><p>85.8%</p></td>
+<td class="text-center"><p>95.8%</p></td>
+</tr>
+</tbody>
+</table>
+ <br>
+<ol class="arabic simple" start="6">
+<li><p>The main reason was …
+<br></br></p></li>
+</ol>
+<table class="table">
+<thead>
+<tr class="row-odd"><th class="head text-left"><p></p></th>
+<th class="head text-center"><p>LGBTI+</p></th>
+<th class="head text-center"><p>No LGBTI+</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-left"><p>problems with family and partner</p></td>
+<td class="text-center"><p>57.2%</p></td>
+<td class="text-center"><p>63.6%</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p>problems at school</p></td>
+<td class="text-center"><p>20.3%</p></td>
+<td class="text-center"><p>8.0%</p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p>health problems</p></td>
+<td class="text-center"><p>19.1%</p></td>
+<td class="text-center"><p>18.6%</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p>economic problems</p></td>
+<td class="text-center"><p>16.6%</p></td>
+<td class="text-center"><p>19.5%</p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p>problems for your sexual orientation or genre identity</p></td>
+<td class="text-center"><p>14.0%</p></td>
+<td class="text-center"><p>0.0%</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p>problems at the job</p></td>
+<td class="text-center"><p>12.6%</p></td>
+<td class="text-center"><p>4.9%</p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p>other</p></td>
+<td class="text-center"><p>7.0%</p></td>
+<td class="text-center"><p>5.8%</p></td>
+</tr>
+</tbody>
+</table>
+ <br>
+<p>What is the probability that a person belongs to the LGBTI+ population if …</p>
+<ol class="arabic simple">
+<li><p>is single?</p></li>
+<li><p>has thought in commiting suicide?</p></li>
+<li><p>has tried to commit suicide and the main reason was problems at school?</p></li>
+<li><p>has tried to commit suicide and the main reason was their sexual orientation?</p></li>
+<li><p>between the age of 12 and 17 years old, people made they feel different to most of the girls/boys for their interests?</p></li>
+<li><p>Select another variable in the previous tables, and calculate the probability that a person belongs to the LGBTI+ population given such variable.</p></li>
+</ol>
+</li>
+</ol>
+<div class="tip admonition">
+<p class="admonition-title">Comparing probabilities</p>
+<p>For a better understanding on the implications of such probabilities, you can compare them with the probability of a person belonging to the LGBTI+ population in the Mexican population. If these probabilities are simmilar, that means that there is no correlation between belonging to the LGBTI+ population and the variable which you are considering. However, if such probabilities differ too much, it means that there is correlation.</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Sensitive topics might be uncomfortable, but it is import to point out the social problems of our societies intead of considering them taboo.</p>
+<p>Paraphrasing a sentence of Sara Sefchovich:</p>
+<blockquote class="epigraph">
+<div><p>Data make visible evident truths.</p>
+</div></blockquote>
+<p>The original sentence appears in the book <em>Living life</em>, and says: words make visible evident truths.</p>
+</div>
+</section>
 </section>
 
     <script type="text/x-thebe-config">
@@ -649,6 +861,7 @@ document.write(`
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#subjectivity-is-always-present">1.4. Subjectivity is always present</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#chapter-summary">1.5. Chapter summary</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercises">1.6. Exercises</a></li>
 </ul>
   </nav></div>
 
